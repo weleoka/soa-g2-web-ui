@@ -11,7 +11,7 @@ RUN npm run build
 # === Production image
 FROM nginx:alpine as production-stage
 # An nginx configuration
-COPY nginx.conf /etc/nginx/nginx.conf
+COPY ./.nginx/nginx.conf /etc/nginx/nginx.conf
 ## Remove default nginx index page
 RUN rm -rf /usr/share/nginx/html/*
 # Copy compiled Vue app from the build-stage container
