@@ -5,7 +5,7 @@
 !./src
 !./public
 !./tests
-
+!/.nginx/
 !./package*.json
 !./LICENSE
 
