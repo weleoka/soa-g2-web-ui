@@ -1,25 +1,18 @@
 <template>
-  <Header></Header>
   <div id="nav">
     <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
+    <router-link to="/about">RANDOMIZER :)</router-link>
   </div>
   <router-view />
 </template>
 
-<script lang="ts">
-import Header from "vue-class-component";
-
+<script>
 export default {
-  name: "App",
-}
-
+  name: "App"
+};
 </script>
 
-
-
-
-<style>
+<style scoped>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
