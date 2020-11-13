@@ -1,7 +1,8 @@
 <template>
   <div id="nav">
     <router-link to="/">Home</router-link> |
-    <router-link to="/about">RANDOMIZER :)</router-link>
+    <router-link to="/about">RANDOMIZER</router-link> |
+    <router-link to="/testing">Testing</router-link>
   </div>
   <router-view />
 </template>
@@ -12,7 +13,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

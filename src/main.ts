@@ -4,8 +4,9 @@ import "./registerServiceWorker";
 import router from "./router";
 import store from "./store";
 
-import './../node_modules/foundation-sites/dist/css/foundation.min.css';
-//import './../node_modules/foundation-sites/dist/js/foundation.min.js';
+import 'mdb-ui-kit/css/mdb.min.css';
+
+import "bootstrap/dist/css/bootstrap.min.css"
 
 createApp(App)
   .use(store)

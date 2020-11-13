@@ -7,7 +7,6 @@
   </div>
 </template>
 
-
 <script>
 import Random from "../components/Random.vue";
 
