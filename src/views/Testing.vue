@@ -6,12 +6,12 @@
 </template>
 
 <script>
-import { Input } from "mdb-ui-kit";
+//import { Input } from "mdb-ui-kit";
 
 export default {
   name: "Testing",
   components: {
-    Input
+//    Input
   }
 };
 </script>

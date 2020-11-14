@@ -2,7 +2,8 @@
   <div id="nav">
     <router-link to="/">Home</router-link> |
     <router-link to="/about">RANDOMIZER</router-link> |
-    <router-link to="/testing">Testing</router-link>
+    <router-link to="/testing">Testing</router-link> |
+    <router-link to="/signin">Signin</router-link>
   </div>
   <router-view />
 </template>
