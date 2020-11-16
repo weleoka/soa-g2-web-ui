@@ -9,8 +9,21 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
-  name: "App"
+  name: "App",
+  props: {
+    myAxios: a => {
+      const b = a;
+
+      axios.create({
+        baseURL: "https://some-domain.com/api/",
+        timeout: 1000,
+        headers: { "X-Custom-Header": "foobar" }
+      });
+    }
+  }
 };
 </script>
 

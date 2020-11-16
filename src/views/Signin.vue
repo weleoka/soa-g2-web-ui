@@ -74,7 +74,6 @@
 <script>
 export default {
   name: "Signin"
-
 };
 </script>
 
