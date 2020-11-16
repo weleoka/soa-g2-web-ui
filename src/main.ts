@@ -5,6 +5,8 @@ import router from "./router";
 import store from "./store";
 
 //import "popper.js/dist/umd/popper.min.js"
+//require("./assets/css/style.css")
+
 import "bootstrap/dist/css/bootstrap.min.css"
 import "bootstrap/dist/js/bootstrap.bundle.min"
 
