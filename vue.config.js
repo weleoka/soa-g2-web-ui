@@ -11,7 +11,7 @@ module.exports = {
     devServer: {
       ///port: 9999,
       proxy: {
-        "/api:": {
+        "/api": {
           //changeOrigin: true,
           target: "http://localhost:8282",
           //secure: false, // will ignore the https
