@@ -9,7 +9,7 @@
 !./package*.json
 !./LICENSE
 
-# If you have dependencies on host then they'll be in build container which is nice.
+# If you have dependencies on host then they'll be in build container which is nice to save on network download.
 !./node_modules
 
 !./babel.config.js

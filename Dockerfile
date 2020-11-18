@@ -16,5 +16,5 @@ COPY ./.nginx/nginx.conf /etc/nginx/nginx.conf
 RUN rm -rf /usr/share/nginx/html/*
 # Copy compiled Vue app from the build-stage container
 COPY --from=build-stage /home/node/dist /usr/share/nginx/html
-EXPOSE 80
+EXPOSE 80 443
 ENTRYPOINT ["nginx", "-g", "daemon off;"]
