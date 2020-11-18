@@ -11,7 +11,7 @@
 import Random from "../components/Random.vue";
 
 export default {
-  name: "App",
+  name: "About",
   components: {
     Random
   }

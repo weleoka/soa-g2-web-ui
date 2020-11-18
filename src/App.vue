@@ -46,7 +46,7 @@
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#"
-                ><router-link to="/about">RANDOMIZER</router-link></a
+                ><router-link to="/about">About</router-link></a
               >
             </li>
             <li class="nav-item">
@@ -68,22 +68,9 @@
   <router-view />
 </template>
 <script>
-import axios from "axios";
 
 export default {
-  name: "App",
-  props: {
-    myAxios: a => {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const b = a;
-
-      axios.create({
-        baseURL: "https://some-domain.com/api/",
-        timeout: 1000,
-        headers: { "X-Custom-Header": "foobar" }
-      });
-    }
-  }
+  name: "App"
 };
 </script>
 

@@ -1,9 +1,6 @@
-// This way of loading axios does not either seem to work.
-
-
 import { AxiosInstance } from 'axios'
 import axios from 'axios';
-
+/*
 export default {
   myAxios: (a: AxiosInstance) => {
     return axios.create({
@@ -16,6 +13,31 @@ export default {
     })
   }
 }
+*/
+
+const instance = axios.create({
+  baseURL: `http://localhost:8080/api/`,
+  withCredentials: false,
+  headers: {
+    Accept: "application/json",
+    "Content-Type": "application/json"
+  }
+});
+
+// Add a request interceptor.
+// Read at https://auralinna.blog/post/2019/global-http-request-and-response-handling-with-the-axios-interceptor/
+instance.interceptors.request.use(
+    function(config) {
+      return config;
+    },
+    function(error) {
+      // Do something with request error
+      return Promise.reject(error);
+    },
+);
+
+export default instance;
+
 
 
 /*
