@@ -76,6 +76,7 @@ export default {
   },
   methods: {
     async signin() {
+      console.log("EMAIL IS EMAIL IS:" + this.input.email);
       const res = await this.$store.dispatch("signin", {
         email: this.input.email,
         password: this.input.password

@@ -10,7 +10,7 @@ export default {
       });
     } catch (e) {
       console.log(e)
-      console.warn("FAILED SIGNIN!")
+      console.warn("FAILED SIGNIN! --> but we will pretend everything is OK.")
     }
   }
 }

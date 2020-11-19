@@ -1,14 +1,16 @@
 <template>
-  <h1>Current random value: {{ randomValue }}</h1>
-  <div>Number of times: {{ times.length }}</div>
-  <div>Total: {{ total }}</div>
-  <button @click="generate()">Generate a random value</button>
-  <button @click="init()">Init</button>
-  <ul>
-    <li v-for="(item, index) in times" :key="index">
-      {{ item }}
-    </li>
-  </ul>
+  <div>
+    <h1>Current random value: {{ randomValue }}</h1>
+    <div>Number of times: {{ times.length }}</div>
+    <div>Total: {{ total }}</div>
+    <button @click="generate()">Generate a random value</button>
+    <button @click="init()">Init</button>
+    <ul>
+      <li v-for="(item, index) in times" :key="index">
+        {{ item }}
+      </li>
+    </ul>
+  </div>
 </template>
 
 <script>

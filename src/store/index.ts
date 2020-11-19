@@ -1,5 +1,4 @@
 import { createStore } from "vuex"
-//import router from '../router'
 import myAxios from "../service/myAxios"
 import moduleService from "@/service/moduleApiService"
 import signinService from "@/service/signinService"
@@ -8,13 +7,15 @@ console.log(myAxios.defaults);
 
 export default createStore({
   state: {
-    user: null,
-    userId: null,
-    idToken: null,
+    userEmail: "",
+    userId: "",
+    idToken: "",
     myModules: []
   },
 
   getters: {
+    isSignedIn: state => state.idToken,
+    getUserEmail: state => state.userEmail,
     // getModulesById: (state) => (code: string) => {
     //   return state.myModules.find(myModule => myModule.code === code)
     // }
@@ -25,15 +26,16 @@ export default createStore({
       console.log("SET " + data.length + " MODULES IN STORE.")
       state.myModules = data
     },
-    authUser (state, userData) {
-      state.user = userData.user
-      state.userId = userData.userId
-      state.idToken = userData.token
+    setSignedIn(state, authData) {
+      console.log("HOWEVER, HERE I NEVER GET EMAIL INFO: " + authData.email)
+      state.userEmail = authData.email
+      state.userId = authData.userId
+      state.idToken = authData.token
     },
     signout(state){
-      state.user = null
-      state.userId= null
-      state.idToken = null
+      state.userEmail = ""
+      state.userId= ""
+      state.idToken = ""
     },
   },
 
@@ -61,10 +63,11 @@ export default createStore({
     async signin (context, authData) {
       const res = await signinService.signin(authData);
       if (!res) { // Note the NOT!
-        context.commit('authUser', {
+        console.log("SETTING SIGNED IN STATUS FOR:" + authData.email)
+        context.commit('setSignedIn', {
           token: "myFakeToken",
           userId: "MyFAkeUserUUID",
-          user: authData.email
+          userEmail: authData.email
         })
         return true;
       }
