@@ -56,8 +56,9 @@
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">
-                <router-link to="/signin">Signin</router-link></a
-              >
+                <router-link v-if="!idToken" to="/signin">Signin</router-link>
+                <span v-else @click="signout">Signout</span>
+              </a>
             </li>
           </ul>
         </div>
@@ -68,9 +69,27 @@
   <router-view />
 </template>
 <script>
-
 export default {
-  name: "App"
+  name: "App",
+  data() {
+    return {
+      idToken: this.$store.idToken
+    };
+  },
+  created() {
+    console.log("NODE_ENV: " + process.env.NODE_ENV);
+    console.log("VUE_APP_VERSION: " + process.env.VUE_APP_VERSION);
+    console.log("VUE_APP_API_URL: " + process.env.VUE_APP_API_URL);
+    console.log("VUE_BASE_URL: " + process.env.BASE_URL);
+    console.log("PORT: " + process.env.SERVER_PORT);
+    console.log("DOMAIN: " + process.env.SERVER_DOMAIN);
+  },
+  methods: {
+    signout() {
+      this.$store.dispatch("signout");
+      this.$router.push("/About");
+    }
+  }
 };
 </script>
 

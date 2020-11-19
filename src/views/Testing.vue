@@ -8,7 +8,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(module, i) in modules" :key="i">
+        <tr v-for="(module, i) in myModules" :key="i">
           <td>{{ module.code }}</td>
           <td>{{ module.description }}</td>
         </tr>
@@ -17,7 +17,7 @@
   </div>
 
   <label>
-    <input type="text" v-model="moduleCode" @keyup.enter="addModule" />
+    <input type="text" v-model="searchStr" @keyup.enter="addModule" />
     <button type="button" @click="getModules">Make Request!</button>
   </label>
 </template>
@@ -27,29 +27,25 @@ export default {
   name: "Testing",
   data() {
     return {
-      modules: [],
-      moduleCode: ""
+      mods: {},
+      searchStr: ""
     };
   },
-  created() {
-    console.log("NODE_ENV: " + process.env.NODE_ENV);
-    console.log("VUE_APP_VERSION: " + process.env.VUE_APP_VERSION);
-    console.log("VUE_APP_API_URL: " + process.env.VUE_APP_API_URL);
-    console.log("VUE_BASE_URL: " + process.env.BASE_URL);
-    console.log("PORT: " + process.env.SERVER_PORT);
-    console.log("DOMAIN: " + process.env.SERVER_DOMAIN);
-  },
   methods: {
-    getPosts() {
-      this.$store.dispatch("getPost", { id: 1 });
-    },
     getModules() {
       this.$store.dispatch("getModules");
     },
     addModule() {
-      console.log("Triggered addModule");
       this.$store.dispatch("getModules");
     }
+  },
+  computed: {
+    myModules() {
+      return this.$store.state.myModules;
+    }
+  },
+  beforeMount() {
+    this.mods = this.myModules;
   }
 };
 </script>

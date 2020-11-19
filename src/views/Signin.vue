@@ -75,11 +75,14 @@ export default {
     };
   },
   methods: {
-    signin() {
-      this.$store.dispatch("login", {
+    async signin() {
+      const res = await this.$store.dispatch("signin", {
         email: this.input.email,
         password: this.input.password
       });
+      if (res) {
+        await this.$router.push("/About");
+      }
     }
   }
 };

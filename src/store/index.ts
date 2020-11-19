@@ -1,6 +1,8 @@
-import { createStore } from "vuex";
-import router from '../router';
-import myAxios from "../service/myAxios";
+import { createStore } from "vuex"
+//import router from '../router'
+import myAxios from "../service/myAxios"
+import moduleService from "@/service/moduleApiService"
+import signinService from "@/service/signinService"
 
 console.log(myAxios.defaults);
 
@@ -9,19 +11,26 @@ export default createStore({
     user: null,
     userId: null,
     idToken: null,
-    modules: {}
+    myModules: []
+  },
+
+  getters: {
+    // getModulesById: (state) => (code: string) => {
+    //   return state.myModules.find(myModule => myModule.code === code)
+    // }
   },
 
   mutations: {
     setModules(state, data) {
-      state.modules = data;
+      console.log("SET " + data.length + " MODULES IN STORE.")
+      state.myModules = data
     },
     authUser (state, userData) {
       state.user = userData.user
       state.userId = userData.userId
       state.idToken = userData.token
     },
-    logout(state){
+    signout(state){
       state.user = null
       state.userId= null
       state.idToken = null
@@ -29,19 +38,12 @@ export default createStore({
   },
 
   actions: {
-    async getModules({commit}) {
-      console.log("getModules async function hello!");
-      try {
-        const { data } = await myAxios.get("/modules"
-            /*, {
-          params: {
-            code: "module02"
-          }
-        }*/);
-        console.log("MODULES FOUND: " + data);
-        commit("setModules", data);
-      } catch (error) {
-        console.error(error);
+    async getModules(context) {
+      const allModules = await moduleService.getModules()
+      if (allModules) {
+        context.commit("setModules", allModules.data)
+      } else {
+        console.warn("No response data.")
       }
     },
 
@@ -55,31 +57,24 @@ export default createStore({
       this.todoName = "";
     }*/
 
-    login ({commit}, authData) {
-      myAxios.post('/login',{
-        email: authData.email,
-        password: authData.password,
-        returnSecureToken: true
-      })
-          .then(res => {
-            console.log(res)
-          })
-          .catch(error => {
-            console.log(error)
-            console.log("I know you are using fake login data!")
-            commit('authUser', {
-              token: "myFakeToken",
-              userId: "MyFAkeUserUUID",
-              user: authData.email
-            })
-            router.push('/About')
-          })
+    // ============== AUTH ===========
+    async signin (context, authData) {
+      const res = await signinService.signin(authData);
+      if (!res) { // Note the NOT!
+        context.commit('authUser', {
+          token: "myFakeToken",
+          userId: "MyFAkeUserUUID",
+          user: authData.email
+        })
+        return true;
+      }
     },
-    logout({commit}){
-      commit('logout')
-      router.push('/login');
+    signout(context){
+      context.commit('signout')
     }
+    // =========== END-AUTH =========
   },
+
 
   modules: {}
 });

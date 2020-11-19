@@ -1,4 +1,3 @@
-import { AxiosInstance } from 'axios'
 import axios from 'axios';
 /*
 export default {
