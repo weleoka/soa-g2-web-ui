@@ -13,6 +13,8 @@ import "bootstrap/dist/js/bootstrap.bundle.min"
 // trying to read version for use in the app client side.
 // process.env.VUE_APP_VERSION = require("../package.json").version;
 
+"strict mode";
+
 const app = createApp(App)
     app.use(store)
     .use(router)

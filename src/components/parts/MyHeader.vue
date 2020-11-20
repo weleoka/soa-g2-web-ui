@@ -55,47 +55,59 @@
               >
             </li>
             <li class="nav-item"> |
-              <!--          <a v-if="!$auth.isAuthenticated" @click="login" class="button is-dark"><strong>Sign in</strong></a>
-                        &lt;!&ndash; show logout when authenticated &ndash;&gt;
-                        <a v-if="$auth.isAuthenticated" @click="logout" class="button is-dark"><strong>Log out</strong></a>
-          -->
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">
                 <router-link v-if="!isSignedIn" to="/signin">Signin</router-link>
-                <router-link v-else @click="signout" to="/signout">Signout</router-link>
-<!--                <p v-else @click="signout">Signout</p>-->
+                <router-link v-else @click="signout" to="/signout">
+                  <span v-if="isSignedIn">
+                    - Sign out {{ getUserEmail }} -
+                  </span>
+                </router-link>
               </a>
             </li>
           </ul>
         </div>
       </div>
     </nav>
-    <span v-if="!tester" @click="pingis">Hello there!</span>
   </header>
 </template>
 
 <script>
+"use strict";
+
 import { mapGetters, mapState } from "vuex";
 
 export default {
   name: "MyHeader",
   computed: {
-    ...mapGetters(["isSignedIn"]),
-    //...mapState(["userEmail"])
-    tester() {
-      return this.$store.getters.getUserEmail;
-    }
+    ...mapGetters(["isSignedIn", "getUserEmail"]),
+    //...mapState(["authUser.userEmail"]),
   },
   methods: {
     signout() {
-      console.log("SIGNING OUT");
       this.$store.dispatch("signout");
       //this.$router.push("/Signin");
     },
-    pingis() {
-      console.log("EMAIL IS:" + this.tester);
-    }
+  },
+  // setup(props, context)
+  // context has properties (attrs, slots, emit, parent, root) that are corresponding to:
+  // this.$attrs, this.$slots, this.$emit, this.$parent, this.$root.
+  // When setup is executed (this is before component has an instance)
+  // you will only be able to access the following properties:
+  //   props
+  //   attrs
+  //   slots
+  //   emit
+  //
+  // In other words, you will not have access to the following component options:
+  //   data
+  //   computed
+  //   methods
+  setup(props) {
+    console.log(
+      "setup() in MyHeader.vue accessing props.userEmail:" + props.userEmail
+    );
   }
 };
 </script>

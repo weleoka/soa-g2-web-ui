@@ -76,8 +76,8 @@ export default {
   },
   methods: {
     async signin() {
-      console.log("EMAIL IS EMAIL IS:" + this.input.email);
-      const res = await this.$store.dispatch("signin", {
+      console.log("method async signin() in Signin.vue: " + this.input.email);
+      const res = await this.$store.dispatch("doSignin", {
         email: this.input.email,
         password: this.input.password
       });

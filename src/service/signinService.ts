@@ -1,16 +1,37 @@
 import myAxios from "@/service/myAxios";
 
+interface AuthObj {
+  userEmail: string,
+  userId: string,
+  tokenId: string
+}
+
 export default {
   async signin(authData: { email: string; password: string; }) {
+    const debug = true;
     try {
-      return await myAxios.post('/signin', {
+      const res = await myAxios.post('/signin', {
         email: authData.email,
         password: authData.password,
         returnSecureToken: true
       });
+      const authObj: AuthObj = {
+        userEmail: authData.email,
+        userId: res.data.userId,
+        tokenId: res.data.tokenId
+      };
+      return authObj;
     } catch (e) {
-      console.log(e)
-      console.warn("FAILED SIGNIN! --> but we will pretend everything is OK.")
+      console.log("FAILED SIGNIN!" + e)
+      if (debug) {
+        console.log("--> but we will pretend everything is OK.")
+        const authObj: AuthObj = {
+          userEmail: authData.email,
+          userId: "aSpecialUserID",
+          tokenId: "aSpecialTokenId"
+        }
+        return authObj;
+      }
     }
   }
 }

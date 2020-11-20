@@ -6,37 +6,41 @@ import signinService from "@/service/signinService"
 console.log(myAxios.defaults);
 
 export default createStore({
+  // Set strict mode to not allow access to state without going through mutations.
+  //strict: process.env.NODE_ENV !== 'production',
+  strict: true,
+
   state: {
-    userEmail: "",
-    userId: "",
-    idToken: "",
+    authUser: {
+      userEmail: "",
+      userId: "",
+      tokenId: "",
+    },
     myModules: []
   },
 
   getters: {
-    isSignedIn: state => state.idToken,
-    getUserEmail: state => state.userEmail,
+    isSignedIn: state => state.authUser.tokenId,
+    getUserEmail: state => state.authUser.userEmail,
     // getModulesById: (state) => (code: string) => {
     //   return state.myModules.find(myModule => myModule.code === code)
     // }
   },
 
   mutations: {
-    setModules(state, data) {
-      console.log("SET " + data.length + " MODULES IN STORE.")
-      state.myModules = data
+    setModules(state, payload) {
+      console.log("setModules() mutation in store set with " + payload.length + " MODULES.")
+      state.myModules = payload
     },
-    setSignedIn(state, authData) {
-      console.log("HOWEVER, HERE I NEVER GET EMAIL INFO: " + authData.email)
-      state.userEmail = authData.email
-      state.userId = authData.userId
-      state.idToken = authData.token
+    signout(state) {
+      state.authUser.userEmail = ""
+      state.authUser.userId = ""
+      state.authUser.tokenId = ""
     },
-    signout(state){
-      state.userEmail = ""
-      state.userId= ""
-      state.idToken = ""
-    },
+    setSignedin(state, payload) {
+      console.log("setSignedin mutation on store")
+      state.authUser = payload
+    }
   },
 
   actions: {
@@ -60,15 +64,12 @@ export default createStore({
     }*/
 
     // ============== AUTH ===========
-    async signin (context, authData) {
-      const res = await signinService.signin(authData);
-      if (!res) { // Note the NOT!
-        console.log("SETTING SIGNED IN STATUS FOR:" + authData.email)
-        context.commit('setSignedIn', {
-          token: "myFakeToken",
-          userId: "MyFAkeUserUUID",
-          userEmail: authData.email
-        })
+    async doSignin (context, formData) {
+      const debug = true;
+      console.log("Trying to sign in: " + formData.email)
+      const authObj = await signinService.signin(formData);
+      if (authObj) {
+        context.commit("setSignedin", authObj)
         return true;
       }
     },
@@ -77,7 +78,6 @@ export default createStore({
     }
     // =========== END-AUTH =========
   },
-
 
   modules: {}
 });
