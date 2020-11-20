@@ -1,6 +1,6 @@
 import { createStore } from "vuex"
 import myAxios from "../service/myAxios"
-import moduleService from "@/service/moduleApiService"
+import moduleService from "@/service/modulesApiService"
 import signinService from "@/service/signinService"
 
 console.log(myAxios.defaults);
@@ -16,10 +16,13 @@ export default createStore({
       userId: "",
       tokenId: "",
     },
-    myModules: []
+    myModules: [],
+    courseCodes: [ "D0021E", "D0022E", "D0023E" ],
+    activeCourseCode: ""
   },
 
   getters: {
+    getCourseCodes: state => state.courseCodes,
     isSignedIn: state => state.authUser.tokenId,
     getUserEmail: state => state.authUser.userEmail,
     // getModulesById: (state) => (code: string) => {
@@ -28,6 +31,10 @@ export default createStore({
   },
 
   mutations: {
+    setActiveCourseCode(state, payload) {
+      console.log("setActiveCourseCode() mutation recieved: " + payload)
+      state.activeCourseCode = payload
+    },
     setModules(state, payload) {
       console.log("setModules() mutation in store set with " + payload.length + " MODULES.")
       state.myModules = payload
@@ -52,7 +59,6 @@ export default createStore({
         console.warn("No response data.")
       }
     },
-
 /*    async addModule() {
       const res = await myAxios.post("/modules", {
         code: this.moduleCode
@@ -62,6 +68,12 @@ export default createStore({
 
       this.todoName = "";
     }*/
+
+    // No idea if name collision with the mutation will occur...
+    async setActiveCourseCode(context, courseCode) {
+      context.commit("setActiveCourseCode", courseCode);
+      const modules = await moduleService.getModulesByCourseCode(courseCode);
+    },
 
     // ============== AUTH ===========
     async doSignin (context, formData) {

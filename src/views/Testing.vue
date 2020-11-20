@@ -1,4 +1,5 @@
 <template>
+  <CourseCodeDropdown/>
   <div class="table-responsive py-4">
     <table class="table table-flush" id="datatable">
       <thead class="thead-light">
@@ -23,8 +24,13 @@
 </template>
 
 <script>
+import CourseCodeDropdown from "@/components/CourseCodeDropdown";
 export default {
   name: "Testing",
+
+  components: {
+    CourseCodeDropdown
+  },
   data() {
     return {
       mods: {},
@@ -45,6 +51,7 @@ export default {
     }
   },
   beforeMount() {
+    // this.myModules is a computed property, but could instead be a mapGetters["myModules"] call..
     this.mods = this.myModules;
   }
 };
