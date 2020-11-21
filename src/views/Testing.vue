@@ -55,9 +55,6 @@ export default {
     getAllModules() {
       this.state.allModulesMode = true;
       this.getModules(); // from mapActions
-    },
-    addModule() {
-      this.getModules(); // from mapActions
     }
   },
   computed: {

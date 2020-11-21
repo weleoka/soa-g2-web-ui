@@ -52,11 +52,14 @@ export default createStore({
 
   actions: {
     async getModules(context) {
-      const allModules = await moduleService.getModules()
-      if (allModules) {
-        context.commit("setModules", allModules.data)
-      } else {
-        console.warn("No response data.")
+      try {
+        context.commit("setModules", await moduleService.getAllModules())
+      } catch (e) {
+        if (e instanceof TypeError) {
+          console.log("No modules");
+        } else {
+          throw e;
+        }
       }
     },
 /*    async addModule() {
@@ -72,11 +75,14 @@ export default createStore({
     // No idea if name collision with the mutation will occur...
     async setActiveCourseCode(context, courseCode) {
       context.commit("setActiveCourseCode", courseCode);
-      const modules = await moduleService.getModulesByCourseCode(courseCode);
-      if (modules) {
-        context.commit("setModules", modules.data)
-      } else {
-        console.warn("No response data.")
+      try {
+      context.commit("setModules", await moduleService.getModulesByCourseCode(courseCode))
+      } catch (e) {
+        if (e instanceof TypeError) {
+          console.log("No modules");
+        } else {
+          throw e;
+        }
       }
     },
 

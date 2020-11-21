@@ -1,13 +1,13 @@
 import myAxios from "@/service/myAxios";
 
 export default {
-  async getModules() {
+  async getAllModules() {
     try {
       const res = await myAxios.get("modules");
       console.log("GET request to: " + res.config.baseURL + res.config.url);
-      return res;
+      return res.data;
     } catch (error) {
-      console.error(error);
+      console.error(error.message);
     }
   },
   async getModulesByCourseCode(courseCode: string) {
@@ -18,9 +18,9 @@ export default {
         }
       });
       console.log("GET request to: " + res.config.baseURL + res.config.url);
-      return res;
+      return res.data;
     } catch (error) {
-      console.error(error);
+      console.error(error.message);
     }
   }
 }
