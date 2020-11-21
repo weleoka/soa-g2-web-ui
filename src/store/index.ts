@@ -36,7 +36,7 @@ export default createStore({
       state.activeCourseCode = payload
     },
     setModules(state, payload) {
-      console.log("setModules() mutation in store set with " + payload.length + " MODULES.")
+      console.log("setModules() mutation in store set with " + payload.length + " modules.")
       state.myModules = payload
     },
     signout(state) {
@@ -73,6 +73,11 @@ export default createStore({
     async setActiveCourseCode(context, courseCode) {
       context.commit("setActiveCourseCode", courseCode);
       const modules = await moduleService.getModulesByCourseCode(courseCode);
+      if (modules) {
+        context.commit("setModules", modules.data)
+      } else {
+        console.warn("No response data.")
+      }
     },
 
     // ============== AUTH ===========

@@ -1,17 +1,21 @@
 <template>
-  <CourseCodeDropdown/>
+  <CourseCodeDropdown @selection-event="getModulesByCourseCode"/>
   <div class="table-responsive py-4">
     <table class="table table-flush" id="datatable">
       <thead class="thead-light">
         <tr>
-          <th>Code</th>
+          <th v-show="state.allModulesMode">Course Code</th>
+          <th>Module Id</th>
           <th>Description</th>
+          <th>Status</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="(module, i) in myModules" :key="i">
+          <td v-show="state.allModulesMode">{{ module.course_code }}</td>
           <td>{{ module.code }}</td>
           <td>{{ module.description }}</td>
+          <td>{{ module.status }}</td>
         </tr>
       </tbody>
     </table>
@@ -19,30 +23,41 @@
 
   <label>
     <input type="text" v-model="searchStr" @keyup.enter="addModule" />
-    <button type="button" @click="getModules">Make Request!</button>
+    <button type="button" @click="getAllModules">Get All modules</button>
   </label>
 </template>
 
 <script>
 import CourseCodeDropdown from "@/components/CourseCodeDropdown";
+import { mapActions } from "vuex";
+
 export default {
   name: "Testing",
-
   components: {
     CourseCodeDropdown
   },
   data() {
     return {
       mods: {},
-      searchStr: ""
+      searchStr: "",
+      state: {
+        allModulesMode: false
+      }
     };
   },
   methods: {
-    getModules() {
-      this.$store.dispatch("getModules");
+    ...mapActions(["getModules", "setActiveCourseCode"]),
+
+    getModulesByCourseCode(courseCode) {
+      this.state.allModulesMode = false;
+      this.setActiveCourseCode(courseCode); // from mapActions
+    },
+    getAllModules() {
+      this.state.allModulesMode = true;
+      this.getModules(); // from mapActions
     },
     addModule() {
-      this.$store.dispatch("getModules");
+      this.getModules(); // from mapActions
     }
   },
   computed: {

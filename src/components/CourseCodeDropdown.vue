@@ -1,6 +1,7 @@
 <template>
   <div id="app">
-    <label>Aktiv kurskod:
+    <label>
+      Aktiv kurskod:
       <select v-model="selected">
         <option
           v-for="(option, i) in options"
@@ -11,13 +12,12 @@
         </option>
       </select>
     </label>
-    <button @click="refreshData">Refresh</button>
-<!--    <span>Selected: {{ selected }}</span>-->
+    <button @click="$emit('selection-event', this.selected)">Refresh</button>
   </div>
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters } from "vuex";
 
 export default {
   name: "CourseCodeDropdown",
@@ -28,20 +28,13 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["getCourseCodes"]),
-    ...mapActions(["setActiveCourseCode"])
+    ...mapGetters(["getCourseCodes"])
   },
   beforeMount() {
     const courseCodes = this.getCourseCodes;
     for (let i = 0; i < courseCodes.length; i++) {
       const courseCode = courseCodes[i];
       this.options.push({ text: courseCode, id: courseCode });
-    }
-    console.log("Valid course codes are: " + this.options);
-  },
-  methods: {
-    refreshData() {
-      this.$store.dispatch("setActiveCourseCode", this.selected);
     }
   }
 };
