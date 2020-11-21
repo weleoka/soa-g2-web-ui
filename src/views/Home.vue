@@ -1,18 +1,27 @@
 <template>
-  <div class="home">
-    <HelloWorld
-      msg="Hello WORLD WORLD WORLD and Welcome to Your Vue.js + TypeScript App"
-    />
+  <div id="home">
+    <ModuleTable @selected-module-event="getModuleDetails" />
+    <ModuleDetailTable />
   </div>
 </template>
 
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
-import HelloWorld from "@/components/HelloWorld.vue"; // @ is an alias to /src
+import ModuleTable from "@/components/ModuleTable.vue";
+import ModuleDetailTable from "@/components/ModuleDetailTable.vue";
+import {mapActions} from "vuex"; // @ is an alias to /src
 
 @Options({
   components: {
-    HelloWorld
+    ModuleTable,
+    ModuleDetailTable
+  },
+  methods: {
+    ...mapActions(["setActiveModuleCode"]), // Implement this too
+    getModuleDetails(moduleCode: string) {
+      // set the prop for passing to ModuleDetailTable
+      console.log("getModuleDetails() NOT implemented, code: " + moduleCode);
+    }
   }
 })
 export default class Home extends Vue {}

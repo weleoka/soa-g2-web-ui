@@ -5,9 +5,9 @@
       <!-- Container wrapper -->
       <div class="container-fluid">
         <!-- Navbar brand -->
-        <a class="navbar-brand" href="#"
-          ><router-link to="/">LOGO</router-link></a
-        >
+        <a class="navbar-brand">
+          <router-link to="/"><img class="navbar-brand" src="img/brand/logo.png" style="height: 90px"></router-link>
+        </a>
         <!--<ul class="navbar-nav navbar-nav-hover align-items-lg-center">
           <li class="nav-item mr-2">
             <router-link to="/">Home</router-link>
@@ -49,11 +49,11 @@
                 ><router-link to="/about">About</router-link></a
               >
             </li>
-            <li class="nav-item">
+            <!--<li class="nav-item">
               <a class="nav-link" href="#"
                 ><router-link to="/testing">Testing</router-link></a
               >
-            </li>
+            </li>-->
             <li class="nav-item"> |
             </li>
             <li class="nav-item">
@@ -76,7 +76,7 @@
 <script>
 "use strict";
 
-import { mapGetters, mapState } from "vuex";
+import { mapGetters } from "vuex";
 
 export default {
   name: "MyHeader",

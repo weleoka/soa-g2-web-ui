@@ -1,9 +1,11 @@
 <template>
-  <div id="app">
+  <div>
     <label>
       Aktiv kurskod:
-      <select v-model="selected">
-        <option
+      <select
+        @change="$emit('selection-event', this.selected)"
+        v-model="selected"
+      ><option
           v-for="(option, i) in options"
           :key="i"
           v-bind:value="option.id"
@@ -12,7 +14,6 @@
         </option>
       </select>
     </label>
-    <button @click="$emit('selection-event', this.selected)">Refresh</button>
   </div>
 </template>
 
@@ -24,7 +25,12 @@ export default {
   data() {
     return {
       selected: "",
-      options: []
+      options: [
+        {
+          text: "alla",
+          id: "ALL"
+        }
+      ]
     };
   },
   computed: {

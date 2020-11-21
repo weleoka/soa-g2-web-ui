@@ -1,6 +1,6 @@
 <template>
-  <div class="about">
-    <h1>This is an about page</h1>
+  <div id="about">
+    <h1>This is a random number addifier</h1>
   </div>
   <div id="app">
     <Random />
@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import Random from "../components/Random.vue";
+import Random from "../components/samples/Random.vue";
 
 export default {
   name: "About",

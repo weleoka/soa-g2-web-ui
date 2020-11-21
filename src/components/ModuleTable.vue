@@ -1,0 +1,85 @@
+<template>
+  <div>
+    <CourseCodeDropdown @selection-event="getModulesByCourseCode" />
+    <div class="table-responsive py-4">
+      <table class="table table-striped table-hover" id="module-table">
+        <thead class="thead-light table-success">
+          <tr>
+            <th scope="col" v-show="state.allModulesMode">Course Code</th>
+            <th scope="col">Module Id</th>
+            <th scope="col">Description</th>
+            <th scope="col">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr @click="$emit('selected-module-event', module.code)" v-for="(module, i) in myModules" :key="i">
+            <td v-show="state.allModulesMode">{{ module.course_code }}</td>
+            <td>{{ module.code }}</td>
+            <td>{{ module.description }}</td>
+            <td>{{ module.status }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <ModuleSearchInput @module-search-event="getModulesBySearchStr" />
+    <button type="button" @click="getAllModules">All modules</button>
+  </div>
+</template>
+
+<script>
+import { mapActions } from "vuex";
+import CourseCodeDropdown from "@/components/CourseCodeDropdown";
+import ModuleSearchInput from "@/components/ModuleSearchInput";
+
+export default {
+  name: "ModuleTable",
+  components: {
+    CourseCodeDropdown,
+    ModuleSearchInput
+  },
+  data() {
+    return {
+      mods: {},
+      checkedNames: [],
+      state: {
+        allModulesMode: false
+      }
+    };
+  },
+  methods: {
+    ...mapActions(["getModules", "setActiveCourseCode"]),
+
+    getModulesBySearchStr(searchStr) {
+      this.state.allModulesMode = false;
+      console.log(
+        "getModulesBySearchStr() NOT implemented, str: " + searchStr
+      );
+    },
+    async getModulesByCourseCode(courseCode) {
+      // todo: it may be best to move this setting-to-all to store?
+      if (courseCode === "ALL") {
+        await this.getAllModules();
+        this.state.allModulesMode = true;
+      } else {
+        await this.setActiveCourseCode(courseCode); // from mapActions
+        this.state.allModulesMode = false;
+      }
+    },
+    async getAllModules() {
+      await this.getModules(); // from mapActions
+      this.state.allModulesMode = true;
+    }
+  },
+  computed: {
+    myModules() {
+      return this.$store.state.myModules;
+    }
+  },
+  beforeMount() {
+    // this.myModules is a computed property, but could instead be a mapGetters["myModules"] call..
+    this.mods = this.myModules;
+  }
+};
+</script>
+
+<style scoped></style>
