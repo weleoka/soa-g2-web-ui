@@ -21,13 +21,15 @@ const routes: Array<RouteRecordRaw> = [
       ]
     }
   },
-  { // dynamic route matching with param after colon.
+  {
+    // dynamic route matching with param after colon.
     path: "/moduleview/:moduleId",
     name: "moduleview", // named route
     meta: {
       title: "Module Details - SOA Grupp 2"
     },
-    component: ModuleDetails
+    component: ModuleDetails,
+    props: true
   },
   //   component: () =>
   //       import(/* webpackChunkName: "about" */ "../views/ModuleDetails.vue")

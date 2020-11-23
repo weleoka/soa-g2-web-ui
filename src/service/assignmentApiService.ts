@@ -1,6 +1,6 @@
-import myAxios from "@/service/myAxios";
+import myAxios from "@/service/httpAxios";
 /*
-This deals with communications to and from Canvas
+This deals with communications to and from SubmissionService
  */
 export default {
   async getAssignments() {
@@ -26,4 +26,3 @@ export default {
     }
   }
 }
-

@@ -1,6 +1,6 @@
 <template>
   <div id="module_details">
-    <ModuleDetailTable :moduleId="moduleIdProp" />
+    <ModuleDetailTable />
     <button type="button" @click="returnToOverview">Return</button>
   </div>
 </template>

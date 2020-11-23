@@ -27,11 +27,23 @@
 </template>
 
 <script>
+import resultsApiService from '../service/resultsApiService'
 export default {
+  // not strict mode
   name: "ModuleDetailTable",
   props: {
     moduleId: String
     //moduleObj: Object
+  },
+  created(){
+    this.getAssignments();
+    console.log("the moduledetailview is now created");
+  },
+  methods: {
+    getAssignments(){
+      const res = resultsApiService.getAssignments(this.moduleId);
+      console.log(res);
+    }
   }
 };
 </script>
