@@ -62,6 +62,17 @@ export default createStore({
         }
       }
     },
+    async getModuleDetails(context) {
+      try {
+        context.commit("setModules", await moduleService.getModuleDetails())
+      } catch (e) {
+        if (e instanceof TypeError) {
+          console.log("No modules");
+        } else {
+          throw e;
+        }
+      }
+    },
 /*    async addModule() {
       const res = await myAxios.post("/modules", {
         code: this.moduleCode

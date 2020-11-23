@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import Home from "@/views/Home.vue";
+import ModuleDetails from "@/views/ModuleDetails.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -20,6 +21,18 @@ const routes: Array<RouteRecordRaw> = [
       ]
     }
   },
+  { // dynamic route matching with param after colon.
+    path: "/moduleview/:moduleId",
+    name: "moduleview", // named route
+    meta: {
+      title: "Module Details - SOA Grupp 2"
+    },
+    component: ModuleDetails
+  },
+  //   component: () =>
+  //       import(/* webpackChunkName: "about" */ "../views/ModuleDetails.vue")
+  // },
+
   {
     path: "/about",
     name: "About",

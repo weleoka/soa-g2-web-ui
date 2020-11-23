@@ -9,7 +9,7 @@ module.exports = {
   //baseUrl: process.env.NODE_ENV === "production" ? "/subpath/" : "/",
   configureWebpack: {
     devServer: {
-      ///port: 9999,
+      port: 9997,
       proxy: {
         "/api": {
           //changeOrigin: true,

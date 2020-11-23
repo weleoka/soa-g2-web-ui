@@ -1,26 +1,24 @@
 <template>
   <div id="home">
-    <ModuleTable @selected-module-event="getModuleDetails" />
-    <ModuleDetailTable />
+    <ModuleTable @select-module-event="getModuleDetails" />
   </div>
 </template>
 
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
 import ModuleTable from "@/components/ModuleTable.vue";
-import ModuleDetailTable from "@/components/ModuleDetailTable.vue";
-import {mapActions} from "vuex"; // @ is an alias to /src
+
+import { mapActions } from "vuex"; // @ is an alias to /src // remove
 
 @Options({
   components: {
-    ModuleTable,
-    ModuleDetailTable
+    ModuleTable
   },
   methods: {
-    ...mapActions(["setActiveModuleCode"]), // Implement this too
-    getModuleDetails(moduleCode: string) {
-      // set the prop for passing to ModuleDetailTable
-      console.log("getModuleDetails() NOT implemented, code: " + moduleCode);
+    ...mapActions([]), // remove
+    getModuleDetails(moduleId: string) {
+      console.log("select-module-event triggered data: " + moduleId);
+      this.$router.push({ name: "moduleview", params: { moduleId: "asdg" } }); // equals: /module/moduleXX
     }
   }
 })

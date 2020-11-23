@@ -12,9 +12,9 @@
           </tr>
         </thead>
         <tbody>
-          <tr @click="$emit('selected-module-event', module.code)" v-for="(module, i) in myModules" :key="i">
-            <td v-show="state.allModulesMode">{{ module.course_code }}</td>
-            <td>{{ module.code }}</td>
+          <tr @click="$emit('select-module-event', module.id)" v-for="(module, i) in myModules" :key="i">
+            <td v-show="state.allModulesMode">{{ module.courseCode }}</td>
+            <td>{{ module.id }}</td>
             <td>{{ module.description }}</td>
             <td>{{ module.status }}</td>
           </tr>
@@ -51,9 +51,7 @@ export default {
 
     getModulesBySearchStr(searchStr) {
       this.state.allModulesMode = false;
-      console.log(
-        "getModulesBySearchStr() NOT implemented, str: " + searchStr
-      );
+      console.log("getModulesBySearchStr() NOT implemented, str: " + searchStr);
     },
     async getModulesByCourseCode(courseCode) {
       // todo: it may be best to move this setting-to-all to store?
@@ -76,7 +74,7 @@ export default {
     }
   },
   beforeMount() {
-    // this.myModules is a computed property, but could instead be a mapGetters["myModules"] call..
+    // todo: this.myModules is a computed property, but could instead be a mapGetters["myModules"] call..
     this.mods = this.myModules;
   }
 };
