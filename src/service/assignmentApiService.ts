@@ -1,11 +1,11 @@
-import myAxios from "@/service/httpAxios";
+import httpAxios from "@/service/httpAxios";
 /*
 This deals with communications to and from SubmissionService
  */
 export default {
   async getAssignments() {
     try {
-      const res = await myAxios.get("assignments");
+      const res = await httpAxios.get("assignments");
       console.log("GET request to: " + res.config.baseURL + res.config.url);
       return res;
     } catch (error) {
@@ -14,7 +14,7 @@ export default {
   },
   async getAssignmentsByModuleId(moduleId: string) {
     try {
-      const res = await myAxios.get("assignments", {
+      const res = await httpAxios.get("assignments", {
         params: {
           "module_id": moduleId
         }

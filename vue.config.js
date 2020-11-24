@@ -13,9 +13,10 @@ module.exports = {
       proxy: {
         "/api": {
           //changeOrigin: true,
-          target: "http://localhost:8282",
+          target: "http://localhost:8282", // nodemocks
+          //target: "http://localhost:8085", // app-middleware
           //secure: false, // will ignore the https
-          // rewrite /api as just ""
+          // rewrite /api to ""
           pathRewrite: { "^/api": "" },
           logLevel: "debug"
         }

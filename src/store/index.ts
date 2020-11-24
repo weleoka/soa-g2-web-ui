@@ -1,3 +1,8 @@
+/*
+This deals with runtime state across the whole app.
+Often this is where we would use local storage db and
+save state to a db on the client.
+ */
 import { createStore } from "vuex"
 import myAxios from "../service/myAxios"
 import moduleService from "@/service/modulesApiService"

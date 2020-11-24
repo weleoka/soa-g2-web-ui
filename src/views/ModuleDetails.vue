@@ -6,9 +6,9 @@
 </template>
 
 <script lang="ts">
-import { Options, Vue } from "vue-class-component";
 import ModuleDetailTable from "@/components/ModuleDetailTable.vue";
 import { mapActions } from "vuex";
+import { Options, Vue } from "vue-class-component";
 
 @Options({
   components: {
@@ -25,7 +25,7 @@ import { mapActions } from "vuex";
     // react to route changes. Important when switching /module/moduleCode1 to /module/moduleCode2 for example:
     // this is because the lifecycle hook is not triggered if just switching the param part of URL.
     // don't forget to call next() though!
-    //console.log("BeforeRouteUpdate called with param: " + this.$router.params); // set this to local prop so child can access?
+    console.log("BeforeRouteUpdate called with param: " + this.$route.params); // set this to local prop so child can access?
     this.moduleIdProp = this.$route.params; // todo: problem here when the data does not update.
     // todo: fetch all the details for module and save as moduleObj for clean passing to ModuleDetailTable
     next();
@@ -33,16 +33,14 @@ import { mapActions } from "vuex";
   methods: {
     ...mapActions([]),
     returnToOverview() {
-      // the home view state should be consistent still with what is in the store.
       this.$router.push("/");
     }
   },
   computed: {
     currentModuleId() {
-      //<h1>Editing details for {{ currentModuleId }}</h1>
-      //return this.$router.params;
+      return this.$route.params;
     }
-  },
+  }
 })
 export default class ModuleDetails extends Vue {}
 </script>

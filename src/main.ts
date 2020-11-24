@@ -14,8 +14,9 @@ import "bootstrap/dist/js/bootstrap.bundle.min"
 // process.env.VUE_APP_VERSION = require("../package.json").version;
 
 
+// === BEGIN META HEAD hack ===
 // This callback runs before every route change, including on page load.
-// IT's a way of hacking the Title and other elements in the head... unfortunately vue-meta npm package
+// It's a way of hacking the title and other elements in the head... unfortunately vue-meta npm package
 // is not yet available for Vuejs3...
 // https://www.digitalocean.com/community/tutorials/vuejs-vue-router-modify-head
 router.beforeEach((to, from, next) => {
@@ -59,7 +60,7 @@ router.beforeEach((to, from, next) => {
 
     next();
 });
-
+// === END META HEAD hack ===
 
 
 

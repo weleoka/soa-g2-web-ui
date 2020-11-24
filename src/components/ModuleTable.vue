@@ -42,7 +42,7 @@ export default {
       mods: {},
       checkedNames: [],
       state: {
-        allModulesMode: false
+        allModulesMode: false // Show or hide the courseCode column in table
       }
     };
   },
@@ -54,7 +54,6 @@ export default {
       console.log("getModulesBySearchStr() NOT implemented, str: " + searchStr);
     },
     async getModulesByCourseCode(courseCode) {
-      // todo: it may be best to move this setting-to-all to store?
       if (courseCode === "ALL") {
         await this.getAllModules();
         this.state.allModulesMode = true;
