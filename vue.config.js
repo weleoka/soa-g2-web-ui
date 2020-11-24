@@ -22,7 +22,7 @@ module.exports = {
         "/appmw": {
           //changeOrigin: true,
           target: "http://localhost:8085", // app-middleware
-          pathRewrite: { "^/appmw": "/app/v1" },
+          pathRewrite: { "^/appmw": "/app/V1" },
           logLevel: "debug"
         }
       }
