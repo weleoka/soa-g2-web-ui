@@ -1,6 +1,12 @@
 <template>
   <div id="module_details">
-    <ModuleDetailTable :module-id-prop="moduleId" :module-obj-prop="moduleObj"/>
+    <h1>Detail view of {{ moduleId }}</h1>
+    <ModuleDetailTable
+      v-if="!loading"
+      :module-id-prop="moduleId"
+      :module-obj-prop="moduleObj"
+    />
+    <div v-if="loading">Loading...</div>
     <button type="button" @click="returnToOverview">Return</button>
   </div>
 </template>
@@ -18,6 +24,7 @@ import { Options, Vue } from "vue-class-component";
 
   data() {
     return {
+      loading: false,
       moduleId: "placeholderID",
       moduleObj: {}
     };
@@ -34,9 +41,17 @@ import { Options, Vue } from "vue-class-component";
       this.$router.push("/");
     },
     async updateModuleObj() {
+      this.loading = true;
       const res = await resultsApiService.getAssignments(this.moduleId);
-      console.log(res);
-      this.moduleObj = res;
+      if (res) {
+        console.log(res.status);
+        if (res.status === 200) {
+          this.moduleObj = res.data;
+          this.loading = false;
+        } else {
+          throw Error("No module with this ID can be loaded!");
+        }
+      }
     }
   },
   computed: {

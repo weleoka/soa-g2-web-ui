@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h1>Detail view of {{ moduleIdProp }}</h1>
     <div>Object recieved {{ moduleObjProp }}</div>
     <div class="table-responsive py-4">
     <!--  <table class="table table-striped table-hover" id="module-detail-table">
