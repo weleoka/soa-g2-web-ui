@@ -29,7 +29,7 @@ const routes: Array<RouteRecordRaw> = [
       title: "Module Details - SOA Grupp 2"
     },
     component: ModuleDetails,
-    props: true
+    //props: true // not needed
   },
   //   component: () =>
   //       import(/* webpackChunkName: "about" */ "../views/ModuleDetails.vue")

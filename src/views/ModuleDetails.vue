@@ -1,6 +1,6 @@
 <template>
   <div id="module_details">
-    <ModuleDetailTable />
+    <ModuleDetailTable :module-id-prop="moduleId"/>
     <button type="button" @click="returnToOverview">Return</button>
   </div>
 </template>
@@ -17,21 +17,17 @@ import { Options, Vue } from "vue-class-component";
 
   data() {
     return {
-      moduleIdProp: "placeholderID",
+      moduleId: "placeholderID",
       moduleObj: {}
     };
   },
-  beforeRouteUpdate(to, from, next) {
-    // react to route changes. Important when switching /module/moduleCode1 to /module/moduleCode2 for example:
-    // this is because the lifecycle hook is not triggered if just switching the param part of URL.
-    // don't forget to call next() though!
-    console.log("BeforeRouteUpdate called with param: " + this.$route.params); // set this to local prop so child can access?
-    this.moduleIdProp = this.$route.params; // todo: problem here when the data does not update.
+  created() {
+    console.log("ModuleDetails->created() and this.$route.params.moduleId: " + this.$route.params.moduleId);
     // todo: fetch all the details for module and save as moduleObj for clean passing to ModuleDetailTable
-    next();
+    this.moduleId = this.$route.params.moduleId;
   },
   methods: {
-    ...mapActions([]),
+    //...mapActions([]),
     returnToOverview() {
       this.$router.push("/");
     }
@@ -43,6 +39,14 @@ import { Options, Vue } from "vue-class-component";
   }
 })
 export default class ModuleDetails extends Vue {}
+/*BeforeRouteUpdate(to, from, next) { // problem was this whole method never gets called.
+  // Its supposed to react to route changes, importantly when switching /module/moduleCode1 to /module/moduleCode2 for example:
+  // this is because the lifecycle hook is not triggered if just switching the param part of URL.
+  // don't forget to call next() though!
+  console.log("BeforeRouteUpdate called with param: " + this.$route.params); // set this to local prop so child can access?
+  this.moduleId = this.$route.params;
+  next();
+},*/
 </script>
 
 <style></style>

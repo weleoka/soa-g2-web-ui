@@ -18,7 +18,9 @@ import { mapActions } from "vuex"; // @ is an alias to /src // remove
     ...mapActions([]), // remove
     getModuleDetails(moduleId: string) {
       console.log("select-module-event triggered data: " + moduleId);
-      this.$router.push({ name: "moduleview", params: { moduleId: "asdg" } }); // equals: /module/moduleXX
+      this.$router.push({ name: "moduleview", params: { moduleId } });
+      // The above translates to being the same as:
+      //this.$router.push({ name: "moduleview", params: { moduleId: moduleId } });
     }
   }
 })

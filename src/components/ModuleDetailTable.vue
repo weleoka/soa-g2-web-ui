@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Detail view of {{ moduleId }}</h1>
+    <h1>Detail view of {{ moduleIdProp }}</h1>
     <div class="table-responsive py-4">
     <!--  <table class="table table-striped table-hover" id="module-detail-table">
         <thead class="thead-light table-success">
@@ -30,20 +30,19 @@
 import resultsApiService from "@/service/resultsApiService";
 
 export default {
-  // not strict mode
+  //strict mode;
   name: "ModuleDetailTable",
   props: {
-    moduleId: String
+    moduleIdProp: String // vue transforms this to module-id-prop in parent template.
     //moduleObj: Object
   },
   created() {
+    console.log("ModuleDetailTable starting for module: " + this.moduleIdProp);
     this.getAssignments();
-    console.log("the moduledetailview is now created");
-    console.log("moduleId property is: " + this.moduleId);
   },
   methods: {
     async getAssignments() {
-      const res = await resultsApiService.getAssignments(this.moduleId);
+      const res = await resultsApiService.getAssignments(this.moduleIdProp);
       console.log(res);
     }
   }

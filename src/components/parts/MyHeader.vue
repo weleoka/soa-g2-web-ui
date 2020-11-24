@@ -6,7 +6,7 @@
       <div class="container-fluid">
         <!-- Navbar brand -->
         <a class="navbar-brand">
-          <router-link to="/"><img class="navbar-brand" src="img/brand/logo.png" style="height: 90px"></router-link>
+          <router-link to="/"><img class="navbar-brand" src="/img/brand/logo.png" style="height: 90px"></router-link>
         </a>
         <!--<ul class="navbar-nav navbar-nav-hover align-items-lg-center">
           <li class="nav-item mr-2">
