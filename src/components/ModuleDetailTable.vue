@@ -27,7 +27,8 @@
 </template>
 
 <script>
-import resultsApiService from "../service/resultsApiService";
+import resultsApiService from "@/service/resultsApiService";
+
 export default {
   // not strict mode
   name: "ModuleDetailTable",
@@ -38,10 +39,11 @@ export default {
   created() {
     this.getAssignments();
     console.log("the moduledetailview is now created");
+    console.log("moduleId property is: " + this.moduleId);
   },
   methods: {
-    getAssignments() {
-      const res = resultsApiService.getAssignments(this.moduleId);
+    async getAssignments() {
+      const res = await resultsApiService.getAssignments(this.moduleId);
       console.log(res);
     }
   }

@@ -10,7 +10,7 @@ interface ModuleObj {
 export default {
   async getAllModules() {
     try {
-      const res = await myAxios.get("modules");
+      const res = await myAxios.get("/modules");
       console.log("GET request to: " + res.config.baseURL + "/" + res.config.url);
       return this.moduleObjectMapper(res.data);
     } catch (error) {
@@ -19,7 +19,7 @@ export default {
   },
   async getModulesByCourseCode(courseCode: string) {
     try {
-      const res = await myAxios.get("modules", {
+      const res = await myAxios.get("/modules", {
         params: {
           "course_code": courseCode
         }
@@ -32,7 +32,7 @@ export default {
   },
   async getModuleDetails() { // WARN: not implemented.
     try {
-      const res = await myAxios.get("modules");
+      const res = await myAxios.get("/modules");
       console.log("GET request to: " + res.config.baseURL + res.config.url);
       return this.moduleObjectMapper(res.data);
     } catch (error) {

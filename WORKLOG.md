@@ -9,8 +9,9 @@ I have to figure out how to get the prop for moduleId into the moduleDetails com
 
 
 # Kai 2020-11-23
-- Decision: views are vue class components, all other compionents non-class-based.
+- Decision: views are vue class components, all other components non-class-based.
 - Decision: reverse proxy used to access middlware API
     - production via `/.nginx/nginx.conf`; and 
     - development WDS (webpack development server) reverse proxy, configured in `/vue.config.js`.
 
+Access to both middleware and mock api is done by in httpAxios or myAxios service files prepending a path to URL. `/api` for mock-apis and `/appmw` for requests to app middleware. This is matched in the `/vue.config.js` file the WDS reverse proxy. For `/api` paths we remove the identifier (`/api`). However in the second case we change the identifier from `/appmw` to `/app/v1` as that seems to be hard coded in the backend.

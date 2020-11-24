@@ -14,10 +14,15 @@ module.exports = {
         "/api": {
           //changeOrigin: true,
           target: "http://localhost:8282", // nodemocks
-          //target: "http://localhost:8085", // app-middleware
           //secure: false, // will ignore the https
           // rewrite /api to ""
           pathRewrite: { "^/api": "" },
+          logLevel: "debug"
+        },
+        "/appmw": {
+          //changeOrigin: true,
+          target: "http://localhost:8085", // app-middleware
+          pathRewrite: { "^/appmw": "/app/v1" },
           logLevel: "debug"
         }
       }
