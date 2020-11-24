@@ -17,3 +17,5 @@ I have to figure out how to get the prop for moduleId into the moduleDetails com
 Note: access to both middleware and mock api is done by in httpAxios or myAxios service files prepending a path to URL. `/api` for mock-apis and `/appmw` for requests to app middleware. This is matched in the `/vue.config.js` file the WDS reverse proxy. For `/api` paths we remove the identifier (`/api`). However in the second case we change the identifier from `/appmw` to `/app/v1` as that seems to be hard coded in the backend.
 
 Fixed: passing prop moduleId from dynamic path param to child components.
+
+LAST: object mapping so incoming submission object from middleware can be used in the frontend domain. This is to be done with interface object in resultsApiService.js

@@ -12,7 +12,11 @@
           </tr>
         </thead>
         <tbody>
-          <tr @click="$emit('select-module-event', module.id)" v-for="(module, i) in myModules" :key="i">
+          <tr
+            @click="$emit('select-module-event', module.id)"
+            v-for="(module, i) in myModules"
+            :key="i"
+          >
             <td v-show="state.allModulesMode">{{ module.courseCode }}</td>
             <td>{{ module.id }}</td>
             <td>{{ module.description }}</td>

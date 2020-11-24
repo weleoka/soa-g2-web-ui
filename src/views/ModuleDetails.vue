@@ -1,6 +1,6 @@
 <template>
   <div id="module_details">
-    <h1>Detail view of {{ moduleId }}</h1>
+    <h1>Detail view of submissions in {{ moduleId }}</h1>
     <ModuleDetailTable
       v-if="!loading"
       :module-id-prop="moduleId"
@@ -33,20 +33,25 @@ import { Options, Vue } from "vue-class-component";
     console.log("ModuleDetails->created() and this.$route.params.moduleId: " + this.$route.params.moduleId);
     // todo: fetch all the details for module and save as moduleObj for clean passing to ModuleDetailTable
     this.moduleId = this.$route.params.moduleId;
-    this.updateModuleObj();
+    try {
+      this.updateModuleObj();
+    } catch (e) {
+      this.returnToOverview();
+    }
   },
   methods: {
-    //...mapActions([]),
+    ...mapActions([]), //does nothing for now
     returnToOverview() {
       this.$router.push("/");
     },
     async updateModuleObj() {
+      // todo: rersultsApiService should map to a reliable frontend domain object
+      // todo: any API errors(And response codes should be handled in resultsApiService
       this.loading = true;
       const res = await resultsApiService.getAssignments(this.moduleId);
       if (res) {
-        console.log(res.status);
         if (res.status === 200) {
-          this.moduleObj = res.data;
+          this.moduleObj = res.data.submissions;
           this.loading = false;
         } else {
           throw Error("No module with this ID can be loaded!");
