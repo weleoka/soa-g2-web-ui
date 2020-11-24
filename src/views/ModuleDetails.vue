@@ -4,7 +4,7 @@
     <ModuleDetailTable
       v-if="!loading"
       :module-id-prop="moduleId"
-      :module-obj-prop="moduleObj"
+      :submissions-arr="moduleObj"
     />
     <div v-if="loading">Loading...</div>
     <button type="button" @click="returnToOverview">Return</button>
@@ -30,12 +30,14 @@ import { Options, Vue } from "vue-class-component";
     };
   },
   created() {
-    console.log("ModuleDetails->created() and this.$route.params.moduleId: " + this.$route.params.moduleId);
+    console.log("ModuleDetails->created() : this.$route.params.moduleId: " + this.$route.params.moduleId);
     // todo: fetch all the details for module and save as moduleObj for clean passing to ModuleDetailTable
     this.moduleId = this.$route.params.moduleId;
     try {
       this.updateModuleObj();
+      console.log("Updated module details.");
     } catch (e) {
+      console.log("Couldn't get module details. Returning to overview view.");
       this.returnToOverview();
     }
   },
@@ -45,18 +47,9 @@ import { Options, Vue } from "vue-class-component";
       this.$router.push("/");
     },
     async updateModuleObj() {
-      // todo: rersultsApiService should map to a reliable frontend domain object
-      // todo: any API errors(And response codes should be handled in resultsApiService
       this.loading = true;
-      const res = await resultsApiService.getAssignments(this.moduleId);
-      if (res) {
-        if (res.status === 200) {
-          this.moduleObj = res.data.submissions;
-          this.loading = false;
-        } else {
-          throw Error("No module with this ID can be loaded!");
-        }
-      }
+      this.moduleObj = await resultsApiService.getSubmissionsByAssignment(this.moduleId);
+      this.loading = false;
     }
   },
   computed: {

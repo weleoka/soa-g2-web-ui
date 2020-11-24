@@ -8,7 +8,7 @@ I have to figure out how to get the prop for moduleId into the moduleDetails com
 
 
 
-# Kai 2020-11-23
+# Kai 2020-11-23 morgon & tidig eftermiddag
 - Decision: views are vue class components, all other components non-class-based.
 - Decision: reverse proxy used to access middlware API
     - production via `/.nginx/nginx.conf`; and 
@@ -19,3 +19,6 @@ Note: access to both middleware and mock api is done by in httpAxios or myAxios 
 Fixed: passing prop moduleId from dynamic path param to child components.
 
 LAST: object mapping so incoming submission object from middleware can be used in the frontend domain. This is to be done with interface object in resultsApiService.js
+
+# Kai 2020-11-23 17:18 UTC
+Submissions available in UI. Next is to implement the POST endpoint to verify the submission grade, i.e. passing it to Ladok.

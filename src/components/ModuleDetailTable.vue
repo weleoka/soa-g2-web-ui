@@ -1,10 +1,10 @@
 <template>
   <div>
-    <div>Object recieved {{ moduleObjProp }}</div>
     <div class="table-responsive py-4">
       <table class="table table-striped table-hover" id="module-detail-table">
         <thead class="thead-light table-success">
           <tr>
+            <th scope="col">Student ID</th>
             <th scope="col">Namn</th>
             <th scope="col">Examination</th>
             <th scope="col">Skapad</th>
@@ -15,11 +15,12 @@
         </thead>
         <tbody>
           <tr
-            @click="$emit('aaa-event', submission.submissionId)"
-            v-for="(submission, i) in moduleObjProp"
+            @click="$emit('aaa-event', submission.id)"
+            v-for="(submission, i) in submissionsArr"
             :key="i"
           >
-            <td>({{ submission.studentId }}) {{ submission.firstName }} {{ submission.lastName }}</td>
+            <td>{{ submission.studentId }}</td>
+            <td>{{ submission.firstName }} {{ submission.lastName }}</td>
             <td>{{ submission.examination }}</td>
             <td>{{ submission.createdAt }}</td>
             <td>{{ submission.grade }}</td>
@@ -30,24 +31,7 @@
       </table>
     </div>
   </div>
-<!--
-  {"submissions":
-    [
-      {
-        "submission_id":"assignmt03",
-        "examination":null,
-        "student_id":"agåb-6",
-        "first_name":"Agnes",
-        "last_name":"Åberg",
-        "teacher_id":null,
-        "created_at":null,
-        "module_code":"module03",
-        "grade":"G",
-        "verified":false
-      }
-    ]
-  }
-  -->
+  <div>Object debug submissionsArr: {{ submissionsArr }}</div>
 </template>
 
 <script>
@@ -56,11 +40,11 @@ export default {
   name: "ModuleDetailTable",
   props: {
     moduleIdProp: String, // vue transforms this to module-id-prop in parent template.
-    moduleObjProp: Object // vue transforms this to module-obj-prop in parent template.
+    submissionsArr: Object // vue transforms this to module-obj-prop in parent template.
   },
   created() {
     console.log("ModuleDetailTable starting for module: " + this.moduleIdProp);
-    console.log("Raw data: " + this.moduleObjProp);
+    console.log("Raw data: " + this.submissionsArr);
   }
 };
 </script>
