@@ -55,11 +55,12 @@ export default {
     }
   },
 
-  async submitGradeVerification(submissionId: string) {
+  async  submitGradeVerification(submissionId: string) {
     const apiCall = "/submission/" + submissionId + "/verify";
     console.log("trying POST request to: " + apiCall);
     try {
-      const res = await httpAxios.post(apiCall, {});
+      //eslint-disable-next-line
+      const res = await httpAxios.post(apiCall, {submission_id: submissionId});
       console.log("POST request to: " + res.config.baseURL + res.config.url);
       if (res.status === 200) {
         return true;
