@@ -15,7 +15,7 @@
         </thead>
         <tbody>
           <tr
-            @click="$emit('aaa-event', submission.id)"
+            @click="$emit('verify-grade-event', submission.id)"
             v-for="(submission, i) in submissionsArr"
             :key="i"
           >
@@ -43,8 +43,7 @@ export default {
     submissionsArr: Object // vue transforms this to module-obj-prop in parent template.
   },
   created() {
-    console.log("ModuleDetailTable starting for module: " + this.moduleIdProp);
-    console.log("Raw data: " + this.submissionsArr);
+    console.log("Loaded ModuleDetailTable for: " + this.moduleIdProp);
   }
 };
 </script>

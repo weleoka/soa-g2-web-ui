@@ -55,6 +55,26 @@ export default {
     }
   },
 
+  async submitGradeVerification(submissionId: string) {
+    const apiCall = "/submission/" + submissionId + "/verify";
+    console.log("trying POST request to: " + apiCall);
+    try {
+      const res = await httpAxios.post(apiCall, {});
+      console.log("POST request to: " + res.config.baseURL + res.config.url);
+      if (res.status === 200) {
+        return true;
+      } else {
+        throwApiError("Response code not 200 OK.");
+      }
+    } catch (error) {
+      if (error.name === "ApiError") {
+        throw Error(error.message);
+      } else {
+        throw Error("Network problem: " + error.message);
+      }
+    }
+  },
+
   // Maps the API provided object to the application domain object.
   submissionObjectMapper(submArr: string | any[]) {
     const arr = [];

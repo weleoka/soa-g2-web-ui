@@ -1,10 +1,11 @@
 <template>
   <div id="module_details">
-    <h1>Detail view of submissions in {{ moduleId }}</h1>
+    <h1>Detaljvy för inlämningar i "{{ moduleId }}"</h1>
     <ModuleDetailTable
       v-if="!loading"
       :module-id-prop="moduleId"
       :submissions-arr="moduleObj"
+      @verify-grade-event="verifyGrade"
     />
     <div v-if="loading">Loading...</div>
     <button type="button" @click="returnToOverview">Return</button>
@@ -50,6 +51,10 @@ import { Options, Vue } from "vue-class-component";
       this.loading = true;
       this.moduleObj = await resultsApiService.getSubmissionsByAssignment(this.moduleId);
       this.loading = false;
+    },
+    async verifyGrade(submissionId: string) {
+      console.log("Verifying grade event triggered for: " + submissionId);
+      const res = await resultsApiService.submitGradeVerification(submissionId);
     }
   },
   computed: {

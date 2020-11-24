@@ -22,6 +22,9 @@ import { mapGetters } from "vuex";
 
 export default {
   name: "CourseCodeDropdown",
+  props: {
+    preselected: String
+  },
   data() {
     return {
       selected: "",
@@ -34,13 +37,19 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["getCourseCodes"])
+    ...mapGetters(["getCourseCodes", "getActiveCourseCode"])
   },
   beforeMount() {
     const courseCodes = this.getCourseCodes;
     for (let i = 0; i < courseCodes.length; i++) {
       const courseCode = courseCodes[i];
-      this.options.push({ text: courseCode, id: courseCode });
+      if (courseCode === this.getActiveCourseCode) {
+        // here we should have some sort of event trigger... who knows.
+      }
+      this.options.push({
+        text: courseCode,
+        id: courseCode,
+      });
     }
   }
 };

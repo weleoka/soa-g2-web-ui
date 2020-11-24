@@ -28,6 +28,7 @@ export default createStore({
 
   getters: {
     getCourseCodes: state => state.courseCodes,
+    getActiveCourseCode: state => state.activeCourseCode,
     isSignedIn: state => state.authUser.tokenId,
     getUserEmail: state => state.authUser.userEmail,
     // getModulesById: (state) => (code: string) => {

@@ -22,3 +22,17 @@ LAST: object mapping so incoming submission object from middleware can be used i
 
 # Kai 2020-11-23 17:18 UTC
 Submissions available in UI. Next is to implement the POST endpoint to verify the submission grade, i.e. passing it to Ladok.
+
+
+
+# Kai 2020-11-23 19:11 UTC
+Implenting grade verification.
+
+Held up by only getting server 500 error. Log output:
+
+``
+127.0.0.1 - - [24/Nov/2020:19:09:07 +0000] "POST /app/V1/submission/assignmt01/verify HTTP/1.1" 500 160
+127.0.0.1 - - [24/Nov/2020:19:09:31 +0000] "GET /app/V1/examination/module04 HTTP/1.1" 200 1053
+2020-11-24 19:11:07.153 ERROR 1148848 --- [nio-8085-exec-2] o.a.c.c.C.[.[.[/].[dispatcherServlet]    : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed; nested exception is feign.FeignException$MethodNotAllowed: [405] during [POST] to [http://localhost:8080/examination-service/V1/submission//verify] [ESSubmissionClient#verify(SubmissionVerificationRequest)]: [{"timestamp":"2020-11-24T19:11:07.147+00:00","status":405,"error":"Method Not Allowed","message":"","path":"/examination-service/V1/submission//verify"}]] with root cause
+feign.FeignException$MethodNotAllowed: [405] during [POST] to [http://localhost:8080/examination-service/V1/submission//verify] [ESSubmissionClient#verify(SubmissionVerificationRequest)]: [{"timestamp":"2020-11-24T19:11:07.147+00:00","status":405,"error":"Method Not Allowed","message":"","path":"/examination-service/V1/submission//verify"}]
+````
