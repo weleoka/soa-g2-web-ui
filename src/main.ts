@@ -3,6 +3,8 @@ import App from "./App.vue";
 import "./registerServiceWorker";
 import router from "./router";
 import store from "./store";
+import mitt from "mitt"; // EventBus
+import { Emitter } from "mitt"; // EventBus
 
 //import "popper.js/dist/umd/popper.min.js"
 //require("./assets/css/style.css")
@@ -12,6 +14,7 @@ import "bootstrap/dist/js/bootstrap.bundle.min";
 
 // trying to read version for use in the app client side.
 // process.env.VUE_APP_VERSION = require("../package.json").version;
+
 
 // === BEGIN META HEAD hack ===
 // This callback runs before every route change, including on page load.
@@ -72,8 +75,15 @@ router.beforeEach((to, from, next) => {
 });
 // === END META HEAD hack ===
 
+
+//const emitter = mitt(); // normal way
+const emitter: Emitter = mitt(); // typescript crapparoo way
 const app = createApp(App);
-app
-  .use(store)
+app.config.globalProperties.emitter = emitter;
+
+//app.provide('emitter', emitter)
+app.use(store)
   .use(router)
   .mount("#app");
+
+

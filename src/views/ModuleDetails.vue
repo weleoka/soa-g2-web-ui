@@ -5,8 +5,6 @@
       v-if="!loading"
       :module-id-prop="moduleId"
       :submissions-arr="moduleObj"
-      :verify-button-busy="loading2"
-      @verify-grade-event="verifyGradeHandler"
     />
     <div v-if="loading">Loading...</div>
     <button type="button" @click="returnToOverview">Return</button>
@@ -27,7 +25,6 @@ import { Options, Vue } from "vue-class-component";
   data() {
     return {
       loading: false, // the detail table content loading
-      loading2: false, // the verify button
       moduleId: "placeholderID",
       moduleObj: {}
     };
@@ -46,6 +43,13 @@ import { Options, Vue } from "vue-class-component";
       this.returnToOverview();
     }
   },
+  mounted() {
+    this.emitter.on("verify-grade-event", (eventData: any) => { //eslint-disable-line
+      console.log("Verifying submission: " + eventData.submissionId);
+      console.log("Faking the verification for index: " + eventData.indexNo);
+      this.verifyGradeHandler(eventData.submissionId, eventData.indexNo);
+    });
+  },
   methods: {
     ...mapActions([]), //does nothing for now
     returnToOverview() {
@@ -59,15 +63,12 @@ import { Options, Vue } from "vue-class-component";
       this.loading = false;
     },
     async verifyGradeHandler(submissionId: string, i: number) {
-      console.log("Verifying grade event triggered for: " + submissionId);
-      this.loading2 = true;
       const res = await resultsApiService.submitGradeVerification(submissionId);
       this.moduleObj[i].verified = true; // the ugly hack.
       //Todo here set the verification status locally as a fix... however that means we will have to
       //  make the moduleObj/submissionsArr persistent in this.$store, which brings on the question
       //  of how when we read from local store and when we read from API. A kind of how-fresh-is-it scenario.
       console.log(res);
-      this.loading2 = false;
     }
   },
   computed: {
