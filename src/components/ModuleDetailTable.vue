@@ -22,12 +22,11 @@
             <td>{{ submission.grade }}</td>
             <td>{{ submission.teacherId }}</td>
             <td>
-              <p v-if="!submission.verified">ja</p>
+              <p v-if="submission.verified">ja</p>
               <button
-                v-else
-                @click="$emit('verify-grade-event', submission.id)"
-              >
-                Verifiera
+                v-else-if="!verifyButtonBusy"
+                @click="$emit('verify-grade-event', submission.id, i)"
+              >Verifiera
               </button>
             </td>
           </tr>
@@ -35,7 +34,6 @@
       </table>
     </div>
   </div>
-  <div>Object debug submissionsArr: {{ submissionsArr }}</div>
 </template>
 
 <script>
@@ -43,8 +41,9 @@ export default {
   //strict mode;
   name: "ModuleDetailTable",
   props: {
+    verifyButtonBusy: Boolean,
     moduleIdProp: String, // vue transforms this to module-id-prop in parent template.
-    submissionsArr: Object // vue transforms this to module-obj-prop in parent template.
+    submissionsArr: Object // vue transforms this to submissions-arr in parent template.
   },
   created() {
     console.log("Loaded ModuleDetailTable for: " + this.moduleIdProp);

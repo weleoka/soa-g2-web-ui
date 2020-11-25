@@ -43,7 +43,6 @@ export default {
   },
   data() {
     return {
-      mods: {},
       checkedNames: [],
       state: {
         allModulesMode: false // Show or hide the courseCode column in table
@@ -75,11 +74,9 @@ export default {
     myModules() {
       return this.$store.state.myModules;
     }
-  },
-  beforeMount() {
-    // todo: this.myModules is a computed property, but could instead be a mapGetters["myModules"] call..
-    this.mods = this.myModules;
   }
+  /*beforeMount() {
+  }*/
 };
 </script>
 
