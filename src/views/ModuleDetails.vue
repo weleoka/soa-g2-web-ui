@@ -31,7 +31,10 @@ import { Options, Vue } from "vue-class-component";
     };
   },
   created() {
-    console.log("ModuleDetails->created() : this.$route.params.moduleId: " + this.$route.params.moduleId);
+    console.log(
+      "ModuleDetails->created() : this.$route.params.moduleId: " +
+        this.$route.params.moduleId
+    );
     // todo: fetch all the details for module and save as moduleObj for clean passing to ModuleDetailTable
     this.moduleId = this.$route.params.moduleId;
     try {
@@ -49,12 +52,15 @@ import { Options, Vue } from "vue-class-component";
     },
     async updateModuleObj() {
       this.loading = true;
-      this.moduleObj = await resultsApiService.getSubmissionsByAssignment(this.moduleId);
+      this.moduleObj = await resultsApiService.getSubmissionsByAssignment(
+        this.moduleId
+      );
       this.loading = false;
     },
     async verifyGrade(submissionId: string) {
       console.log("Verifying grade event triggered for: " + submissionId);
       const res = await resultsApiService.submitGradeVerification(submissionId);
+      console.log(res);
     }
   },
   computed: {

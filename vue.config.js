@@ -16,17 +16,17 @@ module.exports = {
           target: "http://localhost:8282", // nodemocks
           //secure: false, // will ignore the https
           // rewrite /api to ""
-          pathRewrite: { "^/api": "" },
+          pathRewrite: { "^/api": "" },  //eslint-disable-line
           logLevel: "debug"
         },
         "/appmw": {
           //changeOrigin: true,
           target: "http://localhost:8085", // app-middleware
-          pathRewrite: { "^/appmw": "/app/V1" },
+          pathRewrite: { "^/appmw": "/app/V1" },  //eslint-disable-line
           logLevel: "debug"
         }
       }
-    },
+    }
     /*chainWebpack: config => {
       const oneOfsMap = config.module.rule("scss").oneOfs.store;
       oneOfsMap.forEach(item => {

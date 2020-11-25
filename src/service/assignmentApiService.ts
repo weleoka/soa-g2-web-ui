@@ -16,7 +16,7 @@ export default {
     try {
       const res = await myAxios.get("assignments", {
         params: {
-          "module_id": moduleId
+          module_id: moduleId  //eslint-disable-line
         }
       });
       console.log("GET request to: " + res.config.baseURL + res.config.url);
@@ -25,4 +25,4 @@ export default {
       console.error(error);
     }
   }
-}
+};

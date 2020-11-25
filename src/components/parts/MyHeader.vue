@@ -6,7 +6,12 @@
       <div class="container-fluid">
         <!-- Navbar brand -->
         <a class="navbar-brand">
-          <router-link to="/"><img class="navbar-brand" src="/img/brand/logo.png" style="height: 90px"></router-link>
+          <router-link to="/"
+            ><img
+              class="navbar-brand"
+              src="/img/brand/logo.png"
+              style="height: 90px"
+          /></router-link>
         </a>
         <!--<ul class="navbar-nav navbar-nav-hover align-items-lg-center">
           <li class="nav-item mr-2">
@@ -54,11 +59,12 @@
                 ><router-link to="/testing">Testing</router-link></a
               >
             </li>-->
-            <li class="nav-item"> |
-            </li>
+            <li class="nav-item">|</li>
             <li class="nav-item">
               <a class="nav-link" href="#">
-                <router-link v-if="!isSignedIn" to="/signin">Signin</router-link>
+                <router-link v-if="!isSignedIn" to="/signin"
+                  >Signin</router-link
+                >
                 <router-link v-else @click="signout" to="/signout">
                   <span v-if="isSignedIn">
                     - Sign out {{ getUserEmail }} -
@@ -81,14 +87,14 @@ import { mapGetters } from "vuex";
 export default {
   name: "MyHeader",
   computed: {
-    ...mapGetters(["isSignedIn", "getUserEmail"]),
+    ...mapGetters(["isSignedIn", "getUserEmail"])
     //...mapState(["authUser.userEmail"]),
   },
   methods: {
     signout() {
       this.$store.dispatch("signout");
       //this.$router.push("/Signin");
-    },
+    }
   },
   // setup(props, context)
   // context has properties (attrs, slots, emit, parent, root) that are corresponding to:

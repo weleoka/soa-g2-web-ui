@@ -5,7 +5,7 @@
       <select
         @change="$emit('selection-event', this.selected)"
         v-model="selected"
-      ><option
+        ><option
           v-for="(option, i) in options"
           :key="i"
           v-bind:value="option.id"
@@ -48,7 +48,7 @@ export default {
       }
       this.options.push({
         text: courseCode,
-        id: courseCode,
+        id: courseCode
       });
     }
   }

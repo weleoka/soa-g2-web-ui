@@ -1,17 +1,16 @@
 import httpAxios from "@/service/httpAxios";
 
-
 interface SubmissionObj {
-  id: string,
-  examination: string,
-  studentId: string,
-  firstName: string,
-  lastName: string,
-  teacherId: string,
-  createdAt: string,
-  moduleCode: string,
-  grade: string,
-  verified: boolean
+  id: string;
+  examination: string;
+  studentId: string;
+  firstName: string;
+  lastName: string;
+  teacherId: string;
+  createdAt: string;
+  moduleCode: string;
+  grade: string;
+  verified: boolean;
 }
 
 /*
@@ -22,12 +21,11 @@ function throwApiError(msg: string) {
   throw {
     name: "ApiError",
     message: msg
-  }
+  };
 }
 
-
 export default {
-/*  async getResults() {
+  /*  async getResults() {
     try {
       const res = await httpAxios.get("/results");
       console.log("GET request to: " + res.config.baseURL + res.config.url);
@@ -37,7 +35,10 @@ export default {
     }
   },*/
   async getSubmissionsByAssignment(examinationCode: string) {
-    console.log("Called resultsApiService->getAssignments() with examinationcode: " + examinationCode);
+    console.log(
+      "Called resultsApiService->getAssignments() with examinationcode: " +
+        examinationCode
+    );
     try {
       const res = await httpAxios.get("/examination/" + examinationCode);
       console.log("GET request to: " + res.config.baseURL + res.config.url);
@@ -55,12 +56,13 @@ export default {
     }
   },
 
-  async  submitGradeVerification(submissionId: string) {
+  async submitGradeVerification(submissionId: string) {
     const apiCall = "/submission/" + submissionId + "/verify";
     console.log("trying POST request to: " + apiCall);
     try {
-      //eslint-disable-next-line
-      const res = await httpAxios.post(apiCall, {submission_id: submissionId});
+      const res = await httpAxios.post(apiCall, {
+        submission_id: submissionId  //eslint-disable-line
+      });
       console.log("POST request to: " + res.config.baseURL + res.config.url);
       if (res.status === 200) {
         return true;
@@ -90,13 +92,13 @@ export default {
         createdAt: submArr[i].created_at,
         moduleCode: submArr[i].module_code,
         grade: submArr[i].grade,
-        verified: submArr[i].verified,
-      }
+        verified: submArr[i].verified
+      };
       arr.push(submObj);
     }
     return arr;
   }
-}
+};
 
 /*
 <!--

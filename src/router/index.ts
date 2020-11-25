@@ -8,15 +8,15 @@ const routes: Array<RouteRecordRaw> = [
     name: "Main",
     component: Home,
     meta: {
-      title: 'Main - SOA Grupp 2',
+      title: "Main - SOA Grupp 2",
       metaTags: [
         {
-          name: 'description',
-          content: 'The home page of soa grupp 2 app.'
+          name: "description",
+          content: "The home page of soa grupp 2 app."
         },
         {
-          property: 'og:description',
-          content: 'The home page of soa grupp 2 app.'
+          property: "og:description",
+          content: "The home page of soa grupp 2 app."
         }
       ]
     }
@@ -28,7 +28,7 @@ const routes: Array<RouteRecordRaw> = [
     meta: {
       title: "Module Details - SOA Grupp 2"
     },
-    component: ModuleDetails,
+    component: ModuleDetails
     //props: true // not needed
   },
   //   component: () =>
@@ -45,7 +45,7 @@ const routes: Array<RouteRecordRaw> = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () =>
-        import(/* webpackChunkName: "about" */ "../views/About.vue")
+      import(/* webpackChunkName: "about" */ "../views/About.vue")
   },
   /*  {
       path: "/testing",
@@ -60,16 +60,16 @@ const routes: Array<RouteRecordRaw> = [
       title: "Signin - SOA Grupp 2"
     },
     component: () =>
-        import(/* webpackChunkName: "signin" */ "../views/Signin.vue")
+      import(/* webpackChunkName: "signin" */ "../views/Signin.vue")
   },
-  { // Think this is removable but may have something to do with redirect.
+  {
+    // Think this is removable but may have something to do with redirect.
     path: "/signout",
     name: "Signout",
     component: () =>
-        import(/* webpackChunkName: "signout" */ "../views/Signin.vue")
-  },
+      import(/* webpackChunkName: "signout" */ "../views/Signin.vue")
+  }
 ];
-
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),

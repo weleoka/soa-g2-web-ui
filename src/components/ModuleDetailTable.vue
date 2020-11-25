@@ -14,18 +14,22 @@
           </tr>
         </thead>
         <tbody>
-          <tr
-            @click="$emit('verify-grade-event', submission.id)"
-            v-for="(submission, i) in submissionsArr"
-            :key="i"
-          >
+          <tr v-for="(submission, i) in submissionsArr" :key="i">
             <td>{{ submission.studentId }}</td>
             <td>{{ submission.firstName }} {{ submission.lastName }}</td>
             <td>{{ submission.examination }}</td>
             <td>{{ submission.createdAt }}</td>
             <td>{{ submission.grade }}</td>
             <td>{{ submission.teacherId }}</td>
-            <td>{{ submission.verified }}</td>
+            <td>
+              <p v-if="!submission.verified">ja</p>
+              <button
+                v-else
+                @click="$emit('verify-grade-event', submission.id)"
+              >
+                Verifiera
+              </button>
+            </td>
           </tr>
         </tbody>
       </table>
