@@ -1,3 +1,10 @@
+/*
+EA & SOA Group 2 HT2020
+
+This is where the main layout is definded.
+Base components like header and footer which
+should be visible everywhere can be added here.
+*/
 <template>
   <div>
     <MyHeader />

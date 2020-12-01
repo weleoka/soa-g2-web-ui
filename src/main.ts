@@ -1,3 +1,12 @@
+/*
+EA & SOA Group 2 HT2020
+This is sort of the app entrypoint where we declare
+dependency injection, instantiate the Vue instance
+and other things like that.
+
+It finishes by binding the Vue instance to a DOM element.
+
+ */
 import { createApp } from "vue";
 import App from "./App.vue";
 import "./registerServiceWorker";
@@ -76,8 +85,8 @@ router.beforeEach((to, from, next) => {
 // === END META HEAD hack ===
 
 
-//const emitter = mitt(); // normal way
-const emitter: Emitter = mitt(); // typescript crapparoo way
+//const emitter = mitt(); // javascript way
+const emitter: Emitter = mitt(); // typescript way
 const app = createApp(App);
 app.config.globalProperties.emitter = emitter;
 

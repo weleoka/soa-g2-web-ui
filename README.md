@@ -1,9 +1,9 @@
 # SOA Grupp2 Services User Interface
-A Vue.js frontend app that facilitates working with the examination and student servies of the new SOA architecture.
+A Vue.js frontend app to give GUI to the new SOA architecture for EA & SOA course at LTU four Group 2 HT2020.
 
 
 # To remember
-This project attempts to use the most recent versions of the various technologies invloved. This means Vue.js 3, and class-based component syntax, among others. For the screenshot of initial project choices we have:
+This project attempts to use the most recent versions of the various technologies involved. This means Vue.js 3, and class-based component syntax, among others. For the screenshot of initial project choices we have:
 ![](./vue_cli_settings.png)
 
 

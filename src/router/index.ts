@@ -1,3 +1,10 @@
+/*
+EA & SOA Group 2 HT2020
+
+This deals with routes to pages and resources
+for the whole app. It's where we can specify
+path parameters, as well as page metadata.
+ */
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import Home from "@/views/Home.vue";
 import ModuleDetails from "@/views/ModuleDetails.vue";
