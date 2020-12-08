@@ -1,3 +1,5 @@
+/* EA & SOA Group 2 HT2020. The idea for this is that it is a "wrapper" component that
+includes the "menu" for the schedule management parts */
 <template>
   <div id="home">
     <OccasionTable />

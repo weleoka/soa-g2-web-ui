@@ -5,14 +5,15 @@
       <!-- Container wrapper -->
       <div class="container-fluid">
         <!-- Navbar brand -->
-        <a class="navbar-brand">
-          <router-link to="/"
-            ><img
-              class="navbar-brand"
-              src="/img/brand/logo.png"
-              style="height: 90px"
-          /></router-link>
-        </a>
+
+        <router-link class="navbar-brand" to="/">
+          <img
+            class="navbar-brand"
+            src="/img/brand/logo.png"
+            style="height: 90px"
+         alt="logo"/>
+        </router-link>
+
         <!--<ul class="navbar-nav navbar-nav-hover align-items-lg-center">
           <li class="nav-item mr-2">
             <router-link to="/">Home</router-link>
@@ -20,6 +21,7 @@
           <li class="nav-item mr-2">
             <router-link to="/about">RANDOMIZER</router-link>
           </li>
+
           <li class="nav-item mr-2">
             <router-link to="/testing">Testing</router-link>
           </li>
@@ -45,34 +47,28 @@
           <!-- Left links -->
           <ul class="navbar-nav mr-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#"
-                ><router-link to="/">Hem</router-link></a
+              <router-link class="nav-link active" aria-current="page" to="/"
+                >Hem</router-link
               >
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#"
-                ><router-link to="/gradeworks">Betygshanteraren</router-link></a
+              <router-link class="nav-link" to="/gradeworks"
+                >Betygshanteraren</router-link
               >
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#"
-                ><router-link to="/scheduleworks"
-                  >Schemahanteraren</router-link
-                ></a
+              <router-link class="nav-link" to="/scheduleworks"
+                >Schemahanteraren</router-link
               >
             </li>
             <li class="nav-item">|</li>
             <li class="nav-item">
-              <a class="nav-link" href="#">
-                <router-link v-if="!isSignedIn" to="/signin"
-                  >Signin</router-link
-                >
-                <router-link v-else @click="signout" to="/signout">
-                  <span v-if="isSignedIn">
-                    - Sign out {{ userEmail }} -
-                  </span>
-                </router-link>
-              </a>
+              <router-link class="nav-link" v-if="!isSignedIn" to="/signin"
+                >Signin</router-link
+              >
+              <router-link v-else @click="signout" to="/signout">
+                <span v-if="isSignedIn"> - Sign out {{ userEmail }} - </span>
+              </router-link>
             </li>
           </ul>
         </div>
