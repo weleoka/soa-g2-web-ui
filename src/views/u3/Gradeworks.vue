@@ -8,14 +8,11 @@
 import { Options, Vue } from "vue-class-component";
 import ModuleTable from "@/components/u3/ModuleTable.vue";
 
-import { mapActions } from "vuex";
-
 @Options({
   components: {
     ModuleTable
   },
   methods: {
-    ...mapActions([]), // remove
     getModuleDetails(moduleId: string) {
       console.log("select-module-event triggered data: " + moduleId);
       this.$router.push({ name: "moduleview", params: { moduleId } });

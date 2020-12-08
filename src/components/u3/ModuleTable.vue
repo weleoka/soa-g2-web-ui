@@ -1,6 +1,6 @@
 <template>
   <div>
-    <CourseCodeDropdown @selection-event="getModulesByCourseCode" />
+    <CourseCodeDropdown @selection-event="selectedCourseCodeChange" />
     <div class="table-responsive py-4">
       <table class="table table-striped table-hover" id="module-table">
         <thead class="thead-light table-success">
@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import {mapActions, mapGetters, mapMutations, mapState} from "vuex";
 import CourseCodeDropdown from "@/components/u3/CourseCodeDropdown";
 import ModuleSearchInput from "@/components/u3/ModuleSearchInput";
 
@@ -52,29 +52,28 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["getModules", "setActiveCourseCode"]),
+    ...mapMutations(["setActiveCourseCode"]), // rootStore
+    ...mapActions("gradeStoreModule", ["populateModulesArr"]),
+    ...mapGetters("gradeStoreModule", ["getModulesArr"]),
 
     getModulesBySearchStr(searchStr) {
-      this.state.allModulesMode = false;
       console.log("getModulesBySearchStr() NOT implemented, str: " + searchStr);
     },
-    async getModulesByCourseCode(courseCode) {
+
+    async selectedCourseCodeChange(courseCode) {
       if (courseCode === "ALL") {
-        await this.getAllModules();
         this.state.allModulesMode = true;
+        this.setActiveCourseCode(courseCode); // from mapMutations rootStore
+        await this.populateModulesArr(""); // from mapActions gradeStoreModule
       } else {
-        await this.setActiveCourseCode(courseCode); // from mapActions
+        await this.populateModulesArr(courseCode); // from mapActions gradeStoreModule
         this.state.allModulesMode = false;
       }
-    },
-    async getAllModules() {
-      await this.getModules(); // from mapActions
-      this.state.allModulesMode = true;
     }
   },
   computed: {
     myModules() {
-      return this.$store.state.myModules;
+      return this.getModulesArr(); // from mapGetters
     }
   }
   /*beforeMount() {

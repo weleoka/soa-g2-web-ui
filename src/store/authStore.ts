@@ -9,9 +9,6 @@ save state to a db on the client.
 import signinService from "@/service/signinService";
 
 export const authStoreModule = {
-  // This makes your getters, mutations, and actions accessed by,
-  // eg: 'myModule/myModularizedNumber'
-  // instead of mounting getters, mutations, and actions to the root namespace.
   namespaced: true,
   state: {
     authUser: {
@@ -37,7 +34,6 @@ export const authStoreModule = {
     signout(context) {
       context.commit("signout");
     }
-    // =========== END-AUTH =========
   },
   mutations: {
     signout(state) {

@@ -11,11 +11,14 @@ https://stackoverflow.com/questions/64080549/using-vuex-4-modules-in-vue-3-with-
 https://github.com/vuejs-templates/webpack/issues/73
 
 https://github.com/webpack-contrib/eslint-webpack-plugin
- */
+
+*/
+
 import { createStore } from "vuex";
 import myAxios from "../service/myAxios";
-import moduleService from "@/service/u3/modulesApiService";
 import { authStoreModule } from "@/store/authStore";
+import { gradeStoreModule } from "@/store/gradeStore";
+import { scheduleStoreModule } from "@/store/scheduleStore";
 
 console.log(myAxios.defaults);
 
@@ -23,13 +26,10 @@ export default createStore({
   // Set strict mode to not allow access to state without going through mutations.
   //strict: process.env.NODE_ENV !== 'production',
   strict: true,
-
   state: {
-    myModules: [],
     courseCodes: ["D0021E", "D0022E", "D0023E"],
     activeCourseCode: ""
   },
-
   getters: {
     getCourseCodes: state => state.courseCodes,
     getActiveCourseCode: state => state.activeCourseCode
@@ -37,74 +37,20 @@ export default createStore({
     //   return state.myModules.find(myModule => myModule.code === code)
     // }
   },
-
   mutations: {
     setActiveCourseCode(state, payload) {
       console.log("setActiveCourseCode() mutation recieved: " + payload);
       state.activeCourseCode = payload;
     },
-    setModules(state, payload) {
-      console.log(
-        "setModules() mutation in store set with " +
-          payload.length +
-          " modules."
-      );
-      state.myModules = payload;
-    }
   },
-
   actions: {
-    async getModules(context) {
-      try {
-        context.commit("setModules", await moduleService.getAllModules());
-      } catch (e) {
-        if (e instanceof TypeError) {
-          console.log("No modules");
-        } else {
-          throw e;
-        }
-      }
-    },
-    async getModuleDetails(context) {
-      try {
-        context.commit("setModules", await moduleService.getModuleDetails());
-      } catch (e) {
-        if (e instanceof TypeError) {
-          console.log("No modules");
-        } else {
-          throw e;
-        }
-      }
-    },
-    /*    async addModule() {
-      const res = await myAxios.post("/modules", {
-        code: this.moduleCode
-      });
-      console.log(res.data);
-      this.modules = [...this.modules, res];
-
-      this.todoName = "";
-    }*/
-
-    // No idea if name collision with the mutation will occur...
-    async setActiveCourseCode(context, courseCode) {
-      context.commit("setActiveCourseCode", courseCode);
-      try {
-        context.commit(
-          "setModules",
-          await moduleService.getModulesByCourseCode(courseCode)
-        );
-      } catch (e) {
-        if (e instanceof TypeError) {
-          console.log("No modules");
-        } else {
-          throw e;
-        }
-      }
-    }
   },
   modules: {
-    authStoreModule
-    // add gradestore and schedulestore modules
+    // This makes your getters, mutations, and actions accessed by,
+    // eg: 'myModule/myModularizedThing' instead of mounting getters,
+    // mutations, and actions to the root namespace.
+    authStoreModule,
+    gradeStoreModule,
+    scheduleStoreModule
   }
 });
