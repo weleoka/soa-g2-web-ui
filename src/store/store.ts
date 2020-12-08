@@ -4,11 +4,18 @@ EA & SOA Group 2 HT2020
 This deals with runtime state across the whole app.
 Often this is where we would use local storage db and
 save state to a db on the client.
+
+Due to Vue 3 and Vuex 4 and TypeScript all piling through Webpack we have issues:
+https://stackoverflow.com/questions/64080549/using-vuex-4-modules-in-vue-3-with-typescript-and-how-to-fix-cyclical-dependenc
+
+https://github.com/vuejs-templates/webpack/issues/73
+
+https://github.com/webpack-contrib/eslint-webpack-plugin
  */
 import { createStore } from "vuex";
 import myAxios from "../service/myAxios";
 import moduleService from "@/service/u3/modulesApiService";
-import signinService from "@/service/signinService";
+import { authStoreModule } from "@/store/authStore";
 
 console.log(myAxios.defaults);
 
@@ -18,11 +25,6 @@ export default createStore({
   strict: true,
 
   state: {
-    authUser: {
-      userEmail: "",
-      userId: "",
-      tokenId: ""
-    },
     myModules: [],
     courseCodes: ["D0021E", "D0022E", "D0023E"],
     activeCourseCode: ""
@@ -30,9 +32,7 @@ export default createStore({
 
   getters: {
     getCourseCodes: state => state.courseCodes,
-    getActiveCourseCode: state => state.activeCourseCode,
-    isSignedIn: state => state.authUser.tokenId,
-    getUserEmail: state => state.authUser.userEmail
+    getActiveCourseCode: state => state.activeCourseCode
     // getModulesById: (state) => (code: string) => {
     //   return state.myModules.find(myModule => myModule.code === code)
     // }
@@ -50,15 +50,6 @@ export default createStore({
           " modules."
       );
       state.myModules = payload;
-    },
-    signout(state) {
-      state.authUser.userEmail = "";
-      state.authUser.userId = "";
-      state.authUser.tokenId = "";
-    },
-    setSignedin(state, payload) {
-      console.log("setSignedin mutation on store");
-      state.authUser = payload;
     }
   },
 
@@ -110,23 +101,10 @@ export default createStore({
           throw e;
         }
       }
-    },
-
-    // ============== AUTH ===========
-    async doSignin(context, formData) {
-      const debug = true;
-      console.log("Trying to sign in: " + formData.email);
-      const authObj = await signinService.signin(formData);
-      if (authObj) {
-        context.commit("setSignedin", authObj);
-        return true;
-      }
-    },
-    signout(context) {
-      context.commit("signout");
     }
-    // =========== END-AUTH =========
   },
-
-  modules: {}
+  modules: {
+    authStoreModule
+    // add gradestore and schedulestore modules
+  }
 });

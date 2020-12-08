@@ -89,7 +89,7 @@ import { mapGetters } from "vuex";
 export default {
   name: "MyHeader",
   computed: {
-    ...mapGetters(["isSignedIn", "getUserEmail"])
+    ...mapGetters("authStoreModule", ["isSignedIn", "getUserEmail"])
     //...mapState(["authUser.userEmail"]),
   },
   methods: {

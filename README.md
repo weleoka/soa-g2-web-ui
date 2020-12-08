@@ -2,6 +2,10 @@
 A Vue.js frontend app to give GUI to the new SOA architecture for EA & SOA course at LTU four Group 2 HT2020.
 
 
+# Typescript and ESLint
+The webpack build process uses Babel among others. What is frequently an issue is that because we are working with Vue.js 3 and it's nor got full support in many dependencies (i.. we are using beta versions of a lot of stuff) we can frequently get ESLint errors. This is of course bad... but one solution is simply to edit `.tsconfig.json` and set strict-mode to `false`. This let's you compile and play around much more freely.
+A better option would be to have per-file rules and the likes. The problem is that due to the build process going through Webpack a lot of these per-file rules are completely ignored, and support seems to be sometimes there, sometimes not. Anyhow... just bare that in mind. Also the paths and specified items in `.eslintignore` do not work as intended - possibly due to the folder structure changing as it goes through the WebPAck compile process. 
+
 # To remember
 This project attempts to use the most recent versions of the various technologies involved. This means Vue.js 3, and class-based component syntax, among others. For the screenshot of initial project choices we have:
 ![](./vue_cli_settings.png)

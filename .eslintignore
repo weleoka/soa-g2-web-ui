@@ -1,0 +1,10 @@
+# These rules are not as straight forward as one would wish. The file is read,
+# but the paths and names may change during the Webpack compile process.
+#
+# An alternate place for fooling with ESlint is tsconfig.json where strict mode can be toggled.
+#
+# This file is not used currently.
+# To check for linting errors cmd: npm run lint
+#src/store/*
+#*
+
