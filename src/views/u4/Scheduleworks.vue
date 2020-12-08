@@ -6,7 +6,7 @@
 
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
-import ModuleTable from "@/components/ModuleTable.vue";
+import ModuleTable from "@/components/u3/ModuleTable.vue";
 
 import { mapActions } from "vuex";
 

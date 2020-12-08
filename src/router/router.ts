@@ -7,7 +7,7 @@ path parameters, as well as page metadata.
  */
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import Home from "@/views/Home.vue";
-import ModuleDetails from "@/views/ModuleDetails.vue";
+import ModuleDetails from "@/views/u3/ModuleDetails.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -29,31 +29,13 @@ const routes: Array<RouteRecordRaw> = [
     }
   },
   {
-    // dynamic route matching with param after colon.
-    path: "/moduleview/:moduleId",
+    path: "/moduleview/:moduleId", // dynamic route matching with param after colon.
     name: "moduleview", // named route
     meta: {
       title: "Module Details - SOA Grupp 2"
     },
     component: ModuleDetails
-    //props: true // not needed
   },
-  //   component: () =>
-  //       import(/* webpackChunkName: "about" */ "../views/ModuleDetails.vue")
-  // },
-
-  /*  {
-    path: "/about",
-    name: "About",
-    meta: {
-      title: "Om oss - Grupp 2"
-    },
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/!* webpackChunkName: "about" *!/ "../views/About.vue")
-  },*/
   {
     path: "/gradeworks",
     name: "Betygshanteraren",
@@ -61,7 +43,7 @@ const routes: Array<RouteRecordRaw> = [
       title: "Betygshanteraren - Grupp 2"
     },
     component: () =>
-      import(/* webpackChunkName: "testing" */ "../views/Grade01.vue")
+      import(/* webpackChunkName: "testing" */ "../views/u3/Gradeworks.vue")
   },
   {
     path: "/scheduleworks",
@@ -70,7 +52,7 @@ const routes: Array<RouteRecordRaw> = [
       title: "Schemahanteraren - Grupp 2"
     },
     component: () =>
-      import(/* webpackChunkName: "testing" */ "../views/Schedule01.vue")
+      import(/* webpackChunkName: "testing" */ "../views/u4/Scheduleworks.vue")
   },
   {
     path: "/signin",

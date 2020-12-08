@@ -7,7 +7,7 @@ save state to a db on the client.
  */
 import { createStore } from "vuex";
 import myAxios from "../service/myAxios";
-import moduleService from "@/service/modulesApiService";
+import moduleService from "@/service/u3/modulesApiService";
 import signinService from "@/service/signinService";
 
 console.log(myAxios.defaults);

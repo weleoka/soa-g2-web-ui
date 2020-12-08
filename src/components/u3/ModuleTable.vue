@@ -34,8 +34,8 @@
 
 <script>
 import { mapActions } from "vuex";
-import CourseCodeDropdown from "@/components/CourseCodeDropdown";
-import ModuleSearchInput from "@/components/ModuleSearchInput";
+import CourseCodeDropdown from "@/components/u3/CourseCodeDropdown";
+import ModuleSearchInput from "@/components/u3/ModuleSearchInput";
 
 export default {
   name: "ModuleTable",

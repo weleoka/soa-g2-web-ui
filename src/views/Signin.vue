@@ -84,7 +84,7 @@ export default {
         password: this.input.password
       });
       if (res) {
-        await this.$router.push("/About");
+        await this.$router.push("/Scheduleworks");
       }
     }
   }

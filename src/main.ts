@@ -10,8 +10,8 @@ It finishes by binding the Vue instance to a DOM element.
 import { createApp } from "vue";
 import App from "./App.vue";
 import "./registerServiceWorker";
-import router from "./router";
-import store from "./store";
+import router from "./router/router";
+import store from "./store/store";
 import mitt from "mitt"; // EventBus
 import { Emitter } from "mitt"; // EventBus
 

@@ -12,8 +12,8 @@
 </template>
 
 <script lang="ts">
-import ModuleDetailTable from "@/components/ModuleDetailTable.vue";
-import resultsApiService from "@/service/resultsApiService";
+import ModuleDetailTable from "@/components/u3/ModuleDetailTable.vue";
+import resultsApiService from "@/service/u3/resultsApiService";
 import { mapActions } from "vuex";
 import { Options, Vue } from "vue-class-component";
 
