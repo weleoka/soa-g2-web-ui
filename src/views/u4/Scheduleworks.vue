@@ -1,18 +1,18 @@
 <template>
   <div id="home">
-    <ModuleTable @select-module-event="getModuleDetails" />
+    <OccasionTable />
   </div>
 </template>
 
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
-import ModuleTable from "@/components/u3/ModuleTable.vue";
 
 import { mapActions } from "vuex";
+import OccasionTable from "@/components/u4/OccasionTable.vue";
 
 @Options({
   components: {
-    ModuleTable
+    OccasionTable
   },
   methods: {
     ...mapActions([]), // remove

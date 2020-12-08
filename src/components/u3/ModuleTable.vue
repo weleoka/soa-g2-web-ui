@@ -56,9 +56,8 @@ export default {
   }),
   methods: {
     // todo: so far failed to implement mapActions in the explicit way like below.
-    //     Maybe it's a problem with dictionary unpacking here in methods.
     //...mapActions({populateModulesArr: state => state.gradeStoreModule.populateModulesArr}),
-    // todo: this is the array string way which I don't like because code completion falls appart.
+    // todo: this is the array string way which I don't like because code completion falls apart.
     ...mapActions("gradeStoreModule", ["populateModuleArr"]),
     ...mapMutations({
       setActiveCourseCode: state => state.setActiveCourseCode // rootStore
