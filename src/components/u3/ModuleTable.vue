@@ -15,7 +15,7 @@
         <tbody>
           <tr
             @click="$emit('select-module-event', module.id)"
-            v-for="(module, i) in myModules"
+            v-for="(module, i) in moduleArr"
             :key="i"
           >
             <!--            <td v-show="state.allModulesMode">{{ module.courseCode }}</td>-->
@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import {mapActions, mapGetters, mapMutations, mapState} from "vuex";
+import { mapActions, mapMutations, mapState } from "vuex";
 import CourseCodeDropdown from "@/components/u3/CourseCodeDropdown";
 import ModuleSearchInput from "@/components/u3/ModuleSearchInput";
 
@@ -51,10 +51,18 @@ export default {
       }
     };
   },
+  computed: mapState({
+    moduleArr: state => state.gradeStoreModule.modules // longhand due to vuex module
+  }),
   methods: {
-    ...mapMutations(["setActiveCourseCode"]), // rootStore
-    ...mapActions("gradeStoreModule", ["populateModulesArr"]),
-    ...mapGetters("gradeStoreModule", ["getModulesArr"]),
+    // todo: so far failed to implement mapActions in the explicit way like below.
+    //     Maybe it's a problem with dictionary unpacking here in methods.
+    //...mapActions({populateModulesArr: state => state.gradeStoreModule.populateModulesArr}),
+    // todo: this is the array string way which I don't like because code completion falls appart.
+    ...mapActions("gradeStoreModule", ["populateModuleArr"]),
+    ...mapMutations({
+      setActiveCourseCode: state => state.setActiveCourseCode // rootStore
+    }),
 
     getModulesBySearchStr(searchStr) {
       console.log("getModulesBySearchStr() NOT implemented, str: " + searchStr);
@@ -64,16 +72,11 @@ export default {
       if (courseCode === "ALL") {
         this.state.allModulesMode = true;
         this.setActiveCourseCode(courseCode); // from mapMutations rootStore
-        await this.populateModulesArr(""); // from mapActions gradeStoreModule
+        await this.populateModuleArr("");
       } else {
-        await this.populateModulesArr(courseCode); // from mapActions gradeStoreModule
+        await this.populateModuleArr(courseCode);
         this.state.allModulesMode = false;
       }
-    }
-  },
-  computed: {
-    myModules() {
-      return this.getModulesArr(); // from mapGetters
     }
   }
   /*beforeMount() {

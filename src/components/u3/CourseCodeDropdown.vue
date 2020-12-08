@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapState } from "vuex";
 
 export default {
   name: "CourseCodeDropdown",
@@ -36,14 +36,14 @@ export default {
       ]
     };
   },
-  computed: {
-    ...mapGetters(["getCourseCodes", "getActiveCourseCode"])
-  },
+  computed: mapState({
+    courseCodesArr: state => state.courseCodeArr,
+    currentActiveCourseCode: state => state.activeCourseCode
+  }),
   beforeMount() {
-    const courseCodes = this.getCourseCodes;
-    for (let i = 0; i < courseCodes.length; i++) {
-      const courseCode = courseCodes[i];
-      if (courseCode === this.getActiveCourseCode) {
+    for (let i = 0; i < this.courseCodesArr.length; i++) {
+      const courseCode = this.courseCodesArr[i];
+      if (courseCode === this.currentActiveCourseCode) {
         // here we should have some sort of event trigger... who knows.
       }
       this.options.push({

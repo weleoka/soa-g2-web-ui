@@ -17,10 +17,10 @@ export const authStoreModule = {
       tokenId: ""
     }
   },
-  getters: {
+/*  getters: {
     isSignedIn: state => state.authUser.tokenId,
     getUserEmail: state => state.authUser.userEmail
-  },
+  },*/
   actions: {
     async doSignin(context, formData) {
       const debug = true;

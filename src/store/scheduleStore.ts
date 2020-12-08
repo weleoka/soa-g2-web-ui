@@ -9,9 +9,6 @@ save state to a db on the client.
 import moduleService from "@/service/u3/modulesApiService";
 
 export const scheduleStoreModule = {
-  // This makes your getters, mutations, and actions accessed by,
-  // eg: 'myModule/myModularizedNumber'
-  // instead of mounting getters, mutations, and actions to the root namespace.
   namespaced: true,
   state: {
     myModules: [],
@@ -52,7 +49,10 @@ export const scheduleStoreModule = {
       this.todoName = "";
     }*/
 
-    // No idea if name collision with the mutation will occur...
+    /**
+     * Commits the active courseCode to local store state and then fetches
+     * modules by course code, and commits that to local store state.
+     */
     async setActiveCourseCode(context, courseCode) {
       context.commit("setActiveCourseCode", courseCode);
       try {
@@ -70,10 +70,12 @@ export const scheduleStoreModule = {
     }
   },
   mutations: {
+    // Wanted to replace this with mapMutations, but due to is being committed to from local actions not possible.
     setActiveCourseCode(state, payload) {
       console.log("setActiveCourseCode() mutation recieved: " + payload);
       state.activeCourseCode = payload;
     },
+    // Wanted to replace this with mapMutations, but due to is being committed to from local actions not possible.
     setModules(state, payload) {
       console.log(
           "setModules() mutation in store set with " +

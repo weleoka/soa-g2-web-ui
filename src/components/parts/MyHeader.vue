@@ -69,7 +69,7 @@
                 >
                 <router-link v-else @click="signout" to="/signout">
                   <span v-if="isSignedIn">
-                    - Sign out {{ getUserEmail }} -
+                    - Sign out {{ userEmail }} -
                   </span>
                 </router-link>
               </a>
@@ -84,17 +84,19 @@
 <script>
 "use strict";
 
-import { mapGetters } from "vuex";
+import { mapState } from "vuex";
 
 export default {
   name: "MyHeader",
-  computed: {
-    ...mapGetters("authStoreModule", ["isSignedIn", "getUserEmail"])
-    //...mapState(["authUser.userEmail"]),
-  },
+  computed: mapState({
+    isSignedIn: state => state.authStoreModule.authUser.tokenId,
+    userEmail: state => state.authStoreModule.authUser.userEmail
+  }),
+  //..mapGetters("authStoreModule", ["isSignedIn", "getUserEmail"])
+  //...mapState(["authUser.userEmail"]),
   methods: {
     signout() {
-      this.$store.dispatch("signout");
+      this.$store.dispatch("authStoreModule/signout");
       //this.$router.push("/Signin");
     }
   },

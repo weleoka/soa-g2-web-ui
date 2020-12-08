@@ -27,21 +27,18 @@ export default createStore({
   //strict: process.env.NODE_ENV !== 'production',
   strict: true,
   state: {
-    courseCodes: ["D0021E", "D0022E", "D0023E"],
+    courseCodeArr: ["D0021E", "D0022E", "D0023E"],
     activeCourseCode: ""
   },
-  getters: {
-    getCourseCodes: state => state.courseCodes,
-    getActiveCourseCode: state => state.activeCourseCode
-    // getModulesById: (state) => (code: string) => {
-    //   return state.myModules.find(myModule => myModule.code === code)
-    // }
+  getters: { // replaced by mapState in components
+    //getCourseCodes: state => state.courseCodeArr,
+    //getActiveCourseCode: state => state.activeCourseCode
   },
   mutations: {
-    setActiveCourseCode(state, payload) {
+/*    setActiveCourseCode(state, payload) {
       console.log("setActiveCourseCode() mutation recieved: " + payload);
       state.activeCourseCode = payload;
-    },
+    },*/
   },
   actions: {
   },
@@ -51,6 +48,7 @@ export default createStore({
     // mutations, and actions to the root namespace.
     authStoreModule,
     gradeStoreModule,
+    //moduleStore: gradeStoreModule, // it's possible to remap the module to another name
     scheduleStoreModule
   }
 });

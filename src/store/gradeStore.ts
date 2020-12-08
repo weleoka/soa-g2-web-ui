@@ -11,19 +11,17 @@ import moduleService from "@/service/u3/modulesApiService";
 export const gradeStoreModule = {
   namespaced: true,
   state: {
-    modulesArr: [],
+    moduleArr: [],
   },
-  getters: {
-    getModulesArr: state => state.modulesArr,
-  },
+  getters: {}, // dummy getters replaced by mapState
   actions: {
-    async populateModulesArr(context, courseCode) { // private function
+    async populateModuleArr(context, courseCode) { // private function
       try {
         if (courseCode) {
           context.commit("setModulesArr", await moduleService.getAllModules());
         } else {
           context.commit(
-              "setModulesArr",
+              "setModuleArr",
               await moduleService.getModulesByCourseCode(courseCode)
           );
         }
@@ -38,7 +36,7 @@ export const gradeStoreModule = {
 
     async storeGetModuleDetails(context) {
       try {
-        context.commit("setModulesArr", await moduleService.getModuleDetails());
+        context.commit("setModuleArr", await moduleService.getModuleDetails());
       } catch (e) {
         if (e instanceof TypeError) {
           console.log("No modules");
@@ -58,13 +56,14 @@ export const gradeStoreModule = {
     }*/
   },
   mutations: {
+    // ...wanted to replace this with mapMutations, but due to is being committed to from local actions not possible.
     setModulesArr(state, payload) {
       console.log(
           "setModulesArr() mutation in store set with " +
           payload.length +
           " modules."
       );
-      state.modulesArr = payload;
+      state.moduleArr = payload;
     }
   }
 };
