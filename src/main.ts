@@ -24,7 +24,6 @@ import "bootstrap/dist/js/bootstrap.bundle.min";
 // trying to read version for use in the app client side.
 // process.env.VUE_APP_VERSION = require("../package.json").version;
 
-
 // === BEGIN META HEAD hack ===
 // This callback runs before every route change, including on page load.
 // It's a way of hacking the title and other elements in the head... unfortunately vue-meta npm package
@@ -84,15 +83,13 @@ router.beforeEach((to, from, next) => {
 });
 // === END META HEAD hack ===
 
-
 //const emitter = mitt(); // javascript way
 const emitter: Emitter = mitt(); // typescript way
 const app = createApp(App);
 app.config.globalProperties.emitter = emitter;
 
 //app.provide('emitter', emitter)
-app.use(store)
+app
+  .use(store)
   .use(router)
   .mount("#app");
-
-

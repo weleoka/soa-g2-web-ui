@@ -42,24 +42,36 @@ const routes: Array<RouteRecordRaw> = [
   //       import(/* webpackChunkName: "about" */ "../views/ModuleDetails.vue")
   // },
 
-  {
+  /*  {
     path: "/about",
     name: "About",
     meta: {
-      title: "About - SOA Grupp 2"
+      title: "Om oss - Grupp 2"
     },
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () =>
-      import(/* webpackChunkName: "about" */ "../views/About.vue")
+      import(/!* webpackChunkName: "about" *!/ "../views/About.vue")
+  },*/
+  {
+    path: "/gradeworks",
+    name: "Betygshanteraren",
+    meta: {
+      title: "Betygshanteraren - Grupp 2"
+    },
+    component: () =>
+      import(/* webpackChunkName: "testing" */ "../views/Grade01.vue")
   },
-  /*  {
-      path: "/testing",
-      name: "Testing",
-      component: () =>
-          import(/!* webpackChunkName: "testing" *!/ "../views/Testing.vue")
-    },*/
+  {
+    path: "/scheduleworks",
+    name: "Schemahanteraren",
+    meta: {
+      title: "Schemahanteraren - Grupp 2"
+    },
+    component: () =>
+      import(/* webpackChunkName: "testing" */ "../views/Schedule01.vue")
+  },
   {
     path: "/signin",
     name: "Signin",

@@ -6,7 +6,7 @@
         <thead class="thead-light table-success">
           <tr>
             <th>Course Code</th>
-<!--            <th scope="col" v-show="state.allModulesMode">Course Code</th>-->
+            <!--            <th scope="col" v-show="state.allModulesMode">Course Code</th>-->
             <th scope="col">Module Id</th>
             <th scope="col">Description</th>
             <th scope="col">Status</th>
@@ -18,7 +18,7 @@
             v-for="(module, i) in myModules"
             :key="i"
           >
-<!--            <td v-show="state.allModulesMode">{{ module.courseCode }}</td>-->
+            <!--            <td v-show="state.allModulesMode">{{ module.courseCode }}</td>-->
             <td>{{ module.courseCode }}</td>
             <td>{{ module.id }}</td>
             <td>{{ module.description }}</td>

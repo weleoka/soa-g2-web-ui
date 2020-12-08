@@ -1,27 +1,29 @@
 <template>
   <div id="home">
-    <ModuleTable @select-module-event="getModuleDetails" />
+    <p>Hello, this is us and we are Group 2!</p>
+    <p>
+      We have decided to provide all our dear users with a random number
+      generator, and a fully automatic addifier of those numbers - for a rainy
+      day when you're bored.
+    </p>
+
+    <p>Nous vous en prie!</p>
+    <div id="about">
+      <h1>RandonumberAutoAddifier</h1>
+    </div>
+    <div id="app">
+      <Random />
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
-import ModuleTable from "@/components/ModuleTable.vue";
-
-import { mapActions } from "vuex"; // @ is an alias to /src // remove
+import Random from "@/components/samples/Random.vue";
 
 @Options({
   components: {
-    ModuleTable
-  },
-  methods: {
-    ...mapActions([]), // remove
-    getModuleDetails(moduleId: string) {
-      console.log("select-module-event triggered data: " + moduleId);
-      this.$router.push({ name: "moduleview", params: { moduleId } });
-      // The above translates to being the same as:
-      //this.$router.push({ name: "moduleview", params: { moduleId: moduleId } });
-    }
+    Random
   }
 })
 export default class Home extends Vue {}

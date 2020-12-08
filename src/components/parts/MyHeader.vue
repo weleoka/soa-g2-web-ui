@@ -46,19 +46,21 @@
           <ul class="navbar-nav mr-auto mb-2 mb-lg-0">
             <li class="nav-item">
               <a class="nav-link active" aria-current="page" href="#"
-                ><router-link to="/">Home</router-link></a
+                ><router-link to="/">Hem</router-link></a
               >
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#"
-                ><router-link to="/about">About</router-link></a
+                ><router-link to="/gradeworks">Betygshanteraren</router-link></a
               >
             </li>
-            <!--<li class="nav-item">
+            <li class="nav-item">
               <a class="nav-link" href="#"
-                ><router-link to="/testing">Testing</router-link></a
+                ><router-link to="/scheduleworks"
+                  >Schemahanteraren</router-link
+                ></a
               >
-            </li>-->
+            </li>
             <li class="nav-item">|</li>
             <li class="nav-item">
               <a class="nav-link" href="#">
