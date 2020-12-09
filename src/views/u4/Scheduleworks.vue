@@ -18,6 +18,7 @@ import { Options, Vue } from "vue-class-component";
 import VueCal from "vue-cal";
 import OccasionTable from "@/components/u4/OccasionTable.vue";
 import "vue-cal/dist/vuecal.css";
+import occasionService from "@/service/u4/occasionService";
 
 @Options({
   components: {
@@ -35,11 +36,13 @@ import "vue-cal/dist/vuecal.css";
   methods: {
     // Reload the occasions table. Mostly for testing requests.
     refreshOccasions() {
-      console.log("refreshOccasions() NOT implemented.");
+      console.log("refreshOccasions() called.");
+      return occasionService.getOccasions();
     },
-    // Get meta info about an occasion... maybe for a popup or sidepanel infowindow.
-    fetchOccasionDetails() {
+    // Get meta info about an occasion... maybe for a popup or side-panel info window.
+    fetchOccasionDetails(occasionCode: string) {
       console.log("fetchOccasionDetails() NOT implemented");
+      return occasionService.getOccasionDetails(occasionCode);
     }
   }
 })

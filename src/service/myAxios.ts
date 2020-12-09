@@ -1,3 +1,9 @@
+/*
+EA & SOA Group 2 HT2020
+
+This is the axios HTTP client for working with the mock-services.
+ */
+
 import axios from "axios";
 /*
 export default {

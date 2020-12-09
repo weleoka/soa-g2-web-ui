@@ -1,3 +1,11 @@
+ /*
+EA & SOA Group 2 HT2020
+
+This is the http request client for working with the app middleware.
+
+Rewrite rules are depending on production and development and may be set by webpack or nginx servers.
+ */
+
 import axios from "axios";
 /*
 export default {
