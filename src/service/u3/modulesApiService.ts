@@ -52,7 +52,7 @@ export default {
   },
 
   // Maps the API provided object to the application domain object.
-  moduleObjectMapper(moduleArr: string | any[]) {
+  moduleObjectMapper(moduleArr: any[]) {
     const arr = [];
     for (let i = 0; i < moduleArr.length; i++) {
       const moduleObj: ModuleObj = {

@@ -17,13 +17,12 @@ export const authStoreModule = {
       tokenId: ""
     }
   },
-/*  getters: {
+  /*  getters: {
     isSignedIn: state => state.authUser.tokenId,
     getUserEmail: state => state.authUser.userEmail
   },*/
   actions: {
     async doSignin(context, formData) {
-      const debug = true;
       console.log("Trying to sign in: " + formData.email);
       const authObj = await signinService.signin(formData);
       if (authObj) {

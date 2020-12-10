@@ -15,7 +15,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(submission, i) in submissionsArr" :key="i">
+          <tr v-for="(submission, i) in submissionArrProp" :key="i">
             <td>{{ submission.id }}</td>
             <td>{{ submission.studentId }}</td>
             <td>{{ submission.firstName }} {{ submission.lastName }}</td>
@@ -45,7 +45,7 @@ export default {
   name: "ModuleDetailTable",
   props: {
     moduleIdProp: String, // vue transforms this to module-id-prop in parent template.
-    submissionsArr: Object // vue transforms this to submissions-arr in parent template.
+    submissionArrProp: Object // vue transforms this to submissions-arr in parent template.
   },
   data() {
     return {

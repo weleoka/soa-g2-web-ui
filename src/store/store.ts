@@ -30,18 +30,18 @@ export default createStore({
     courseCodeArr: ["D0021E", "D0022E", "D0023E"],
     activeCourseCode: ""
   },
-  getters: { // replaced by mapState in components
+  getters: {
+    // replaced by mapState in components
     //getCourseCodes: state => state.courseCodeArr,
     //getActiveCourseCode: state => state.activeCourseCode
   },
   mutations: {
-/*    setActiveCourseCode(state, payload) {
+    /*    setActiveCourseCode(state, payload) {
       console.log("setActiveCourseCode() mutation recieved: " + payload);
       state.activeCourseCode = payload;
     },*/
   },
-  actions: {
-  },
+  actions: {},
   modules: {
     // This makes your getters, mutations, and actions accessed by,
     // eg: 'myModule/myModularizedThing' instead of mounting getters,

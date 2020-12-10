@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { ref, computed, toRefs, toRef } from "vue";
+import { ref, computed, toRef } from "vue";
 
 export default {
   name: "Random",

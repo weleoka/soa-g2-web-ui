@@ -4,7 +4,7 @@
     <ModuleDetailTable
       v-if="!loading"
       :module-id-prop="moduleId"
-      :submissions-arr="moduleObj"
+      :submission-arr="submissionArr"
     />
     <div v-if="loading">Loading...</div>
     <button type="button" @click="returnToOverview">Return</button>
@@ -26,7 +26,7 @@ import { Options, Vue } from "vue-class-component";
     return {
       loading: false, // the detail table content loading
       moduleId: "placeholderID",
-      moduleObj: {}
+      submissionArr: {}
     };
   },
   created() {
@@ -57,16 +57,16 @@ import { Options, Vue } from "vue-class-component";
     },
     async updateModuleObj() {
       this.loading = true;
-      this.moduleObj = await resultsApiService.getSubmissionsByAssignment(
+     this.submissionArr = await resultsApiService.getSubmissionsByAssignment(
         this.moduleId
       );
       this.loading = false;
     },
     async verifyGradeHandler(submissionId: string, i: number) {
       const res = await resultsApiService.submitGradeVerification(submissionId);
-      this.moduleObj[i].verified = true; // the ugly hack.
+     this.submissionArr[i].verified = true; // the ugly hack.
       //Todo here set the verification status locally as a fix... however that means we will have to
-      //  make the moduleObj/submissionsArr persistent in this.$store, which brings on the question
+      //  mae the submissionArr/submissionsArr persistent in this.$store, which brings on the question
       //  of how when we read from local store and when we read from API. A kind of how-fresh-is-it scenario.
       console.log(res);
     }

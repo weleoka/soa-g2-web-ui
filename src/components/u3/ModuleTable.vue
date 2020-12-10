@@ -52,7 +52,7 @@ export default {
     };
   },
   computed: mapState({
-    moduleArr: state => state.gradeStoreModule.modules // longhand due to vuex module
+    moduleArr: state => state.gradeStoreModule.moduleArr // longhand explicit to vuex module
   }),
   methods: {
     // todo: so far failed to implement mapActions in the explicit way like below.

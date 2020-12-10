@@ -6,6 +6,7 @@
           <th>Välj</th>
           <th scope="col">Tillfällekod</th>
           <th scope="col">Plats</th>
+          <th scope="col">Course</th>
           <th scope="col">Period</th>
         </tr>
       </thead>
@@ -15,15 +16,18 @@
           <td>placeholder</td>
           <td>placeholder</td>
           <td>placeholder</td>
+          <td>placeholder</td>
         </tr>
         <tr
-          @click="$emit('select-occasion-event', occasion.id)"
+          @click="$emit('fetch-occasion-event', occasion.id)"
           v-for="(occasion, i) in occasionArr"
           :key="i"
         >
-          <td>{{ occasion.occasionCode }}</td>
-          <td>{{ occasion.location }}</td>
-          <td>{{ occasion.period }}</td>
+          <td>I'm a checkbox!</td>
+          <td>{{ occasion.id }}</td>
+          <td>{{ occasion.locationCode }}</td>
+          <td>{{ occasion.courseCode }}</td>
+          <td>{{ occasion.periodCode }}</td>
         </tr>
       </tbody>
     </table>
@@ -39,11 +43,16 @@
 export default {
   name: "OccasionTable",
   components: {},
+  props: {
+    occasionArr: []
+  },
   data() {
     return {
-      checkedOccasions: [],
-      occasionArr: []
+      checkedOccasions: []
     };
+  },
+  computed: {
+    //occasionArr: state => state.scheduleStoreModule.occasionArr // longhand explicit to vuex module
   },
   methods: {}
 };

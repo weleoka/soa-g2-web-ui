@@ -11,7 +11,8 @@
             class="navbar-brand"
             src="/img/brand/logo.png"
             style="height: 90px"
-         alt="logo"/>
+            alt="logo"
+          />
         </router-link>
 
         <!--<ul class="navbar-nav navbar-nav-hover align-items-lg-center">

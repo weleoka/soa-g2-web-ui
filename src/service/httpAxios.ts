@@ -1,4 +1,4 @@
- /*
+/*
 EA & SOA Group 2 HT2020
 
 This is the http request client for working with the app middleware.
