@@ -44,7 +44,7 @@ export default {
   name: "OccasionTable",
   components: {},
   props: {
-    occasionArr: []
+    occasionArr: null
   },
   data() {
     return {

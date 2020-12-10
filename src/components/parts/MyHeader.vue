@@ -67,7 +67,7 @@
               <router-link class="nav-link" v-if="!isSignedIn" to="/signin"
                 >Signin</router-link
               >
-              <router-link v-else @click="signout" to="/signout">
+              <router-link v-else @click="doSignout" to="/signout">
                 <span v-if="isSignedIn"> - Sign out {{ userEmail }} - </span>
               </router-link>
             </li>
@@ -81,22 +81,25 @@
 <script>
 "use strict";
 
-import { mapState } from "vuex";
+import { mapState, mapActions } from "vuex";
 
 export default {
   name: "MyHeader",
   computed: mapState({
-    isSignedIn: state => state.authStoreModule.authUser.tokenId,
-    userEmail: state => state.authStoreModule.authUser.userEmail
+    isSignedIn: state => state.authStore.authUser.tokenId,
+    userEmail: state => state.authStore.authUser.userEmail
   }),
   //..mapGetters("authStoreModule", ["isSignedIn", "getUserEmail"])
   //...mapState(["authUser.userEmail"]),
-  methods: {
-    signout() {
+
+  methods: mapActions({
+    doSignout: state => state.authStore.doSignout()
+  }),
+  /*   signout() {
       this.$store.dispatch("authStoreModule/signout");
       //this.$router.push("/Signin");
     }
-  },
+ */
   // setup(props, context)
   // context has properties (attrs, slots, emit, parent, root) that are corresponding to:
   // this.$attrs, this.$slots, this.$emit, this.$parent, this.$root.

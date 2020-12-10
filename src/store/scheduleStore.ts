@@ -13,39 +13,15 @@ export const scheduleStoreModule = {
   state: {
     selectedOccasion: [],
     occasionArr: [],
-    myModules: []
   },
   getters: {},
   actions: {
-    async getModules(context) {
-      try {
-        context.commit("setModules", await moduleService.getAllModules());
-      } catch (e) {
-        if (e instanceof TypeError) {
-          console.log("No modules");
-        } else {
-          throw e;
-        }
-      }
-    },
-    async getModuleDetails(context) {
-      try {
-        context.commit("setModules", await moduleService.getModuleDetails());
-      } catch (e) {
-        if (e instanceof TypeError) {
-          console.log("No modules");
-        } else {
-          throw e;
-        }
-      }
-    },
-
     /**
      * Commits the active courseCode to local store state and then fetches
-     * modules by course code, and commits that to local store state.
+     * occasions by course code, and commits that to local store state.
      */
-    async setActiveCourseCode(context, courseCode) {
-      context.commit("setActiveCourseCode", courseCode);
+    async enableActiveCourseCode(context, courseCode) {
+      context.commit("setActiveCourseCode", courseCode); // todo: this may not work...
       try {
         context.commit(
           "setModules",
@@ -62,25 +38,13 @@ export const scheduleStoreModule = {
   },
   mutations: {
     // Wanted to replace this with mapMutations, but due to it being committed to from local actions it's not possible.
-    setActiveCourseCode(state, payload) {
-      console.log("setActiveCourseCode() mutation: " + payload);
-      state.activeCourseCode = payload;
-    },
     setSelectedOccasion(state, payload) {
-      console.log("setSelectedOccasion() mutation: " + payload);
+      console.debug("setSelectedOccasion() mutation: " + payload);
       state.selectedOccasion = payload;
     },
     setOccasionArr(state, payload) {
-      console.log("setOccasionArr() mutation: " + payload);
+      console.debug("setOccasionArr() mutation: " + payload);
       state.occasionArr = payload;
     },
-    // Wanted to replace this with mapMutations, but due to it being committed to from local actions it's not possible.
-    setModules(state, payload) {
-      console.log(
-        "setModules() mutation: " + payload.length +
-          " modules."
-      );
-      state.myModules = payload;
-    }
   }
 };

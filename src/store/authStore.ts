@@ -30,7 +30,7 @@ export const authStoreModule = {
         return true;
       }
     },
-    signout(context) {
+    doSignout(context) {
       context.commit("signout");
     }
   },

@@ -36,6 +36,10 @@ export default createStore({
     //getActiveCourseCode: state => state.activeCourseCode
   },
   mutations: {
+    setActiveCourseCode(state, payload) { // todo: try implicit declaration and use mapMutation in callers.
+      console.debug("setActiveCourseCode() mutation: " + payload);
+      state.activeCourseCode = payload;
+    },
     /*    setActiveCourseCode(state, payload) {
       console.log("setActiveCourseCode() mutation recieved: " + payload);
       state.activeCourseCode = payload;
@@ -46,9 +50,11 @@ export default createStore({
     // This makes your getters, mutations, and actions accessed by,
     // eg: 'myModule/myModularizedThing' instead of mounting getters,
     // mutations, and actions to the root namespace.
-    authStoreModule,
-    gradeStoreModule,
-    //moduleStore: gradeStoreModule, // it's possible to remap the module to another name
-    scheduleStoreModule
+    //authStoreModule, // this unpacks all the functions into the root store
+    //gradeStoreModule,
+    //scheduleStoreModule
+    authStore: authStoreModule, // this maintains a namespace
+    gradeStore: gradeStoreModule,
+    scheduleStore: scheduleStoreModule
   }
 });

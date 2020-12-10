@@ -4,6 +4,7 @@ component that includes the "menu" for the schedule management parts */
 <template>
   <div class="container" id="schedule-works">
     <OccasionTable
+      :occasion-arr="occasionArr"
       @refresh-occasions-event="refreshOccasions"
       @fetch-occasion-event="fetchOccasion"
     />
@@ -32,7 +33,7 @@ import { mapMutations } from "vuex";
   data() {
     return {
       selectedOccasion: {},
-      occasionArr: {},
+      occasionArr: [],
       state: {
         someKindOfState: false
       }
@@ -40,27 +41,26 @@ import { mapMutations } from "vuex";
   },
 
   methods: {
-    // These are all explicitly declared in store. Can't seem to implicitly use them.
-    ...mapMutations({
-      setSelectedOccasion: state =>
-        state.scheduleStoreModule.setSelectedOccasion,
-      setOccasionArr: state => state.scheduleStoreModule.setOccasionArr
-    }),
+    // These are all explicitly declared in store. Can't seem to call them if they aren't.
+    // todo: this does not work... seems to be the same issue as mapActions, need to use the (string, [string]) format.
+    /*...mapMutations({
+      setOccasionArr: state => state.scheduleStore.setOccasionArr, // explicitly declared
+      setSelectedOccasion: state => state.scheduleStore.setSelectedOccasion, // explicitly declared
+    }),*/
+    ...mapMutations("scheduleStore", ["setOccasionArr", "setSelectedOccasion"]),
     // Reload the occasions table. Mostly for testing requests.
     async refreshOccasions() {
       console.log("refreshOccasions() called.");
       const res = await occasionService.getOccasions();
-      this.occasionArr = res;
-      await this.$store.dispatch("scheduleStoreModule/setOccasionArr", res); // fails
-      //this.setOccasionArr(res); // set in store, fails
+      this.occasionArr = res; // 1. set local data to pass aas prop // not needed?
+      this.setOccasionArr(res); // 2. set in store
     },
     // Get meta info about an occasion... maybe for a popup or side-panel info window.
     async fetchOccasion(occasionCode) {
       console.log("fetchOccasion() called.");
       const res = await occasionService.getOccasionDetails(occasionCode); // hopefully res is only array of one.
       this.selectedOccasion = res[0];
-      await this.$store.dispatch("scheduleStoreModule/setOccasionArr", res); // fails
-      //this.setSelectedOccasion(res[0]); // set in store, fails
+      this.setSelectedOccasion(res[0]); // set in store
     }
   }
 })

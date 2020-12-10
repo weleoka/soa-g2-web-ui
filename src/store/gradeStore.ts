@@ -16,14 +16,13 @@ export const gradeStoreModule = {
   getters: {}, // dummy getters replaced by mapState
   actions: {
     async populateModuleArr(context, courseCode) {
-      // private function
       try {
         if (courseCode) {
           context.commit("setModulesArr", await moduleService.getAllModules());
         } else {
           context.commit(
-            "setModuleArr",
-            await moduleService.getModulesByCourseCode(courseCode)
+              "setModuleArr",
+              await moduleService.getModulesByCourseCode(courseCode)
           );
         }
       } catch (e) {
@@ -33,11 +32,21 @@ export const gradeStoreModule = {
           throw e;
         }
       }
+    }
+  },
+  mutations: {
+    // setModulesArr mutation is declared so that local actions can call it
+    setModulesArr(state, payload) {
+      console.log(
+          "setModulesArr() mutation in store set with " +
+          payload.length +
+          " modules."
+      );
+      state.moduleArr = payload;
     },
-
-    async storeGetModuleDetails(context) {
+/*    async getModules(context) {
       try {
-        context.commit("setModuleArr", await moduleService.getModuleDetails());
+        context.commit("setModules", await moduleService.getAllModules());
       } catch (e) {
         if (e instanceof TypeError) {
           console.log("No modules");
@@ -45,27 +54,23 @@ export const gradeStoreModule = {
           throw e;
         }
       }
-    }
-    /*    async addModule() {
-      const res = await myAxios.post("/modules", {
-        code: this.moduleCode
-      });
-      console.log(res.data);
-      this.modules = [...this.modules, res];
-
-      this.todoName = "";
-    }*/
-  },
-  mutations: {
-    // ...wanted to replace this with mapMutations,
-    // but due to is being committed to from local actions that's not possible.
-    setModulesArr(state, payload) {
-      console.log(
-        "setModulesArr() mutation in store set with " +
-          payload.length +
-          " modules."
+    },
+    async getModuleDetails(context) {
+      try {
+        context.commit("setModules", await moduleService.getModuleDetails());
+      } catch (e) {
+        if (e instanceof TypeError) {
+          console.log("No modules");
+        } else {
+          throw e;
+        }
+      }
+    },*/
+/*    // Wanted to replace this with mapMutations, but due to it being committed to from local actions it's not possible.
+    setModules(state, payload) {
+      console.debug("setModules() mutation: " + payload.length + " modules."
       );
-      state.moduleArr = payload;
-    }
+      state.myModules = payload;
+    }*/
   }
 };

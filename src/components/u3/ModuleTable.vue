@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import { mapActions, mapMutations, mapState } from "vuex";
+import { mapActions, mapGetters, mapMutations, mapState } from "vuex";
 import CourseCodeDropdown from "@/components/u3/CourseCodeDropdown";
 import ModuleSearchInput from "@/components/u3/ModuleSearchInput";
 
@@ -51,16 +51,15 @@ export default {
       }
     };
   },
-  computed: mapState({
-    moduleArr: state => state.gradeStoreModule.moduleArr // longhand explicit to vuex module
-  }),
+  // here: better to map state or map getters if read only?
+  computed: mapState({ moduleArr: state => state.gradeStore.moduleArr }), // works. implicitly to state.gradeStore.state.moduleArr
   methods: {
     // todo: so far failed to implement mapActions in the explicit way like below.
-    //...mapActions({populateModulesArr: state => state.gradeStoreModule.populateModulesArr}),
+    //...mapActions({ populateModuleArr: state => state.gradeStore.populateModuleArr }), // fails
     // todo: this is the array string way which I don't like because code completion falls apart.
-    ...mapActions("gradeStoreModule", ["populateModuleArr"]),
+    ...mapActions("gradeStore", ["populateModuleArr"]), // works
     ...mapMutations({
-      setActiveCourseCode: state => state.setActiveCourseCode // rootStore
+      setActiveCourseCode: state => state.setActiveCourseCode // root store
     }),
 
     getModulesBySearchStr(searchStr) {
@@ -70,7 +69,7 @@ export default {
     async selectedCourseCodeChange(courseCode) {
       if (courseCode === "ALL") {
         this.state.allModulesMode = true;
-        this.setActiveCourseCode(courseCode); // from mapMutations rootStore
+        this.setActiveCourseCode(courseCode); // from mapMutations
         await this.populateModuleArr("");
       } else {
         await this.populateModuleArr(courseCode);
