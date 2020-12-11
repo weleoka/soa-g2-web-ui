@@ -1,11 +1,11 @@
 <template>
-  <div id="home">
+  <div id="gradeworks" class="container">
     <ModuleTable @select-module-event="getModuleDetails" />
   </div>
 </template>
 
 <script lang="ts">
-import { Options, Vue } from "vue-class-component";
+import {Options, Vue} from "vue-class-component";
 import ModuleTable from "@/components/u3/ModuleTable.vue";
 
 @Options({

@@ -7,17 +7,14 @@ and other things like that.
 It finishes by binding the Vue instance to a DOM element.
 
  */
-import { createApp } from "vue";
+import {createApp} from "vue";
 import App from "./App.vue";
-import "./registerServiceWorker";
+//import "./registerServiceWorker"; // Not currently used.
 import router from "./router/router";
 import store from "./store/store";
-import mitt from "mitt"; // EventBus
-import { Emitter } from "mitt"; // EventBus
-
+import mitt, {Emitter} from "mitt"; // EventBus // EventBus
 //import "popper.js/dist/umd/popper.min.js"
 //require("./assets/css/style.css")
-
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 

@@ -22,8 +22,9 @@ export const authStoreModule = {
         return true;
       }
     },
-    doSignout(context) {
+    async doSignout(context) {
       context.commit("signout");
+      await this.$router.push("/");
     }
   },
   mutations: {

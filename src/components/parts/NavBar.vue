@@ -39,23 +39,25 @@
                 {{ item.text }}
               </router-link>
             </li>
+          </ul>
 
-            <!-- Singnin dynamic route -->
+          <!-- Singnin dynamic route -->
+          <ul class="navbar-nav mr-auto mb-2 mb-lg-0">
             <li
-              class="nav-item"
-              :class="['menu-item', { active: selected === '/signin' }]"
+                class="nav-item signin-special"
+                :class="['menu-item', { active: selected === '/signin' }]"
             >
               <router-link class="nav-link" v-if="!isSignedIn" to="/signin">
                 Signin
               </router-link>
-              <router-link
-                class="nav-link"
-                v-else
-                @click="doSignout"
-                to="/signout"
+              <a
+                  href="/#"
+                  class="nav-link"
+                  v-else
+                  @click="doSignout"
               >
                 <span v-if="isSignedIn"> - Sign out {{ userEmail }} - </span>
-              </router-link>
+              </a>
             </li>
           </ul>
         </div>
@@ -68,7 +70,7 @@
 import { mapState, mapActions } from "vuex";
 
 export default {
-  name: "MyHeader",
+  name: "NavBar",
   data() {
     return {
       menuItems: [
@@ -104,15 +106,20 @@ export default {
       "setup() in MyHeader.vue accessing props.userEmail:" + props.userEmail
     );
   },
-  beforeMount() {
+/*  beforeMount() {
     console.log("beforeMount() " + this.selected);
     this.selected = this.$route.path;
-  }
+  }*/
 };
 </script>
 
 <style scoped>
 .active {
   border-bottom: 3px solid green;
+}
+
+.signin-special {
+  display: flex;
+  justify-content: flex-end;
 }
 </style>

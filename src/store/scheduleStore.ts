@@ -37,7 +37,7 @@ export const scheduleStoreModule = {
     }
   },
   mutations: {
-    // Wanted to replace this with mapMutations, but due to it being committed to from local actions it's not possible.
+    // todo: try removing and replacing with mapMutations in callers.
     setSelectedOccasion(state, payload) {
       console.debug("setSelectedOccasion() mutation: " + payload);
       state.selectedOccasion = payload;

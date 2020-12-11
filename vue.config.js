@@ -8,6 +8,7 @@ module.exports = {
   //domain: "asf",
   //baseUrl: process.env.NODE_ENV === "production" ? "/subpath/" : "/",
   configureWebpack: {
+    // devtool: 'source-map', // should help with generating source maps
     devServer: {
       port: 9997,
       proxy: {

@@ -28,7 +28,6 @@
       </table>
     </div>
     <ModuleSearchInput @module-search-event="getModulesBySearchStr" />
-    <button type="button" @click="getAllModules">All modules</button>
   </div>
 </template>
 
