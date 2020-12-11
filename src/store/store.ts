@@ -36,10 +36,11 @@ export default createStore({
     //getActiveCourseCode: state => state.activeCourseCode
   },
   mutations: {
-    setActiveCourseCode(state, payload) { // todo: try implicit declaration and use mapMutation in callers.
+    setActiveCourseCode(state, payload) {
+      // todo: try implicit declaration and use mapMutation in callers.
       console.debug("setActiveCourseCode() mutation: " + payload);
       state.activeCourseCode = payload;
-    },
+    }
     /*    setActiveCourseCode(state, payload) {
       console.log("setActiveCourseCode() mutation recieved: " + payload);
       state.activeCourseCode = payload;

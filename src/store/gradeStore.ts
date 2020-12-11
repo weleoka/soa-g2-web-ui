@@ -21,8 +21,8 @@ export const gradeStoreModule = {
           context.commit("setModulesArr", await moduleService.getAllModules());
         } else {
           context.commit(
-              "setModuleArr",
-              await moduleService.getModulesByCourseCode(courseCode)
+            "setModuleArr",
+            await moduleService.getModulesByCourseCode(courseCode)
           );
         }
       } catch (e) {
@@ -38,13 +38,13 @@ export const gradeStoreModule = {
     // setModulesArr mutation is declared so that local actions can call it
     setModulesArr(state, payload) {
       console.log(
-          "setModulesArr() mutation in store set with " +
+        "setModulesArr() mutation in store set with " +
           payload.length +
           " modules."
       );
       state.moduleArr = payload;
-    },
-/*    async getModules(context) {
+    }
+    /*    async getModules(context) {
       try {
         context.commit("setModules", await moduleService.getAllModules());
       } catch (e) {
@@ -66,7 +66,7 @@ export const gradeStoreModule = {
         }
       }
     },*/
-/*    // Wanted to replace this with mapMutations, but due to it being committed to from local actions it's not possible.
+    /*    // Wanted to replace this with mapMutations, but due to it being committed to from local actions it's not possible.
     setModules(state, payload) {
       console.debug("setModules() mutation: " + payload.length + " modules."
       );

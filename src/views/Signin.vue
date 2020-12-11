@@ -66,6 +66,8 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 export default {
   name: "Signin",
   data() {
@@ -77,14 +79,17 @@ export default {
     };
   },
   methods: {
+    ...mapActions("authStore", ["doSignin"]),
+
+    /* Takes the form input and sends it to store action */
     async signin() {
       console.log("method async signin() in Signin.vue: " + this.input.email);
-      const res = await this.$store.dispatch("authStoreModule/doSignin", {
+      const res = await this.doSignin({
         email: this.input.email,
         password: this.input.password
       });
       if (res) {
-        await this.$router.push("/Scheduleworks");
+        await this.$router.push("/scheduleworks");
       }
     }
   }

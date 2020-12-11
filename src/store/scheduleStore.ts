@@ -12,7 +12,7 @@ export const scheduleStoreModule = {
   namespaced: true,
   state: {
     selectedOccasion: [],
-    occasionArr: [],
+    occasionArr: []
   },
   getters: {},
   actions: {
@@ -45,6 +45,6 @@ export const scheduleStoreModule = {
     setOccasionArr(state, payload) {
       console.debug("setOccasionArr() mutation: " + payload);
       state.occasionArr = payload;
-    },
+    }
   }
 };

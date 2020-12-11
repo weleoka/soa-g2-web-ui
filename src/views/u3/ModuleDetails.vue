@@ -55,14 +55,14 @@ import { Options, Vue } from "vue-class-component";
     },
     async updateModuleObj() {
       this.loading = true;
-     this.submissionArr = await resultsApiService.getSubmissionsByAssignment(
+      this.submissionArr = await resultsApiService.getSubmissionsByAssignment(
         this.moduleId
       );
       this.loading = false;
     },
     async verifyGradeHandler(submissionId: string, i: number) {
       const res = await resultsApiService.submitGradeVerification(submissionId);
-     this.submissionArr[i].verified = true; // the ugly hack.
+      this.submissionArr[i].verified = true; // the ugly hack.
       //Todo here set the verification status locally as a fix... however that means we will have to
       //  mae the submissionArr/submissionsArr persistent in this.$store, which brings on the question
       //  of how when we read from local store and when we read from API. A kind of how-fresh-is-it scenario.

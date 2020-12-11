@@ -62,14 +62,14 @@ const routes: Array<RouteRecordRaw> = [
     },
     component: () =>
       import(/* webpackChunkName: "signin" */ "../views/Signin.vue")
-  },
-  {
+  }
+  /*{ // testing this...
     // Think this is removable but may have something to do with redirect.
     path: "/signout",
     name: "Signout",
     component: () =>
-      import(/* webpackChunkName: "signout" */ "../views/Signin.vue")
-  }
+      import(/!* webpackChunkName: "signout" *!/ "../views/Signin.vue")
+  }*/
 ];
 
 const router = createRouter({

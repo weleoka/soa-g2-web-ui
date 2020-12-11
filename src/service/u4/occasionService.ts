@@ -14,11 +14,12 @@ interface OccasionObj {
 }
 
 export default {
-
   async getOccasions() {
     try {
       const res = await myAxios.get("occasions");
-      console.log("GET request to: " + res.config.baseURL + "/" + res.config.url);
+      console.log(
+        "GET request to: " + res.config.baseURL + "/" + res.config.url
+      );
       return this.occasionObjectMapper(res.data);
     } catch (error) {
       console.error(error);
@@ -32,7 +33,9 @@ export default {
           module_code: moduleCode  //eslint-disable-line
         }
       });
-      console.log("GET request to: " + res.config.baseURL + "/" + res.config.url);
+      console.log(
+        "GET request to: " + res.config.baseURL + "/" + res.config.url
+      );
       return this.occasionObjectMapper(res.data);
     } catch (error) {
       console.error(error);
@@ -46,7 +49,9 @@ export default {
           occasion_code: occasionCode  //eslint-disable-line
         }
       });
-      console.log("GET request to: " + res.config.baseURL + "/" + res.config.url);
+      console.log(
+        "GET request to: " + res.config.baseURL + "/" + res.config.url
+      );
       return this.occasionObjectMapper(res.data);
     } catch (error) {
       console.error(error);

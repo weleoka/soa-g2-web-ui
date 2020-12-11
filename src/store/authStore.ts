@@ -1,9 +1,5 @@
 /*
 EA & SOA Group 2 HT2020
-
-This deals with runtime state across the whole app.
-Often this is where we would use local storage db and
-save state to a db on the client.
  */
 
 import signinService from "@/service/signinService";
@@ -17,10 +13,6 @@ export const authStoreModule = {
       tokenId: ""
     }
   },
-  /*  getters: {
-    isSignedIn: state => state.authUser.tokenId,
-    getUserEmail: state => state.authUser.userEmail
-  },*/
   actions: {
     async doSignin(context, formData) {
       console.log("Trying to sign in: " + formData.email);

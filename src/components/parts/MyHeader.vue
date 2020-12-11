@@ -1,11 +1,9 @@
 <template>
   <header class="header-global">
-    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <!-- Container wrapper -->
       <div class="container-fluid">
         <!-- Navbar brand -->
-
         <router-link class="navbar-brand" to="/">
           <img
             class="navbar-brand"
@@ -15,21 +13,6 @@
           />
         </router-link>
 
-        <!--<ul class="navbar-nav navbar-nav-hover align-items-lg-center">
-          <li class="nav-item mr-2">
-            <router-link to="/">Home</router-link>
-          </li>
-          <li class="nav-item mr-2">
-            <router-link to="/about">RANDOMIZER</router-link>
-          </li>
-
-          <li class="nav-item mr-2">
-            <router-link to="/testing">Testing</router-link>
-          </li>
-          <li class="nav-item">
-            <router-link to="/signin">Signin</router-link>
-          </li>
-        </ul>-->
         <!-- Toggle button -->
         <button
           class="navbar-toggler"
@@ -45,29 +28,32 @@
 
         <!-- Collapsible wrapper -->
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <!-- Left links -->
           <ul class="navbar-nav mr-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-              <router-link class="nav-link active" aria-current="page" to="/"
-                >Hem</router-link
-              >
+            <li
+              class="nav-item"
+              v-for="item in menuItems"
+              :key="item"
+              :class="['menu-item', { active: selected === item.path }]"
+            >
+              <router-link class="nav-link" v-bind:to="item.path">
+                {{ item.text }}
+              </router-link>
             </li>
-            <li class="nav-item">
-              <router-link class="nav-link" to="/gradeworks"
-                >Betygshanteraren</router-link
+
+            <!-- Singnin dynamic route -->
+            <li
+              class="nav-item"
+              :class="['menu-item', { active: selected === '/signin' }]"
+            >
+              <router-link class="nav-link" v-if="!isSignedIn" to="/signin">
+                Signin
+              </router-link>
+              <router-link
+                class="nav-link"
+                v-else
+                @click="doSignout"
+                to="/signout"
               >
-            </li>
-            <li class="nav-item">
-              <router-link class="nav-link" to="/scheduleworks"
-                >Schemahanteraren</router-link
-              >
-            </li>
-            <li class="nav-item">|</li>
-            <li class="nav-item">
-              <router-link class="nav-link" v-if="!isSignedIn" to="/signin"
-                >Signin</router-link
-              >
-              <router-link v-else @click="doSignout" to="/signout">
                 <span v-if="isSignedIn"> - Sign out {{ userEmail }} - </span>
               </router-link>
             </li>
@@ -79,47 +65,54 @@
 </template>
 
 <script>
-"use strict";
-
 import { mapState, mapActions } from "vuex";
 
 export default {
   name: "MyHeader",
-  computed: mapState({
-    isSignedIn: state => state.authStore.authUser.tokenId,
-    userEmail: state => state.authStore.authUser.userEmail
-  }),
-  //..mapGetters("authStoreModule", ["isSignedIn", "getUserEmail"])
-  //...mapState(["authUser.userEmail"]),
-
+  data() {
+    return {
+      menuItems: [
+        {
+          text: "Home",
+          path: "/"
+        },
+        {
+          text: "Betygshanteraren",
+          path: "/gradeworks"
+        },
+        {
+          text: "Schemahanteraren",
+          path: "/scheduleworks"
+        }
+      ]
+    };
+  },
+  computed: {
+    selected() {
+      return this.$route.path;
+    },
+    ...mapState({
+      isSignedIn: state => state.authStore.authUser.tokenId,
+      userEmail: state => state.authStore.authUser.userEmail
+    })
+  },
   methods: mapActions({
     doSignout: state => state.authStore.doSignout()
   }),
-  /*   signout() {
-      this.$store.dispatch("authStoreModule/signout");
-      //this.$router.push("/Signin");
-    }
- */
-  // setup(props, context)
-  // context has properties (attrs, slots, emit, parent, root) that are corresponding to:
-  // this.$attrs, this.$slots, this.$emit, this.$parent, this.$root.
-  // When setup is executed (this is before component has an instance)
-  // you will only be able to access the following properties:
-  //   props
-  //   attrs
-  //   slots
-  //   emit
-  //
-  // In other words, you will not have access to the following component options:
-  //   data
-  //   computed
-  //   methods
   setup(props) {
     console.log(
       "setup() in MyHeader.vue accessing props.userEmail:" + props.userEmail
     );
+  },
+  beforeMount() {
+    console.log("beforeMount() " + this.selected);
+    this.selected = this.$route.path;
   }
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.active {
+  border-bottom: 3px solid green;
+}
+</style>
