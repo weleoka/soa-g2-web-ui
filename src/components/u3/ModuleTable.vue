@@ -6,7 +6,6 @@
         <thead class="thead-light table-success">
           <tr>
             <th>Course Code</th>
-            <!--            <th scope="col" v-show="state.allModulesMode">Course Code</th>-->
             <th scope="col">Module Id</th>
             <th scope="col">Description</th>
             <th scope="col">Status</th>
@@ -18,7 +17,6 @@
             v-for="(module, i) in moduleArr"
             :key="i"
           >
-            <!--            <td v-show="state.allModulesMode">{{ module.courseCode }}</td>-->
             <td>{{ module.courseCode }}</td>
             <td>{{ module.id }}</td>
             <td>{{ module.description }}</td>
@@ -45,18 +43,15 @@ export default {
   data() {
     return {
       checkedNames: [],
-      state: {
-        allModulesMode: false // Show or hide the courseCode column in table
-      }
     };
   },
   // here: better to map state or map getters if read only?
   computed: mapState({ moduleArr: state => state.gradeStore.moduleArr }), // works. implicitly to state.gradeStore.state.moduleArr
   methods: {
     // todo: so far failed to implement mapActions in the explicit way like below.
-    //...mapActions({ populateModuleArr: state => state.gradeStore.populateModuleArr }), // fails
+    //...mapActions({ populateModuleArr: state => state.gradeStore.populateModuleArr }), // this fails
     // todo: this is the array string way which I don't like because code completion falls apart.
-    ...mapActions("gradeStore", ["populateModuleArr"]), // works
+    ...mapActions("gradeStore", ["populateModuleArr"]), // but this works
     ...mapMutations({
       setActiveCourseCode: state => state.setActiveCourseCode // root store
     }),
@@ -66,13 +61,11 @@ export default {
     },
 
     async selectedCourseCodeChange(courseCode) {
+      this.setActiveCourseCode(courseCode); // from mapMutations
       if (courseCode === "ALL") {
-        this.state.allModulesMode = true;
-        this.setActiveCourseCode(courseCode); // from mapMutations
-        await this.populateModuleArr("");
+        await this.populateModuleArr();
       } else {
         await this.populateModuleArr(courseCode);
-        this.state.allModulesMode = false;
       }
     }
   }

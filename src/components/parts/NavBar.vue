@@ -75,7 +75,7 @@ export default {
     return {
       menuItems: [
         {
-          text: "Home",
+          text: "Hem",
           path: "/"
         },
         {

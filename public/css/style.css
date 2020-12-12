@@ -1,0 +1,6 @@
+/* For testing and during development put styles here if they
+don't belong exclusively to a specific component. */
+
+.container {
+    padding-top: 2rem;
+}

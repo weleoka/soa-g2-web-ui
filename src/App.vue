@@ -2,10 +2,8 @@
 components like header and footer which should be visible everywhere can be
 added here. */
 <template>
-  <div>
     <NavBar />
     <router-view />
-  </div>
 </template>
 
 <script>
@@ -28,9 +26,7 @@ export default {
 </script>
 
 /* Playing with styles for the app where the class or id is used throughout
-multiple components? Do it here. */
+multiple components? Do it here for now as we aren't working with scc pre-compilers. */
 <style>
-.container {
-  padding-top: 1rem;
-}
+@import "/css/style.css";
 </style>

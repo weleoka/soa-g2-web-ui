@@ -6,7 +6,7 @@ Often this is where we would use local storage db and
 save state to a db on the client.
  */
 
-import moduleService from "@/service/u3/modulesApiService";
+import moduleApiService from "@/service/u3/modulesApiService";
 
 export const gradeStoreModule = {
   namespaced: true,
@@ -16,15 +16,15 @@ export const gradeStoreModule = {
   getters: {}, // dummy getters replaced by mapState
   actions: {
     async populateModuleArr(context, courseCode) {
+      console.debug("Populating moduleArr with courseCode: " + courseCode);
+      let res = [];
       try {
-        if (courseCode) {
-          context.commit("setModulesArr", await moduleService.getAllModules());
+        if (!courseCode) { // if not
+          res = await moduleApiService.getAllModules()
         } else {
-          context.commit(
-            "setModuleArr",
-            await moduleService.getModulesByCourseCode(courseCode)
-          );
+          res = await moduleApiService.getModulesByCourseCode(courseCode)
         }
+        context.commit( "setModuleArr", res);
       } catch (e) {
         if (e instanceof TypeError) {
           console.log("No modules");
@@ -36,7 +36,7 @@ export const gradeStoreModule = {
   },
   mutations: {
     // setModulesArr mutation is declared so that local actions can call it
-    setModulesArr(state, payload) {
+    setModuleArr(state, payload) {
       console.log(
         "setModulesArr() mutation in store set with " +
           payload.length +
@@ -46,7 +46,7 @@ export const gradeStoreModule = {
     }
     /*    async getModules(context) {
       try {
-        context.commit("setModules", await moduleService.getAllModules());
+        context.commit("setModules", await moduleApiService.getAllModules());
       } catch (e) {
         if (e instanceof TypeError) {
           console.log("No modules");
@@ -57,7 +57,7 @@ export const gradeStoreModule = {
     },
     async getModuleDetails(context) {
       try {
-        context.commit("setModules", await moduleService.getModuleDetails());
+        context.commit("setModules", await moduleApiService.getModuleDetails());
       } catch (e) {
         if (e instanceof TypeError) {
           console.log("No modules");

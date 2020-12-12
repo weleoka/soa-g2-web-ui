@@ -44,7 +44,7 @@ export default {
     for (let i = 0; i < this.courseCodesArr.length; i++) {
       const courseCode = this.courseCodesArr[i];
       if (courseCode === this.currentActiveCourseCode) {
-        // here we should have some sort of event trigger... who knows.
+        // todo: make the dropdown display the right course code on entry.
       }
       this.options.push({
         text: courseCode,

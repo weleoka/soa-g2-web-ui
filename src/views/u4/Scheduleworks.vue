@@ -3,20 +3,20 @@ component for schedule management. */
 
 <template>
   <div class="container" id="schedule-works">
-    <TabWrapper />
+    <TabBar />
     <OccasionDetailBox v-bind="selectedOccasion" />
   </div>
 </template>
 
 <script>
 import { Options, Vue } from "vue-class-component";
-import TabWrapper from "@/components/u4/tabs/TabWrapper.vue";
+import TabBar from "@/components/u4/tabs/TabBar.vue";
 import OccasionDetailBox from "@/components/u4/OccasionDetailBox.vue";
 import {mapState} from "vuex";
 
 @Options({
   components: {
-    TabWrapper,
+    TabBar,
     OccasionDetailBox,
   },
   computed: {

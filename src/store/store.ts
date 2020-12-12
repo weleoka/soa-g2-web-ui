@@ -5,13 +5,13 @@ This deals with runtime state across the whole app.
 Often this is where we would use local storage db and
 save state to a db on the client.
 
-Due to Vue 3 and Vuex 4 and TypeScript all piling through Webpack we have issues:
+Due to Vue 3 and Vuex 4 and TypeScript all piling through Webpack we have issues with type declarations.
+See more info here:
 https://stackoverflow.com/questions/64080549/using-vuex-4-modules-in-vue-3-with-typescript-and-how-to-fix-cyclical-dependenc
 
 https://github.com/vuejs-templates/webpack/issues/73
 
 https://github.com/webpack-contrib/eslint-webpack-plugin
-
 */
 
 import {createStore} from "vuex";
@@ -41,20 +41,16 @@ export default createStore({
       console.debug("setActiveCourseCode() mutation: " + payload);
       state.activeCourseCode = payload;
     }
-    /*    setActiveCourseCode(state, payload) {
-      console.log("setActiveCourseCode() mutation recieved: " + payload);
-      state.activeCourseCode = payload;
-    },*/
   },
   actions: {},
   modules: {
     // This makes your getters, mutations, and actions accessed by,
     // eg: 'myModule/myModularizedThing' instead of mounting getters,
     // mutations, and actions to the root namespace.
-    //authStoreModule, // this unpacks all the functions into the root store
+    //authStoreModule, // this seems to unpack all the functions into the root store
     //gradeStoreModule,
     //scheduleStoreModule
-    authStore: authStoreModule, // this maintains a namespace
+    authStore: authStoreModule, // but this maintains a namespace
     gradeStore: gradeStoreModule,
     scheduleStore: scheduleStoreModule
   }

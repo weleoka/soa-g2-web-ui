@@ -13,7 +13,7 @@ large and currently not made up of lazy-loaded application parts under these "Ta
       @click="selected = tab"
       :class="['tab-btn', { active: selected === tab }]"
     >
-      {{ tab }}
+      {{ tab.text }}
     </button>
 
     <component :is="selected" class="tab"></component>
@@ -25,14 +25,23 @@ import OccasionTab from "@/components/u4/tabs/OccasionTab.vue";
 import TimeTab from "@/components/u4/tabs/TimeTab.vue";
 
 export default {
-  name: "TabWrapper",
+  name: "TabBar",
   components: {
     OccasionTab,
     TimeTab
   },
   data() {
     return {
-      tabs: ["OccasionTab", "TimeTab"], //RequirementsTab, RoomTab
+      tabs: [
+        {
+          name: "OccasionTab",
+          text: "Välj kurs"
+        },
+        {
+          name: "TimeTab",
+          text: "Välj tid"
+        }
+      ], //RequirementsTab, RoomTab
       selected: "OccasionTab"
     };
   }
