@@ -45,7 +45,7 @@ export default {
       checkedNames: [],
     };
   },
-  // here: better to map state or map getters if read only?
+  // todo: when to mapState and when to mapGetters vuex?
   computed: mapState({ moduleArr: state => state.gradeStore.moduleArr }), // works. implicitly to state.gradeStore.state.moduleArr
   methods: {
     // todo: so far failed to implement mapActions in the explicit way like below.
@@ -56,10 +56,12 @@ export default {
       setActiveCourseCode: state => state.setActiveCourseCode // root store
     }),
 
+    // Takes a search string to find modules by. NOT implemented
     getModulesBySearchStr(searchStr) {
       console.log("getModulesBySearchStr() NOT implemented, str: " + searchStr);
     },
 
+    // Event handler for when selected Course Code changes
     async selectedCourseCodeChange(courseCode) {
       this.setActiveCourseCode(courseCode); // from mapMutations
       if (courseCode === "ALL") {

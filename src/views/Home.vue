@@ -16,7 +16,7 @@
           <Random />
         </div>
       </div>
-      <div>placeholder</div>
+      <div>placeholder to demonstrate flexbox</div>
     </div>
   </div>
 </template>

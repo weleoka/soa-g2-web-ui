@@ -14,7 +14,7 @@ import router from "./router/router";
 import store from "./store/store";
 import mitt, {Emitter} from "mitt"; // EventBus // EventBus
 //import "popper.js/dist/umd/popper.min.js"
-//require("./assets/css/style.css")
+//require("./assets/css/style.css") // see include in App.vue style tag.
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 
@@ -23,8 +23,8 @@ import "bootstrap/dist/js/bootstrap.bundle.min";
 
 // === BEGIN META HEAD hack ===
 // This callback runs before every route change, including on page load.
-// It's a way of hacking the title and other elements in the head... unfortunately vue-meta npm package
-// is not yet available for Vuejs3...
+// It's a way of hacking the title and other elements in the head.
+// Unfortunately vue-meta npm package is not yet available for Vuejs3.
 // https://www.digitalocean.com/community/tutorials/vuejs-vue-router-modify-head
 router.beforeEach((to, from, next) => {
   // This goes through the matched routes from last to first, finding the closest route with a title.

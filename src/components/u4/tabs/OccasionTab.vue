@@ -11,7 +11,7 @@
 
 <script>
 import OccasionTable from "@/components/u4/OccasionTable.vue";
-import occasionService from "@/service/u4/occasionService";
+import occasionApiService from "@/service/u4/occasionApiService";
 import {mapMutations, mapState} from "vuex";
 
 export default {
@@ -42,14 +42,14 @@ export default {
     /* Reload the occasions table. Mostly for testing requests. */
     async refreshOccasions() {
       console.log("refreshOccasions() called.");
-      const res = await occasionService.getOccasions();
-      this.setOccasionArr(res); // 2. set in store
+      const res = await occasionApiService.getOccasionsByCourseCode();
+      this.setOccasionArr(res); // set in store
     },
 
     /* Get meta info about an occasion... maybe for a popup or side-panel info window. */
     async fetchOccasion(occasionCode) {
       console.log("fetchOccasion() called.");
-      const res = await occasionService.getOccasionDetails(occasionCode); // hopefully res is only array of one.
+      const res = await occasionApiService.getOccasionDetails(occasionCode); // hopefully res is only array of one.
       this.setSelectedOccasion(res[0]); // set in store
     }
   }

@@ -6,13 +6,13 @@ Often this is where we would use local storage db and
 save state to a db on the client.
  */
 
-import moduleService from "@/service/u3/modulesApiService";
+import occasionApiService from "@/service/u4/occasionApiService";
 
 export const scheduleStoreModule = {
   namespaced: true,
   state: {
-    selectedOccasion: [],
-    occasionArr: []
+    occasionArr: [],
+    selectedOccasion: []
   },
   getters: {},
   actions: {
@@ -20,16 +20,16 @@ export const scheduleStoreModule = {
      * Commits the active courseCode to local store state and then fetches
      * occasions by course code, and commits that to local store state.
      */
-    async enableActiveCourseCode(context, courseCode) {
-      context.commit("setActiveCourseCode", courseCode); // todo: this may not work...
+    async doSetActiveCourseCode(context, courseCode) {
+      context.commit("setActiveCourseCode", courseCode);
       try {
         context.commit(
-          "setModules",
-          await moduleService.getModulesByCourseCode(courseCode)
+          "setOccasionArr",
+          await occasionApiService.getOccasionsByCourseCode(courseCode)
         );
       } catch (e) {
         if (e instanceof TypeError) {
-          console.log("No modules");
+          console.error("No occasions");
         } else {
           throw e;
         }

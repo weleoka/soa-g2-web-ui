@@ -76,11 +76,13 @@ import {Options, Vue} from "vue-class-component";
   }
 })
 export default class ModuleDetails extends Vue {}
-/*BeforeRouteUpdate(to, from, next) { // problem was this whole method never gets called.
-  // Its supposed to react to route changes, importantly when switching /module/moduleCode1 to /module/moduleCode2 for example:
-  // this is because the lifecycle hook is not triggered if just switching the param part of URL.
-  // don't forget to call next() though!
-  console.log("BeforeRouteUpdate called with param: " + this.$route.params); // set this to local prop so child can access?
+/*Note on dynamic routes:
+  // Important eg. switching /module/moduleCode1 to /module/moduleCode2
+  // because the lifecycle hook is not triggered if just switching the param part of URL.
+  // note: don't forget to call next()
+  // problem was this whole method never gets called. Maybe it's legacy logic.
+  BeforeRouteUpdate(to, from, next) {
+  console.debug("BeforeRouteUpdate called with param: " + this.$route.params);
   this.moduleId = this.$route.params;
   next();
 },*/
