@@ -2,5 +2,23 @@
 don't belong exclusively to a specific component. */
 
 .container {
+    display: flex;
+    flex: auto;
+    flex-direction: row;
     padding-top: 2rem;
+}
+
+/* Vertically stacked elements */
+.container-v {
+    display: flex;
+    flex: auto;
+    flex-direction: column;
+    padding-top: 2rem;
+}
+
+/* Containers for where the space is not much */
+.container-compact {
+    display: flex;
+    flex: auto;
+    flex-direction: row;
 }

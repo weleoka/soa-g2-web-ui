@@ -34,7 +34,7 @@ export const scheduleStoreModule = {
           throw e;
         }
       }
-    }
+    },
   },
   mutations: {
     // todo: try removing and replacing with mapMutations in callers.

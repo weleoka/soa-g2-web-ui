@@ -14,7 +14,7 @@ interface OccasionObj {
 }
 
 export default {
-  // Gets occasions by course code, or all if no course code specified
+  /* Gets occasions by course code, or all if no course code specified */
   async getOccasionsByCourseCode(courseCode: string) {
     const params = courseCode ? {course_code: courseCode} : {}; //eslint-disable-line
     try {
@@ -26,7 +26,7 @@ export default {
     }
   },
 
-  // Gets all the details about an occasion WARN: not implemented.
+  /* Gets all the details about an occasion WARN: not implemented */
   async getOccasionDetails(occasionCode: string) {
     console.log("getOccasionDetails not implemented.")
     const params = occasionCode ? {occasion_code: occasionCode} : {}; //eslint-disable-line

@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container" id="app">
     <div>
       <div>
         <p>Hello, this is us and we are Group 2!</p>
@@ -12,7 +12,7 @@
         <div id="about">
           <h1>RandonumberAutoAddifier</h1>
         </div>
-        <div id="app">
+        <div>
           <Random />
         </div>
       </div>

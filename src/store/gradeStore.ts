@@ -16,7 +16,7 @@ export const gradeStoreModule = {
   getters: {}, // dummy getters replaced by mapState
   actions: {
     async populateModuleArr(context, courseCode) {
-      console.debug("Populating moduleArr with courseCode: " + courseCode);
+      console.debug("Populating moduleArr for courseCode: " + courseCode);
       try {
         const res = await moduleApiService.getModulesByCourseCode(courseCode)
         context.commit( "setModuleArr", res);

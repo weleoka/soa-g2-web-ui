@@ -35,7 +35,6 @@ export default {
     function generate() {
       randomValue.value = Math.floor(Math.random() * Math.floor(9)) + 1;
       times.value.unshift(randomValue.value);
-      console.log(process.env.VUE_APP_STUDENTSERVICE_URL);
     }
     function init() {
       randomValue.value = 0;

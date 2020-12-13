@@ -28,7 +28,7 @@ export default createStore({
   strict: true,
   state: {
     courseCodeArr: ["D0021E", "D0022E", "D0023E"],
-    activeCourseCode: ""
+    activeCourseCode: null
   },
   getters: {
     // replaced by mapState in components
