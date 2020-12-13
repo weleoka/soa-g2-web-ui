@@ -1,6 +1,6 @@
 /* EA & SOA Group 2 HT2020
 
-Menu items for working with shedules.
+Menu items for working with schedules.
 
 The issue with the current method is that this route /scheduleservice will become
 large and currently not made up of lazy-loaded application parts under these "Tabs" so to speak.

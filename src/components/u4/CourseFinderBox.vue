@@ -6,12 +6,14 @@
         <p style="white-space: pre-line">remove me: {{ searchStr }}</p>
       </div>
       <div class="container-compact">
-        <input
-            type="text"
-            v-model="searchStr"
-            placeholder="sök kurs"
-            @submit="$emit('search-course-code-event', this.searchStr)"
-        />
+        <label> Sök:
+          <input
+              type="text"
+              v-model="searchStr"
+              placeholder="sök kurs"
+              @submit="$emit('search-course-code-event', this.searchStr)"
+          />
+        </label>
       </div>
       <div class="container-compact">
         <button type="button" @click="$emit('search-course-code-event')">
@@ -55,7 +57,6 @@
 export default {
   name: "CourseFinderBox",
   props: {
-    courseDetails: Object,
     courseCodeList: Array
   },
   data() {

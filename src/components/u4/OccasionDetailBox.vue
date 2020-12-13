@@ -1,16 +1,16 @@
 <template>
-  <div v-if="selectedOccasion">
-    {{ selectedOccasion.periodCode }}
+  <div>
+    Metadata info: {{ occasion.metadata.nestedInfo }}
   </div>
 </template>
 
 <script>
-"use strict";
+import {OccasionObj} from "@/service/u4/occasionApiService";
 
 export default {
   name: "OccasionDetailBox",
   props: {
-    selectedOccasion: [] // in parent template explicitly naming prop it will be selected_occasion
+    occasion: OccasionObj
   }
 };
 </script>

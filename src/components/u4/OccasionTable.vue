@@ -19,7 +19,7 @@
           <td>placeholder</td>
         </tr>
         <tr
-          @click="$emit('fetch-occasion-event', occasion.id)"
+          @click="$emit('selected-occasion-event', occasion.id)"
           v-for="(occasion, i) in occasionArr"
           :key="i"
         >
@@ -32,7 +32,7 @@
       </tbody>
     </table>
     <button type="button" @click="$emit('refresh-occasions-event')">
-      Refresh tillfällen
+      Alla kurstillfällen
     </button>
   </div>
 </template>
