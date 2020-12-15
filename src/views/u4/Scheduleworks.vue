@@ -13,10 +13,9 @@ import TabBar from "@/components/u4/tabs/TabBar.vue";
 
 @Options({
   components: {
-    TabBar,
+    TabBar
   },
-  computed: {
-  }
+  computed: {}
 })
 export default class Home extends Vue {}
 </script>

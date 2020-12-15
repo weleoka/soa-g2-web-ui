@@ -1,16 +1,12 @@
 <template>
-  <div>
-    Metadata info: {{ occasion.metadata.nestedInfo }}
-  </div>
+  <div>Metadata info: {{ occasion }}</div>
 </template>
 
 <script>
-import {OccasionObj} from "@/service/u4/occasionApiService";
-
 export default {
   name: "OccasionDetailBox",
   props: {
-    occasion: OccasionObj
+    occasion: {}
   }
 };
 </script>

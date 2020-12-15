@@ -31,9 +31,6 @@
         </tr>
       </tbody>
     </table>
-    <button type="button" @click="$emit('refresh-occasions-event')">
-      Alla kurstillfällen
-    </button>
   </div>
 </template>
 

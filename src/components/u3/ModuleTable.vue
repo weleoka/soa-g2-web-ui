@@ -42,7 +42,7 @@ export default {
   },
   data() {
     return {
-      checkedNames: [],
+      checkedNames: []
     };
   },
   // todo: when to mapState and when to mapGetters vuex?

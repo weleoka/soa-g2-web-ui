@@ -2,25 +2,28 @@
   <div>
     <h1>Schema 1: Först behöver vi välja kurstillfälle.</h1>
     <CourseFinderBox
-        :course-code-list="courseCodeList"
-        @refresh-courses-event="this.refreshCoursesHandler"
-        @search-course-code-event="this.searchCourseCodeHandler"
-        @selected-course-event="this.selectedCourseHandler"
+      :course-code-list="courseCodeList"
+      @refresh-courses-event="this.refreshCoursesHandler"
+      @search-course-code-event="this.searchCourseCodeHandler"
+      @selected-course-event="this.selectedCourseHandler"
     />
-    <hr>
+    <hr />
     <h3>Val av tillfälle</h3>
     <OccasionTable
-        :occasion-arr="occasionArr"
-        @refresh-occasions-event="this.refreshOccasionsHandler"
-        @selected-occasion-event="this.selectedOccasionHandler"
+      :occasion-arr="occasionArr"
+      @selected-occasion-event="this.selectedOccasionHandler"
     />
-    <hr>
-    <h3>Detaljer kurstillfälle: {{occasion.id}}</h3>
-    <CourseDetailsBox
-        :course="course"
-    />
-    --> unimplemented. Sorry.
-    <!--<OccasionDetailBox v-if="occasion" :occasion="occasion" /> work in progress-->
+    <div class="container">
+      <button class="btn-a" type="button" @click="this.refreshOccasionsHandler">
+        Alla kurstillfällen
+      </button>
+      <button type="button" class="btn-a" @click="this.clearOccasion">
+        Rensa
+      </button>
+    </div>
+    <hr />
+    <h3>Detaljer kurstillfälle: {{ occasion.id }}</h3>
+    <OccasionDetailBox v-if="occasion" :occasion="occasion" />
   </div>
 </template>
 
@@ -29,8 +32,8 @@ import OccasionTable from "@/components/u4/OccasionTable.vue";
 import CourseFinderBox from "@/components/u4/CourseFinderBox.vue";
 import OccasionDetailBox from "@/components/u4/OccasionDetailBox.vue";
 import occasionApiService from "@/service/u4/occasionApiService";
-import {OccasionObj} from "@/service/u4/occasionApiService";
-import {mapMutations, mapState} from "vuex";
+
+import { mapMutations, mapState } from "vuex";
 import courseApiService from "@/service/u4/courseApiService";
 
 export default {
@@ -38,7 +41,7 @@ export default {
   components: {
     CourseFinderBox,
     OccasionTable,
-    //OccasionDetailBox
+    OccasionDetailBox
   },
   data() {
     return {
@@ -51,8 +54,8 @@ export default {
     ...mapState({
       activeCourseCode: state => state.activeCourseCode,
       occasionArr: state => state.scheduleStore.occasionArr,
-      activeOccasionCode: state => state.scheduleStore.activeOccasionCode,
-    }),
+      activeOccasionCode: state => state.scheduleStore.activeOccasionCode
+    })
   },
   methods: {
     // todo: this does not work... seems to be the same issue as mapActions, need to use the (string, [string]) format.
@@ -60,7 +63,10 @@ export default {
       setOccasionArr: state => state.scheduleStore.setOccasionArr,
       setSelectedOccasion: state => state.scheduleStore.setSelectedOccasion,
     }),*/
-    ...mapMutations("scheduleStore", ["setOccasionArr", "setActiveOccasionCode"]),
+    ...mapMutations("scheduleStore", [
+      "setOccasionArr",
+      "setActiveOccasionCode"
+    ]),
 
     /* Reload the occasions table. Mostly for testing requests.
      */
@@ -86,7 +92,9 @@ export default {
      */
     async selectedCourseHandler(courseCode) {
       console.debug("selectedCourseHandler() called.");
-      this.setOccasionArr(await occasionApiService.getOccasionsByCourseCode(courseCode)); // set in store
+      this.setOccasionArr(
+        await occasionApiService.getOccasionsByCourseCode(courseCode)
+      ); // set in store
       this.course = await courseApiService.getCourseDetails(courseCode); // not implemented
     },
 
@@ -108,7 +116,7 @@ export default {
         // todo: make a serverside search API endpoint
         const regex = RegExp(searchStr, "i"); // i for case insensitive
         const res = await courseApiService.getCourseCodeList();
-        const arr = []
+        const arr = [];
         for (let i = 0; i < res.length; i++) {
           if (res[i].id.match(regex)) {
             console.debug("Found match: " + res[i].id);
@@ -119,6 +127,12 @@ export default {
       } else {
         this.courseCodeList = [];
       }
+    },
+
+    /* Handler for the occasion table clearing button */
+    clearOccasion() {
+      this.occasion = {}
+      this.setOccasionArr([]);
     }
   }
 };

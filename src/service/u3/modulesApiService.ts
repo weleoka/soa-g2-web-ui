@@ -20,7 +20,7 @@ export default {
   async getModulesByCourseCode(courseCode: string) {
     const params = courseCode ? {course_code: courseCode} : {}; //eslint-disable-line
     try {
-      const res = await myAxios.get("/modules", {params});
+      const res = await myAxios.get("/modules", { params });
       console.debug("GET request to: " + res.config.baseURL + res.config.url);
       return this.moduleObjectMapper(res.data);
     } catch (error) {

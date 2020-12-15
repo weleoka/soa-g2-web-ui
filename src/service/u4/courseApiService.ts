@@ -5,19 +5,22 @@ Business logic concerning the workings with courses over API's.
  */
 import myAxios from "@/service/myAxios";
 
-interface CourseObj { // todo: use dedicated object, or just more or less enhanced object for details passing?
-  id: string,
-  description: string,
-  status: string
+interface CourseObj {
+  // todo: use dedicated object, or just more or less enhanced object for details passing?
+  id: string;
+  description: string;
+  status: string;
 }
 
 export default {
   /* get a list of available course codes */
   async getCourseCodeList() {
-    console.debug("getCourseCodeList()")
+    console.debug("getCourseCodeList()");
     try {
       const res = await myAxios.get("courses");
-      console.debug("GET request to: " + res.config.baseURL + "/" + res.config.url);
+      console.debug(
+        "GET request to: " + res.config.baseURL + "/" + res.config.url
+      );
       return this.courseObjectMapper(res.data);
     } catch (error) {
       console.error(error);
@@ -29,8 +32,10 @@ export default {
   modules and other interesting meta data.
   WARN: not implemnted */
   async getCourseDetails(courseCode: string) {
-    console.debug("courseApiService->getCourseDetails() WARN: not implemented.")
-/*    const params = courseCode ? {course_code: courseCode} : {}; //eslint-disable-line
+    console.debug(
+      "courseApiService->getCourseDetails() WARN: not implemented."
+    );
+    /*    const params = courseCode ? {course_code: courseCode} : {}; //eslint-disable-line
     try {
       const res = await myAxios.get("courses", {params});
       console.debug("GET request to: " + res.config.baseURL + "/" + res.config.url);

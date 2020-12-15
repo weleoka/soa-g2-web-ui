@@ -1,8 +1,4 @@
-/* EA & SOA Group 2 HT2020
-
-Menu items for working with course schedules.
-
-*/
+/* EA & SOA Group 2 HT2020 Menu items for working with course schedules. */
 <template>
   <div class="container-v">
     <div id="tab-button-bar">
@@ -33,24 +29,24 @@ Menu items for working with course schedules.
 //import TimeTab from "@/components/u4/tabs/TimeTab.vue";
 
 // dynamic imports of components
-import {defineAsyncComponent} from "@vue/runtime-core";
+import { defineAsyncComponent } from "@vue/runtime-core";
 const OccasionTab = defineAsyncComponent(() =>
-    import("@/components/u4/tabs/OccasionTab.vue")
+  import("@/components/u4/tabs/OccasionTab.vue")
 );
 const TimeTab = defineAsyncComponent(() =>
-    import("@/components/u4/tabs/TimeTab.vue")
+  import("@/components/u4/tabs/TimeTab.vue")
 );
 const RequirementsTab = defineAsyncComponent(() =>
-    import("@/components/u4/tabs/RequirementsTab.vue")
+  import("@/components/u4/tabs/RequirementsTab.vue")
 );
 const RoomTab = defineAsyncComponent(() =>
-    import("@/components/u4/tabs/RoomTab.vue")
+  import("@/components/u4/tabs/RoomTab.vue")
 );
 
 export default {
   component: "TabBar",
   components: {
-/*    OccasionTab: defineAsyncComponent(() => // todo: list dynamic components under components!
+    /*    OccasionTab: defineAsyncComponent(() => // todo: list dynamic components under components!
         import("@/components/u4/tabs/OccasionTab.vue")
     ),*/
   },
@@ -77,7 +73,6 @@ export default {
           name: "RoomTab",
           text: "Välj rum"
         }
-
       ],
       selected: 0 // keeps id of tab only.
     };
@@ -93,10 +88,14 @@ export default {
   },
   methods: {
     goNext() {
-      this.selected >= 0 && this.selected <= 2 ? this.selected++ : this.selected;
+      this.selected >= 0 && this.selected <= 2
+        ? this.selected++
+        : this.selected;
     },
     goPrev() {
-      this.selected >= 1 && this.selected <= 3 ? this.selected-- : this.selected;
+      this.selected >= 1 && this.selected <= 3
+        ? this.selected--
+        : this.selected;
     }
   }
 };

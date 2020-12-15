@@ -6,8 +6,9 @@ Business logic concerning the workings with course occasions.
 
 import myAxios from "@/service/myAxios";
 
-interface OccasionMetadata { // todo: find out how to provide defaults to interfaces.
-  nestedInfo: string
+interface OccasionMetadata {
+  // todo: find out how to provide defaults to interfaces.
+  nestedInfo: string;
 }
 
 export interface OccasionObj {
@@ -15,7 +16,7 @@ export interface OccasionObj {
   periodCode: string;
   courseCode: string;
   locationCode: string;
-  metadata: OccasionMetadata
+  metadata: OccasionMetadata;
 }
 
 export default {
@@ -23,8 +24,10 @@ export default {
   async getOccasionsByCourseCode(courseCode: string) {
     const params = courseCode ? {course_code: courseCode} : {}; //eslint-disable-line
     try {
-      const res = await myAxios.get("occasions", {params});
-      console.debug("GET request to: " + res.config.baseURL + "/" + res.config.url);
+      const res = await myAxios.get("occasions", { params });
+      console.debug(
+        "GET request to: " + res.config.baseURL + "/" + res.config.url
+      );
       return this.occasionObjectMapper(res.data);
     } catch (error) {
       console.error(error);
@@ -35,12 +38,14 @@ export default {
   async getOccasion(occasionCode: string) {
     const params = occasionCode ? {occasion_code: occasionCode} : {}; //eslint-disable-line
     try {
-      const res = await myAxios.get("occasions", {params});
-      console.debug("GET request to: " + res.config.baseURL + "/" + res.config.url);
+      const res = await myAxios.get("occasions", { params });
+      console.debug(
+        "GET request to: " + res.config.baseURL + "/" + res.config.url
+      );
       if (res.data.length === 1) {
         return this.occasionObjectMapper(res.data)[0];
       } else {
-        console.warn("API error, invalid number of occasions returned!")
+        console.warn("API error, invalid number of occasions returned!");
       }
     } catch (error) {
       console.error(error);
@@ -49,10 +54,10 @@ export default {
 
   /* gets metadata for an occasion object */
   async getOccasionDetails(occasion: OccasionObj) {
-    console.log("occasionApiService->getOccasionDetails() NOT implemented.")
+    console.log("occasionApiService->getOccasionDetails() NOT implemented.");
     // call api's and get useful info to fill out metadata of object!
     occasion.metadata.nestedInfo = "Hello!";
-    return occasion
+    return occasion;
   },
 
   /* Object mapper DTO to application */
@@ -61,15 +66,14 @@ export default {
     const arr = [];
     for (let i = 0; i < occasionArr.length; i++) {
       const occasionObj: OccasionObj = {
-            id: occasionArr[i].occasion_code,
-            periodCode: occasionArr[i].period_code,
-            courseCode: occasionArr[i].course_code,
-            locationCode: occasionArr[i].location_code,
-            metadata: {
-              nestedInfo: ""
-            }
-          }
-      ;
+        id: occasionArr[i].occasion_code,
+        periodCode: occasionArr[i].period_code,
+        courseCode: occasionArr[i].course_code,
+        locationCode: occasionArr[i].location_code,
+        metadata: {
+          nestedInfo: ""
+        }
+      };
       arr.push(occasionObj);
     }
     return arr;

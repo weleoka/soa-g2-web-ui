@@ -5,8 +5,8 @@
         <p>Hello, this is us and we are Group 2!</p>
         <p>
           We have decided to provide all our dear users with a random number
-          generator, and a fully automatic addifier of those numbers - for a rainy
-          day when you're bored.
+          generator, and a fully automatic addifier of those numbers - for a
+          rainy day when you're bored.
         </p>
         <p>Nous vous en prie!</p>
         <div id="about">
@@ -22,7 +22,7 @@
 </template>
 
 <script lang="ts">
-import {Options, Vue} from "vue-class-component";
+import { Options, Vue } from "vue-class-component";
 import Random from "@/components/samples/Random.vue";
 
 @Options({

@@ -29,6 +29,17 @@ tr {
     flex-direction: row;
 }
 
+.btn-a {
+    margin: 10px;
+    max-height: 40px;
+    padding: 6px 10px;
+    background: #ffffff;
+    cursor: pointer;
+    margin-bottom: 1rem;
+    border: 2px solid #cccccc;
+    outline: none;
+}
+
 /*.main-content {
     max-width: 1000px;
 }*/

@@ -28,7 +28,8 @@ export default {
 </script>
 
 /* Playing with styles for the app where the class or id is used throughout
-multiple components? Do it here for now as we aren't working with scc pre-compilers. */
+multiple components? Do it here for now as we aren't working with scc
+pre-compilers. */
 <style>
 @import "/css/style.css";
 </style>

@@ -18,8 +18,8 @@ export const gradeStoreModule = {
     async populateModuleArr(context, courseCode) {
       console.debug("Populating moduleArr for courseCode: " + courseCode);
       try {
-        const res = await moduleApiService.getModulesByCourseCode(courseCode)
-        context.commit( "setModuleArr", res);
+        const res = await moduleApiService.getModulesByCourseCode(courseCode);
+        context.commit("setModuleArr", res);
       } catch (e) {
         if (e instanceof TypeError) {
           console.log("No modules");

@@ -13,7 +13,7 @@ export default {
   name: "TimeTab",
   components: {
     VueCal
-  },
+  }
 };
 </script>
 

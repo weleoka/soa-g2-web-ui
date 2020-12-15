@@ -44,18 +44,13 @@
           <!-- Singnin dynamic route -->
           <ul class="navbar-nav mr-auto mb-2 mb-lg-0">
             <li
-                class="nav-item signin-special"
-                :class="['menu-item', { active: selected === '/signin' }]"
+              class="nav-item signin-special"
+              :class="['menu-item', { active: selected === '/signin' }]"
             >
               <router-link class="nav-link" v-if="!isSignedIn" to="/signin">
                 Signin
               </router-link>
-              <a
-                  href="/#"
-                  class="nav-link"
-                  v-else
-                  @click="doSignout"
-              >
+              <a href="/#" class="nav-link" v-else @click="doSignout">
                 <span v-if="isSignedIn"> - Sign out {{ userEmail }} - </span>
               </a>
             </li>
@@ -105,8 +100,8 @@ export default {
     console.log(
       "setup() in MyHeader.vue accessing props.userEmail:" + props.userEmail
     );
-  },
-/*  beforeMount() {
+  }
+  /*  beforeMount() {
     console.log("beforeMount() " + this.selected);
     this.selected = this.$route.path;
   }*/
