@@ -11,12 +11,12 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>im a checkbox</td>
-          <td>placeholder</td>
-          <td>placeholder</td>
-          <td>placeholder</td>
-          <td>placeholder</td>
+        <tr v-if="occasionArr.length < 1">
+          <td></td>
+          <td></td>
+          <td>. . .</td>
+          <td></td>
+          <td></td>
         </tr>
         <tr
           @click="$emit('selected-occasion-event', occasion.id)"

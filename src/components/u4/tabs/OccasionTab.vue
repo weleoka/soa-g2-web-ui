@@ -1,22 +1,26 @@
 <template>
   <div>
     <h1>Schema 1: Först behöver vi välja kurstillfälle.</h1>
+    <h3>Kurssökning</h3>
     <CourseFinderBox
         :course-code-list="courseCodeList"
         @refresh-courses-event="this.refreshCoursesHandler"
         @search-course-code-event="this.searchCourseCodeHandler"
         @selected-course-event="this.selectedCourseHandler"
     />
+    <hr>
+    <h3>Val av tillfälle</h3>
     <OccasionTable
         :occasion-arr="occasionArr"
         @refresh-occasions-event="this.refreshOccasionsHandler"
         @selected-occasion-event="this.selectedOccasionHandler"
     />
-    <!-- not implemented but could be good for course metadata info display.
+    <hr>
+    <h3>Detaljer av valt alternativ</h3>
     <CourseDetailsBox
         :course="course"
     />
-    -->
+    --> unimplemented. Sorry.
     <!--<OccasionDetailBox v-if="occasion" :occasion="occasion" /> work in progress-->
   </div>
 </template>

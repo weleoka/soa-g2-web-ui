@@ -1,49 +1,78 @@
 /* EA & SOA Group 2 HT2020
 
-Menu items for working with schedules.
+Menu items for working with course schedules.
 
-The issue with the current method is that this route /scheduleservice will become
-large and currently not made up of lazy-loaded application parts under these "Tabs" so to speak.
 */
 <template>
   <div>
     <button
       v-for="tab in tabs"
       :key="tab"
-      @click="selected = tab"
-      :class="['tab-btn', { active: selected === tab }]"
+      @click="selected = tab.id"
+      :class="['tab-btn', { active: selected === tab.id }]"
     >
       {{ tab.text }}
     </button>
-
-    <component :is="selected" class="tab"></component>
+    <keep-alive>
+      <component :is="selectedTab" />
+    </keep-alive>
+    <button>NEXT PAGE!!! (unimplemented)</button>
   </div>
 </template>
 
 <script>
-import OccasionTab from "@/components/u4/tabs/OccasionTab.vue";
-import TimeTab from "@/components/u4/tabs/TimeTab.vue";
+// static import of components
+//import OccasionTab from "@/components/u4/tabs/OccasionTab.vue";
+//import TimeTab from "@/components/u4/tabs/TimeTab.vue";
+
+// dynamic imports of components
+import {defineAsyncComponent} from "@vue/runtime-core";
+const OccasionTab = defineAsyncComponent(() =>
+    import("@/components/u4/tabs/OccasionTab.vue")
+);
+const TimeTab = defineAsyncComponent(() =>
+    import("@/components/u4/tabs/TimeTab.vue")
+);
 
 export default {
-  name: "TabBar",
+  component: "TabBar",
   components: {
-    OccasionTab,
-    TimeTab
+/*    OccasionTab: defineAsyncComponent(() => // todo: list dynamic components under components!
+        import("@/components/u4/tabs/OccasionTab.vue")
+    ),
+    TimeTab: defineAsyncComponent(() =>
+        import("@/components/u4/tabs/TimeTab.vue")
+    )*/
+    //OccasionTab,
+    //TimeTab
   },
   data() {
     return {
       tabs: [
         {
+          id: 0,
           name: "OccasionTab",
           text: "Välj kurs"
         },
         {
+          id: 1,
           name: "TimeTab",
           text: "Välj tid"
         }
       ], //RequirementsTab, RoomTab
-      selected: "OccasionTab"
+      selected: 0 // keeps id of tab only.
     };
+  },
+  computed: {
+    selectedTab() {
+      if (this.selected === 0) {
+        return OccasionTab;
+      }
+      if (this.selected === 1) return TimeTab;
+      //if (selected === 2) return RequirementsTab;
+      //if (selected === 3) return RoomTab;
+      return OccasionTab; // default return if nothing is selected.
+    }
   }
 };
 </script>

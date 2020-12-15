@@ -1,9 +1,9 @@
 <template>
-  <div class="container">
+  <div class="container course-finder-box">
     <div class="container-v" id="course-search-input">
       <div class="container-compact">
-        <p>Sökning:</p>
-        <p style="white-space: pre-line">remove me: {{ searchStr }}</p>
+        <p>Sökning: &nbsp;</p>
+        <p style="white-space: pre-line">{{ searchStr }}</p>
       </div>
       <div class="container-compact">
         <label> Sök:
@@ -16,7 +16,7 @@
         </label>
       </div>
       <div class="container-compact">
-        <button type="button" @click="$emit('search-course-code-event')">
+        <button type="button" @click="$emit('search-course-code-event', this.searchStr)">
           <!-- pressing enter will also search. todo: implement elastic search! -->
           Sök
         </button>
@@ -26,14 +26,14 @@
       </div>
     </div>
     <div id="course-code-results-table">
-      <h2>Kurslista</h2>
       <div class="table-responsive py-4">
-        <table class="table table-bordered table-hover">
-          <thead class="thead-light">
+        <h4>Välj en kurs av {{courseCodeList.length}} alternativ</h4>
+<!--        <thead class="thead-light">
           <tr>
-            <th scope="col">implement scrolling-table (overflow: scroll)</th>
+            <th scope="col">Välj kurs ({{courseCodeList.length}}st)</th>
           </tr>
-          </thead>
+        </thead>-->
+        <table class="table table-bordered table-hover">
           <tbody>
           <tr v-if="courseCodeList.length === 0">
             <td>Sök eller hämta kurslista</td>
@@ -69,12 +69,20 @@ export default {
 
 <style scoped>
 #course-code-results-table {
+  padding-right: 2em;
+  border-right: none;
+  height: content-box;
+  overflow: hidden scroll;
   flex-grow: 3;
 }
 
 #course-search-input {
   flex-grow: 1;
   height: 200px;
+}
+
+.course-finder-box {
+  height: 250px;
 }
 </style>
 
