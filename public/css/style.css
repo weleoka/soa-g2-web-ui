@@ -29,6 +29,9 @@ tr {
     flex-direction: row;
 }
 
+.main-content {
+    max-width: 1000px;
+}
 
 /*div {
     scrollbar-width: none; !* Firefox *!

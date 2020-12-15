@@ -22,9 +22,9 @@ Menu items for working with course schedules.
       <hr>
     </div>
     <div class="d-flex justify-content-around">
-      <button class="tab-btn">Förgående</button>
+      <button @click="goPrev" class="tab-btn">Förgående</button>
       <div></div>
-      <button class="tab-btn">Nästa</button>
+      <button @click="goNext" class="tab-btn">Nästa</button>
     </div>
   </div>
 </template>
@@ -41,6 +41,12 @@ const OccasionTab = defineAsyncComponent(() =>
 );
 const TimeTab = defineAsyncComponent(() =>
     import("@/components/u4/tabs/TimeTab.vue")
+);
+const RequirementsTab = defineAsyncComponent(() =>
+    import("@/components/u4/tabs/RequirementsTab.vue")
+);
+const RoomTab = defineAsyncComponent(() =>
+    import("@/components/u4/tabs/RoomTab.vue")
 );
 
 export default {
@@ -67,20 +73,43 @@ export default {
           id: 1,
           name: "TimeTab",
           text: "Välj tid"
+        },
+        {
+          id: 2,
+          name: "RequirementsTab",
+          text: "Välj behov"
+        },
+        {
+          id: 3,
+          name: "RoomTab",
+          text: "Välj rum"
         }
-      ], //RequirementsTab, RoomTab
+
+      ],
       selected: 0 // keeps id of tab only.
     };
   },
   computed: {
     selectedTab() {
-      if (this.selected === 0) {
-        return OccasionTab;
-      }
+      if (this.selected === 0) return OccasionTab;
       if (this.selected === 1) return TimeTab;
-      //if (selected === 2) return RequirementsTab;
-      //if (selected === 3) return RoomTab;
+      if (this.selected === 2) return RequirementsTab;
+      if (this.selected === 3) return RoomTab;
       return OccasionTab; // default return if nothing is selected.
+    }
+  },
+  methods: {
+    goNext() {
+      this.selected >= 0 && this.selected <= 2 ? this.selected++ : this.selected;
+      /*if (this.selected > 0) {
+        this.selected = this.selected - 1;
+      }*/
+    },
+    goPrev() {
+      this.selected >= 1 && this.selected <= 3 ? this.selected-- : this.selected;
+/*      if (this.selected  3) {
+        this.selected = this.selected + 1;
+      }*/
     }
   }
 };

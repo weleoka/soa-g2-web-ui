@@ -2,8 +2,10 @@
 components like header and footer which should be visible everywhere can be
 added here. */
 <template>
-    <NavBar />
+  <NavBar />
+  <div class="main-content">
     <router-view />
+  </div>
 </template>
 
 <script>

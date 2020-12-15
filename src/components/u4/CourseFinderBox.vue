@@ -70,6 +70,7 @@ export default {
 <style scoped>
 #course-code-results-table {
   overflow: auto;
+  overflow-y: scroll;
   flex-grow: inherit;
   height: content-box;
   padding-right: 2em;
