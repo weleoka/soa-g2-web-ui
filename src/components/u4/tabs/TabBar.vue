@@ -4,19 +4,28 @@ Menu items for working with course schedules.
 
 */
 <template>
-  <div>
-    <button
-      v-for="tab in tabs"
-      :key="tab"
-      @click="selected = tab.id"
-      :class="['tab-btn', { active: selected === tab.id }]"
-    >
-      {{ tab.text }}
-    </button>
+  <div class="container-v">
+    <div id="tab-button-bar">
+      <button
+        v-for="tab in tabs"
+        :key="tab"
+        @click="selected = tab.id"
+        :class="['tab-btn', { active: selected === tab.id }]"
+      >
+        {{ tab.text }}
+      </button>
+    </div>
     <keep-alive>
       <component :is="selectedTab" />
     </keep-alive>
-    <button>NEXT PAGE!!! (unimplemented)</button>
+    <div>
+      <hr>
+    </div>
+    <div class="d-flex justify-content-around">
+      <button class="tab-btn">Förgående</button>
+      <div></div>
+      <button class="tab-btn">Nästa</button>
+    </div>
   </div>
 </template>
 

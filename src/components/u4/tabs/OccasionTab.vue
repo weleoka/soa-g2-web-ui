@@ -1,7 +1,6 @@
 <template>
   <div>
     <h1>Schema 1: Först behöver vi välja kurstillfälle.</h1>
-    <h3>Kurssökning</h3>
     <CourseFinderBox
         :course-code-list="courseCodeList"
         @refresh-courses-event="this.refreshCoursesHandler"
@@ -16,7 +15,7 @@
         @selected-occasion-event="this.selectedOccasionHandler"
     />
     <hr>
-    <h3>Detaljer av valt alternativ</h3>
+    <h3>Detaljer kurstillfälle: {{occasion.id}}</h3>
     <CourseDetailsBox
         :course="course"
     />

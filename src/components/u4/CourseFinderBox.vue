@@ -1,39 +1,39 @@
 <template>
-  <div class="container course-finder-box">
-    <div class="container-v" id="course-search-input">
-      <div class="container-compact">
-        <p>Sökning: &nbsp;</p>
-        <p style="white-space: pre-line">{{ searchStr }}</p>
+  <div>
+    <h3>Kurssökning</h3>
+    <div class="container course-finder-box">
+      <div class="container-v" id="course-search-input">
+        <div class="container-compact">
+          <p>Sök efter kurs, och välj i tabellen till höger.</p>
+<!--          <p style="white-space: pre-line">{{ searchStr }}</p>-->
+        </div>
+        <div class="container-compact">
+          <label>Sök kurs:
+            <input
+                type="text"
+                v-model="searchStr"
+                placeholder="kurskod"
+                @submit="$emit('search-course-code-event', this.searchStr)"
+            />
+          </label>
+        </div>
+        <div class="container-compact">
+          <button type="button" @click="$emit('search-course-code-event', this.searchStr)">
+            <!-- pressing enter will also search. todo: implement elastic search! -->
+            Sök
+          </button>
+          <button type="button" @click="$emit('refresh-courses-event')">
+            Hämta alla
+          </button>
+        </div>
       </div>
-      <div class="container-compact">
-        <label> Sök:
-          <input
-              type="text"
-              v-model="searchStr"
-              placeholder="sök kurs"
-              @submit="$emit('search-course-code-event', this.searchStr)"
-          />
-        </label>
-      </div>
-      <div class="container-compact">
-        <button type="button" @click="$emit('search-course-code-event', this.searchStr)">
-          <!-- pressing enter will also search. todo: implement elastic search! -->
-          Sök
-        </button>
-        <button type="button" @click="$emit('refresh-courses-event')">
-          Hämta alla
-        </button>
-      </div>
-    </div>
-    <div id="course-code-results-table">
-      <div class="table-responsive py-4">
-        <h4>Välj en kurs av {{courseCodeList.length}} alternativ</h4>
-<!--        <thead class="thead-light">
+      <div class="table-responsive py-4" id="course-code-results-table">
+        <table class="table table-bordered table-hover">
+          <thead class="thead-light">
           <tr>
             <th scope="col">Välj kurs ({{courseCodeList.length}}st)</th>
           </tr>
-        </thead>-->
-        <table class="table table-bordered table-hover">
+          </thead>
           <tbody>
           <tr v-if="courseCodeList.length === 0">
             <td>Sök eller hämta kurslista</td>
@@ -43,7 +43,7 @@
               v-for="(courseCode, i) in courseCodeList"
               :key="i"
           >
-            <td>{{ courseCode }}</td>
+            <td>{{ courseCode }} - och här lite mer metadata om kursen</td>
           </tr>
           </tbody>
         </table>
@@ -69,16 +69,15 @@ export default {
 
 <style scoped>
 #course-code-results-table {
+  overflow: auto;
+  flex-grow: inherit;
+  height: content-box;
   padding-right: 2em;
   border-right: none;
-  height: content-box;
-  overflow: hidden scroll;
-  flex-grow: 3;
 }
 
 #course-search-input {
   flex-grow: 1;
-  height: 200px;
 }
 
 .course-finder-box {

@@ -13,17 +13,17 @@
       <tbody>
         <tr v-if="occasionArr.length < 1">
           <td></td>
-          <td></td>
-          <td>. . .</td>
-          <td></td>
-          <td></td>
+          <td>inga tillfällen</td>
+          <td>-</td>
+          <td>-</td>
+          <td>-</td>
         </tr>
         <tr
           @click="$emit('selected-occasion-event', occasion.id)"
           v-for="(occasion, i) in occasionArr"
           :key="i"
         >
-          <td>I'm a checkbox!</td>
+          <td>checkbox</td>
           <td>{{ occasion.id }}</td>
           <td>{{ occasion.locationCode }}</td>
           <td>{{ occasion.courseCode }}</td>
@@ -58,4 +58,8 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+#occasion-table {
+  overflow: auto;
+}
+</style>
