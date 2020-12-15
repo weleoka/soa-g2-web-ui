@@ -99,12 +99,26 @@ export default {
     },
 
     /* Searches for a part or full match case insensitive course code,
-     * which is the beginnings of an elastic search implementation
+     * which is the beginnings of an elastic search implementation.
+     * If no search string is supplied it sets the course list to none.
      */
     async searchCourseCodeHandler(searchStr) {
-      console.debug("searchCourseCodeHandler() called.");
-      //const res = await courseApiService.getCourseCodeList();
-      this.courseCodeList = "implementME!";
+      if (searchStr) {
+        console.debug("searchCourseCodeHandler() called.");
+        // todo: make a serverside search API endpoint
+        const regex = RegExp(searchStr, "i"); // i for case insensitive
+        const res = await courseApiService.getCourseCodeList();
+        const arr = []
+        for (let i = 0; i < res.length; i++) {
+          if (res[i].id.match(regex)) {
+            console.debug("Found match: " + res[i].id);
+            arr.push(res[i].id);
+          }
+        }
+        this.courseCodeList = arr;
+      } else {
+        this.courseCodeList = [];
+      }
     }
   }
 };

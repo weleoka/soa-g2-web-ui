@@ -19,7 +19,7 @@ tr {
     display: flex;
     flex: auto;
     flex-direction: column;
-    padding-top: 2rem;
+    padding-top: 0rem;
 }
 
 /* Containers for where the space is not much */
@@ -29,9 +29,9 @@ tr {
     flex-direction: row;
 }
 
-.main-content {
+/*.main-content {
     max-width: 1000px;
-}
+}*/
 
 /*div {
     scrollbar-width: none; !* Firefox *!

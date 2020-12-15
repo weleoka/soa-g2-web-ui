@@ -13,17 +13,20 @@
                 type="text"
                 v-model="searchStr"
                 placeholder="kurskod"
-                @submit="$emit('search-course-code-event', this.searchStr)"
+                @keyup.enter="$emit('search-course-code-event', this.searchStr)"
             />
           </label>
         </div>
         <div class="container-compact">
-          <button type="button" @click="$emit('search-course-code-event', this.searchStr)">
+          <button type="button" class="btn" @click="$emit('search-course-code-event', this.searchStr)">
             <!-- pressing enter will also search. todo: implement elastic search! -->
             Sök
           </button>
-          <button type="button" @click="$emit('refresh-courses-event')">
+          <button type="button" class="btn" @click="$emit('refresh-courses-event')">
             Hämta alla
+          </button>
+          <button type="button" class="btn" @click="clearSearch">
+            Rensa
           </button>
         </div>
       </div>
@@ -63,6 +66,12 @@ export default {
      return {
       searchStr: "" // full, or part, case-insensitive matching a course code
     }
+  },
+  methods: {
+    clearSearch() {
+      this.searchStr = "";
+      this.$emit('search-course-code-event', this.searchStr);
+    }
   }
 }
 </script>
@@ -73,6 +82,7 @@ export default {
   overflow-y: scroll;
   flex-grow: inherit;
   height: content-box;
+  width: 550px;
   padding-right: 2em;
   border-right: none;
 }
@@ -83,6 +93,17 @@ export default {
 
 .course-finder-box {
   height: 250px;
+}
+
+.btn {
+  margin: 10px;
+  max-height: 40px;
+  padding: 6px 10px;
+  background: #ffffff;
+  cursor: pointer;
+  margin-bottom: 1rem;
+  border: 2px solid #cccccc;
+  outline: none;
 }
 </style>
 

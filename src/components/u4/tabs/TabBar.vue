@@ -15,15 +15,13 @@ Menu items for working with course schedules.
         {{ tab.text }}
       </button>
     </div>
+
     <keep-alive>
-      <component :is="selectedTab" />
+      <component class="tab" :is="selectedTab" />
     </keep-alive>
-    <div>
-      <hr>
-    </div>
-    <div class="d-flex justify-content-around">
+
+    <div class="d-flex justify-content-around" id="tab-pn-btn-box">
       <button @click="goPrev" class="tab-btn">Förgående</button>
-      <div></div>
       <button @click="goNext" class="tab-btn">Nästa</button>
     </div>
   </div>
@@ -54,12 +52,7 @@ export default {
   components: {
 /*    OccasionTab: defineAsyncComponent(() => // todo: list dynamic components under components!
         import("@/components/u4/tabs/OccasionTab.vue")
-    ),
-    TimeTab: defineAsyncComponent(() =>
-        import("@/components/u4/tabs/TimeTab.vue")
-    )*/
-    //OccasionTab,
-    //TimeTab
+    ),*/
   },
   data() {
     return {
@@ -101,15 +94,9 @@ export default {
   methods: {
     goNext() {
       this.selected >= 0 && this.selected <= 2 ? this.selected++ : this.selected;
-      /*if (this.selected > 0) {
-        this.selected = this.selected - 1;
-      }*/
     },
     goPrev() {
       this.selected >= 1 && this.selected <= 3 ? this.selected-- : this.selected;
-/*      if (this.selected  3) {
-        this.selected = this.selected + 1;
-      }*/
     }
   }
 };
@@ -125,13 +112,21 @@ export default {
   outline: none;
 }
 
+#tab-pn-btn-box {
+  padding-top: 20px;
+}
+
+#tab-pn-btn-box .tab-btn {
+  width: 115px;
+}
 .active {
   border-bottom: 3px solid green;
-  background: #fcfcf;
 }
 
 .tab {
   border: 1px solid #ccc;
-  padding: 10px;
+  border-top: none;
+  border-bottom: none;
+  padding: 0px 10px 10px 10px;
 }
 </style>
