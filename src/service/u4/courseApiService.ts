@@ -14,8 +14,8 @@ interface CourseObj {
 
 export default {
   /* get a list of available course codes */
-  async getCourseCodeList() {
-    console.debug("getCourseCodeList()");
+  async getCourseList() {
+    console.debug("getCourseList()");
     try {
       const res = await myAxios.get("courses");
       console.debug(

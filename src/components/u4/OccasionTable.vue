@@ -1,6 +1,6 @@
 <template>
-  <div class="table-responsive py-4" id="occasion-table-results-table">
-    <table class="table table-boarderd table-hover">
+  <div class="table-responsive py-4" id="occasion-table">
+    <table class="table table-borderless table-striped table-hover">
       <thead class="thead-light">
         <tr>
           <th scope="col">Tillfällekod</th>
@@ -17,9 +17,10 @@
           <td>-</td>
         </tr>
         <tr
-          @click="$emit('selected-occasion-event', occasion.id)"
+          @click="this.rowClickedHandler(i, occasion.id)"
           v-for="(occasion, i) in occasionArr"
           :key="i"
+          :class="{'clicked-row' : clickedRow === i }"
         >
           <td>{{ occasion.id }}</td>
           <td>{{ occasion.locationCode }}</td>
@@ -35,24 +36,28 @@
 
 export default {
   name: "OccasionTable",
-  components: {},
   props: {
     occasionArr: Array
   },
   data() {
     return {
-      checkedOccasions: []
+      clickedRow: null
     };
   },
-  computed: {
-    //occasionArr: state => state.scheduleStoreModule.occasionArr // longhand explicit to vuex module
+  watch: {
+    occasionArr() { this.clickedRow = null }
   },
-  methods: {}
+  methods: {
+    rowClickedHandler(rowId, occasionId) {
+      this.clickedRow = rowId;
+      this.$emit('selected-occasion-event', occasionId)
+    }
+  }
 };
 </script>
 
 <style scoped>
-#occasion-table-results-table {
+#occasion-table {
   overflow: auto;
   overflow-y: scroll;
   height: content-box;

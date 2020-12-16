@@ -8,8 +8,8 @@ tr {
 
 .container {
     display: flex;
+    flex-basis: 100%
     /*flex: auto;*/
-    /*flex-wrap: nowrap;*/
     /*flex-direction: row;*/
     /*padding-top: 2rem;*/
 }
@@ -40,9 +40,15 @@ tr {
     outline: none;
 }
 
-/*.main-content {
-    max-width: 1000px;
-}*/
+.clicked-row {
+    border-right: 2px solid #0c4128;
+    border-left: 3px solid #0c4128;
+}
+
+.main-content {
+    /*max-width: 1000px;
+    text-align: center;*/
+}
 
 /*div {
     scrollbar-width: none; !* Firefox *!

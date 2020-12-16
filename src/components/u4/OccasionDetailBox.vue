@@ -1,6 +1,6 @@
 <template>
   <div id="occasion-detail-box">
-    <h3>Valt kurstillfälle: {{ occasion.id }}</h3>
+    <h3>Detaljer för {{ occasion.id }}</h3>
     Metadata info: {{ occasion }}
   </div>
 </template>
@@ -16,7 +16,8 @@ export default {
 
 <style scoped>
 #occasion-detail-box {
-  width: 450px;
+  max-width: 450px;
   padding: 1rem;
+  padding-top: 2rem;
 }
 </style>

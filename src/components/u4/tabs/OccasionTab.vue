@@ -1,10 +1,11 @@
 <template>
   <div>
-    <h1>Steg 1: välja kurstillfälle --></h1>
+    <h1>Steg 1: välja kurstillfälle</h1>
+    <br>
     <CourseFinderBox
-      :course-code-list="courseCodeList"
+      :course-arr="courseArr"
       @refresh-courses-event="this.refreshCoursesHandler"
-      @search-course-code-event="this.searchCourseCodeHandler"
+      @search-course-code-event="this.searchCourseHandler"
       @selected-course-event="this.selectedCourseHandler"
     />
     <hr />
@@ -30,15 +31,13 @@ export default {
   name: "OccasionTab",
   components: {
     CourseFinderBox,
-    //OccasionTable,
     OccasionFinderBox,
-    //OccasionDetailBox
   },
   data() {
     return {
-      course: {},
-      courseCodeList: [],
-      occasion: {}
+      course: {}, // selected course
+      courseArr: [],
+      occasion: {} // selected occasion
     };
   },
   computed: {
@@ -75,30 +74,29 @@ export default {
      * codes to a local data property. */
     async refreshCoursesHandler() {
       console.debug("refreshCoursesHandler() called.");
-      const res = await courseApiService.getCourseCodeList();
-      this.courseCodeList = res.map(item => item.id);
+      const res = await courseApiService.getCourseList();
+      this.courseArr = res.map(item => item);
     },
 
-    /* Searches for a part or full match case insensitive course code,
-     * which is the beginnings of an elastic search implementation.
+    /* Searches for a part or full match case insensitive course code.
      * If no search string is supplied it sets the course list to none.
      */
-    async searchCourseCodeHandler(searchStr) {
+    async searchCourseHandler(searchStr) {
       if (searchStr) {
-        console.debug("searchCourseCodeHandler() called.");
+        console.debug("searchCourseHandler() called.");
         // todo: make a serverside search API endpoint
         const regex = RegExp(searchStr, "i"); // i for case insensitive
-        const res = await courseApiService.getCourseCodeList();
+        const res = await courseApiService.getCourseList();
         const arr = [];
         for (let i = 0; i < res.length; i++) {
           if (res[i].id.match(regex)) {
             console.debug("Found match: " + res[i].id);
-            arr.push(res[i].id);
+            arr.push(res[i]);
           }
         }
-        this.courseCodeList = arr;
+        this.courseArr = arr;
       } else {
-        this.courseCodeList = [];
+        this.courseArr = [];
       }
     },
 

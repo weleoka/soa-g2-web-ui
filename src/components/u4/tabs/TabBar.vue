@@ -1,6 +1,6 @@
 /* EA & SOA Group 2 HT2020 Menu items for working with course schedules. */
 <template>
-  <div class="container-v">
+  <div class="container-v" id="tab-view">
     <div id="tab-button-bar">
       <button
         v-for="tab in tabs"
@@ -128,4 +128,11 @@ export default {
   border-bottom: none;
   padding: 0px 10px 10px 10px;
 }
+
+@media (min-width: 1000px) {
+  #tab-view {
+    width: 950px;
+  }
+}
+
 </style>

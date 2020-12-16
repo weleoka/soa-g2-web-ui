@@ -1,8 +1,9 @@
 <template>
   <div>
-    <h3>Val av tillfälle</h3>
     <div class="container occasion-finder-box">
       <div class="container-v">
+        <h3>Val av tillfälle</h3>
+        <p>Välj ett kurstillfälle nedan</p>
         <OccasionTable
             :occasion-arr="occasionArr"
             @selected-occasion-event="this.selectedOccasionHandler"
@@ -16,12 +17,10 @@
           </button>
         </div>
       </div>
-      <div>
-        <OccasionDetailBox
-            v-if="occasion"
-            :occasion="occasion"
-        />
-      </div>
+      <OccasionDetailBox
+          v-if="occasion"
+          :occasion="occasion"
+      />
     </div>
   </div>
 </template>
@@ -54,6 +53,6 @@ export default {
 
 <style scoped>
 .occasion-finder-box {
-  height: 250px;
+  height: 300px;
 }
 </style>
