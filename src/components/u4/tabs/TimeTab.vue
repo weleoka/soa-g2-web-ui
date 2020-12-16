@@ -15,15 +15,15 @@
 </template>
 
 <script>
-import CreateEventBox from "@/components/u4/CreateEventBox.vue";
-import CalendarBox from "@/components/u4/CalendarBox.vue";
+import EventCreateBox from "@/components/u4/EventCreateBox.vue";
+import EventCalendarBox from "@/components/u4/EventCalendarBox.vue";
 import eventApiService from "@/service/u4/eventApiService";
 
 export default {
   name: "TimeTab",
   components: {
-    CalendarBox,
-    CreateEventBox
+    EventCalendarBox,
+    EventCreateBox
   },
   data() {
     return {
