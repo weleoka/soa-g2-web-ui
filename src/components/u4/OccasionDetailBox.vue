@@ -1,6 +1,6 @@
 <template>
   <div id="occasion-detail-box">
-    <h3>Detaljer för {{ occasion.id }}</h3>
+    <h4>Detaljer för {{ occasion.id }}</h4>
     Metadata info: {{ occasion }}
   </div>
 </template>
@@ -17,7 +17,7 @@ export default {
 <style scoped>
 #occasion-detail-box {
   max-width: 450px;
-  padding: 1rem;
-  padding-top: 2rem;
+  padding: 2rem;
+  padding-top: 3rem;
 }
 </style>

@@ -3,7 +3,7 @@
     <div class="container occasion-finder-box">
       <div class="container-v">
         <h3>Val av tillfälle</h3>
-        <p>Välj ett kurstillfälle nedan</p>
+        <p>Välj ett kurstillfälle av {{occasionArr.length}} alternativ nedan</p>
         <OccasionTable
             :occasion-arr="occasionArr"
             @selected-occasion-event="this.selectedOccasionHandler"
@@ -53,6 +53,6 @@ export default {
 
 <style scoped>
 .occasion-finder-box {
-  height: 300px;
+  height: 350px;
 }
 </style>

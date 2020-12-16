@@ -10,6 +10,7 @@
       >
         {{ tab.text }}
       </button>
+      {{}}
     </div>
 
     <keep-alive>
@@ -112,7 +113,7 @@ export default {
 }
 
 #tab-pn-btn-box {
-  padding-top: 20px;
+  padding-top: 40px;
 }
 
 #tab-pn-btn-box .tab-btn {

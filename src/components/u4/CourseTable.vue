@@ -16,7 +16,7 @@
           :class="{'clicked-row' : clickedRow === i }"
           @click="this.rowClickedHandler(i, course.id)"
       >
-        <td>{{ course.id }} - och här lite mer metadata om kursen</td>
+        <td>{{ course.id }} - {{course.description}} (status: {{course.status}}) </td>
       </tr>
       </tbody>
     </table>

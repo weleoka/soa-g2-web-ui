@@ -14,7 +14,7 @@
       :occasion="occasion"
       @selected-occasion-event="this.selectedOccasionHandler"
       @refresh-occasions-event="this.refreshOccasionsHandler"
-      @clear-occasions-event="this.clearOccasion"
+      @clear-occasions-event="this.clearOccasionBoxHandler"
     />
   </div>
 </template>
@@ -118,7 +118,8 @@ export default {
     },
 
     /* Handler for the occasion table clearing button */
-    clearOccasion() {
+    clearOccasionBoxHandler() {
+      this.setActiveOccasionCode(""); // mutate store
       this.occasion = {}
       this.setOccasionArr([]);
     }
