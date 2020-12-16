@@ -75,7 +75,7 @@ export default {
           text: "Välj rum"
         }
       ],
-      selected: 0 // keeps id of tab only.
+      selected: 1 // keeps id of tab only.
     };
   },
   computed: {
@@ -112,7 +112,9 @@ export default {
   outline: none;
 }
 
+/* previous and next button styling */
 #tab-pn-btn-box {
+  margin-top: 2rem;
   padding-top: 40px;
 }
 
@@ -136,4 +138,7 @@ export default {
   }
 }
 
+#tab-view div {
+
+}
 </style>

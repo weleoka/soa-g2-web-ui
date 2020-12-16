@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Steg 1: välja kurstillfälle</h1>
+    <h1>Steg 1: välj kurstillfälle</h1>
     <br>
     <CourseFinderBox
       :course-arr="courseArr"
