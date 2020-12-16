@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3>Kurssökning</h3>
+    <h3>Val av kurs</h3>
     <div class="container course-finder-box">
       <div class="container-v" id="course-search-input">
         <div class="container-compact">
@@ -91,7 +91,7 @@ export default {
   flex-grow: inherit;
   height: content-box;
   width: 550px;
-  padding-right: 2em;
+  padding-right: 1em;
   border-right: none;
 }
 

@@ -11,8 +11,8 @@ import occasionApiService from "@/service/u4/occasionApiService";
 export const scheduleStoreModule = {
   namespaced: true,
   state: {
-    occasionArr: Array,
-    activeOccasionCode: String
+    occasionArr: [],
+    activeOccasionCode: ""
   },
   getters: {},
   actions: {

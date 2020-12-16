@@ -1,9 +1,8 @@
 <template>
-  <div class="table-responsive py-4">
-    <table class="table table-striped table-hover" id="occasion-table">
-      <thead class="thead-light table-success">
+  <div class="table-responsive py-4" id="occasion-table-results-table">
+    <table class="table table-boarderd table-hover">
+      <thead class="thead-light">
         <tr>
-          <th>Välj</th>
           <th scope="col">Tillfällekod</th>
           <th scope="col">Plats</th>
           <th scope="col">Course</th>
@@ -12,7 +11,6 @@
       </thead>
       <tbody>
         <tr v-if="occasionArr.length < 1">
-          <td></td>
           <td>inga tillfällen</td>
           <td>-</td>
           <td>-</td>
@@ -23,7 +21,6 @@
           v-for="(occasion, i) in occasionArr"
           :key="i"
         >
-          <td>checkbox</td>
           <td>{{ occasion.id }}</td>
           <td>{{ occasion.locationCode }}</td>
           <td>{{ occasion.courseCode }}</td>
@@ -35,13 +32,12 @@
 </template>
 
 <script>
-"use strict";
 
 export default {
   name: "OccasionTable",
   components: {},
   props: {
-    occasionArr: null
+    occasionArr: Array
   },
   data() {
     return {
@@ -56,7 +52,12 @@ export default {
 </script>
 
 <style scoped>
-#occasion-table {
+#occasion-table-results-table {
   overflow: auto;
+  overflow-y: scroll;
+  height: content-box;
+  width: 450px;
+  padding-right: 1em;
+  border-right: none;
 }
 </style>

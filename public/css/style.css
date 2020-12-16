@@ -8,16 +8,16 @@ tr {
 
 .container {
     display: flex;
-    flex: auto;
-    flex-wrap: nowrap;
-    flex-direction: row;
-    padding-top: 2rem;
+    /*flex: auto;*/
+    /*flex-wrap: nowrap;*/
+    /*flex-direction: row;*/
+    /*padding-top: 2rem;*/
 }
 
 /* Vertically stacked elements */
 .container-v {
     display: flex;
-    flex: auto;
+    /*flex: auto;*/
     flex-direction: column;
     padding-top: 0rem;
 }

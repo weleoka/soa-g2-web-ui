@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Schema 1: Först behöver vi välja kurstillfälle.</h1>
+    <h1>Steg 1: välja kurstillfälle --></h1>
     <CourseFinderBox
       :course-code-list="courseCodeList"
       @refresh-courses-event="this.refreshCoursesHandler"
@@ -8,29 +8,19 @@
       @selected-course-event="this.selectedCourseHandler"
     />
     <hr />
-    <h3>Val av tillfälle</h3>
-    <OccasionTable
+    <OccasionFinderBox
       :occasion-arr="occasionArr"
+      :occasion="occasion"
       @selected-occasion-event="this.selectedOccasionHandler"
+      @refresh-occasions-event="this.refreshOccasionsHandler"
+      @clear-occasions-event="this.clearOccasion"
     />
-    <div class="container">
-      <button class="btn-a" type="button" @click="this.refreshOccasionsHandler">
-        Alla kurstillfällen
-      </button>
-      <button type="button" class="btn-a" @click="this.clearOccasion">
-        Rensa
-      </button>
-    </div>
-    <hr />
-    <h3>Detaljer kurstillfälle: {{ occasion.id }}</h3>
-    <OccasionDetailBox v-if="occasion" :occasion="occasion" />
   </div>
 </template>
 
 <script>
-import OccasionTable from "@/components/u4/OccasionTable.vue";
 import CourseFinderBox from "@/components/u4/CourseFinderBox.vue";
-import OccasionDetailBox from "@/components/u4/OccasionDetailBox.vue";
+import OccasionFinderBox from "@/components/u4/OccasionFinderBox.vue";
 import occasionApiService from "@/service/u4/occasionApiService";
 
 import { mapMutations, mapState } from "vuex";
@@ -40,8 +30,9 @@ export default {
   name: "OccasionTab",
   components: {
     CourseFinderBox,
-    OccasionTable,
-    OccasionDetailBox
+    //OccasionTable,
+    OccasionFinderBox,
+    //OccasionDetailBox
   },
   data() {
     return {
@@ -67,24 +58,6 @@ export default {
       "setOccasionArr",
       "setActiveOccasionCode"
     ]),
-
-    /* Reload the occasions table. Mostly for testing requests.
-     */
-    async refreshOccasionsHandler() {
-      console.debug("refreshOccasionsHandler() called.");
-      const res = await occasionApiService.getOccasionsByCourseCode();
-      this.setOccasionArr(res); // mutate store state
-    },
-
-    /* Get meta info about an occasion.
-     * maybe for a popup or side-panel info window.
-     */
-    async selectedOccasionHandler(occasionCode) {
-      console.debug("selectedOccasionHandler() called.");
-      this.setActiveOccasionCode(occasionCode); // mutate store
-      const res = await occasionApiService.getOccasion(occasionCode);
-      this.occasion = await occasionApiService.getOccasionDetails(res);
-    },
 
     /* Gets metadata from backend for a course.
      * Sets the occasions list depending on course code,
@@ -127,6 +100,23 @@ export default {
       } else {
         this.courseCodeList = [];
       }
+    },
+
+    /* Reload the occasions table. Mostly for testing requests. */
+    async refreshOccasionsHandler() {
+      console.debug("refreshOccasionsHandler() called.");
+      const res = await occasionApiService.getOccasionsByCourseCode();
+      this.setOccasionArr(res); // mutate store state
+    },
+
+    /* Get meta info about an occasion.
+     * maybe for a popup or side-panel info window.
+     */
+    async selectedOccasionHandler(occasionCode) {
+      console.debug("selectedOccasionHandler() called.");
+      this.setActiveOccasionCode(occasionCode); // mutate store
+      const res = await occasionApiService.getOccasion(occasionCode);
+      this.occasion = await occasionApiService.getOccasionDetails(res);
     },
 
     /* Handler for the occasion table clearing button */
