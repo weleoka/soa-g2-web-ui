@@ -2,12 +2,12 @@
   <div>
     <h1>Steg 2: välj lektionstider</h1>
     <br>
-    <CalendarBox
-      @cell-selected-event="this.cellSelectedHandler"
+    <EventCalendarBox
       :time-slots="timeSlots"
+      @cell-clicked-event="this.cellClickedHandler"
     />
     <hr/>
-    <CreateEventBox
+    <EventCreateBox
       :new-event="newEvent"
       :time-slots="timeSlots"
     />
@@ -17,6 +17,7 @@
 <script>
 import CreateEventBox from "@/components/u4/CreateEventBox.vue";
 import CalendarBox from "@/components/u4/CalendarBox.vue";
+import eventApiService from "@/service/u4/eventApiService";
 
 export default {
   name: "TimeTab",
@@ -43,9 +44,19 @@ export default {
     }
   },
   methods: {
-    cellSelectedHandler(cellId) {
-      console.debug("There's been a cell clicked!");
-    }
+    customEventCreation(datetime) {
+      // round off datetime to nearest day
+      // jump to other event creation sections
+      // set the title, content and class attributes
+      // get the equipment, teacher and room attributes
+      // repetition, week exclusion and variations for "burst" creation
+      this.$refs.vueCal.createEvent(
+          datetime,
+          90,
+          { title: 'New Event', content: 'yay! 🎉', class: 'blue-event' }
+      )
+      eventApiService.createNewEvent(this.newEvent)
+    },
   }
 };
 </script>

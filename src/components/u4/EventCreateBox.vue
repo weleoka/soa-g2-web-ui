@@ -16,7 +16,7 @@
 
 <script>
 export default {
-  name: "CreateEventBox",
+  name: "EventCreateBox",
   props: {
     timeSlots: Object,
     event: Object
