@@ -10,6 +10,14 @@ A better option would be to have per-file rules and the likes. The problem is th
 This project attempts to use the most recent versions of the various technologies involved. This means Vue.js 3, and class-based component syntax, among others. For the screenshot of initial project choices we have:
 ![](./vue_cli_settings.png)
 
+# Time slots
+Time slots:
+    08.15 - 09.45: 1.5h
+    10.15 - 11.45: 1.5h
+    13.00 - 14.30: 1.5h
+    14.45 - 16.15: 1.5h
+    16.30 - 18.00: 1.5h
+
 
 # Getting started
 Make sure you have Node, Node Package Manager amd and Vue-cli installed on your system.

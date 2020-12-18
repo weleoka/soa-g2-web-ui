@@ -29,12 +29,13 @@
   </div>
 </template>
 
-<script>
-import { mapActions, mapGetters, mapMutations, mapState } from "vuex";
-import CourseCodeDropdown from "@/components/u3/CourseCodeDropdown";
-import ModuleSearchInput from "@/components/u3/ModuleSearchInput";
+<script lang="ts">
+import { mapActions, mapState } from "vuex";
+import { Options, Vue } from "vue-class-component";
+import CourseCodeDropdown from "@/components/u3/CourseCodeDropdown.vue";
+import ModuleSearchInput from "@/components/u3/ModuleSearchInput.vue";
 
-export default {
+@Options({
   name: "ModuleTable",
   components: {
     CourseCodeDropdown,
@@ -45,25 +46,20 @@ export default {
       checkedNames: []
     };
   },
-  // todo: when to mapState and when to mapGetters vuex?
-  computed: mapState({ moduleArr: state => state.gradeStore.moduleArr }), // works. implicitly to state.gradeStore.state.moduleArr
+  computed: {
+    ...mapState("gradeStore", ["moduleArr"])
+  },
   methods: {
-    // todo: so far failed to implement mapActions in the explicit way like below.
-    //...mapActions({ populateModuleArr: state => state.gradeStore.populateModuleArr }), // this fails
-    // todo: this is the array string way which I don't like because code completion falls apart.
-    ...mapActions("gradeStore", ["populateModuleArr"]), // but this works
-    ...mapMutations({
-      setActiveCourseCode: state => state.setActiveCourseCode // root store
-    }),
+    ...mapActions("gradeStore", ["populateModuleArr"]),
 
-    // Takes a search string to find modules by. NOT implemented
+    /* Takes a search string to find modules by. NOT implemented */
     getModulesBySearchStr(searchStr) {
       console.log("getModulesBySearchStr() NOT implemented, str: " + searchStr);
     },
 
     // Event handler for when selected Course Code changes
     async selectedCourseCodeChange(courseCode) {
-      this.setActiveCourseCode(courseCode); // from mapMutations
+      this.setActiveCourseCode(courseCode);
       if (courseCode === "ALL") {
         await this.populateModuleArr();
       } else {
@@ -71,9 +67,8 @@ export default {
       }
     }
   }
-  /*beforeMount() {
-  }*/
-};
+})
+export default class ModuleTable extends Vue {}
 </script>
 
 <style scoped></style>

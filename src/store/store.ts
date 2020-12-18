@@ -19,6 +19,7 @@ import myAxios from "../service/myAxios";
 import { authStoreModule } from "@/store/authStore";
 import { gradeStoreModule } from "@/store/gradeStore";
 import { scheduleStoreModule } from "@/store/scheduleStore";
+import { Course } from "@/service/types";
 
 console.log(myAxios.defaults);
 
@@ -27,29 +28,21 @@ export default createStore({
   //strict: process.env.NODE_ENV !== 'production',
   strict: true,
   state: {
-    courseCodeArr: ["D0021E", "D0022E", "D0023E"],
-    activeCourseCode: null
-  },
-  getters: {
-    // replaced by mapState in components
-    //getCourseCodes: state => state.courseCodeArr,
-    //getActiveCourseCode: state => state.activeCourseCode
+    courseCodeArr: ["D0021E", "D0022E", "D0023E"], // todo: better as courseArr.
+    selectedCourse: Course
   },
   mutations: {
-    setActiveCourseCode(state, payload) {
-      // todo: try implicit declaration and use mapMutation in callers.
-      console.debug("setActiveCourseCode() mutation: " + payload);
-      state.activeCourseCode = payload;
+    setSelectedCourse(payload) {
+      console.debug("setSelectedCourse() mutation: " + payload);
+      this.selectedCourse = payload;
     }
   },
   actions: {},
+  /* This makes your getters, mutations, and actions accessed by,
+   * eg: 'myModule/myModularizedThing' instead of mounting getters,
+   * mutations, and actions to the root namespace */
   modules: {
-    // This makes your getters, mutations, and actions accessed by,
-    // eg: 'myModule/myModularizedThing' instead of mounting getters,
-    // mutations, and actions to the root namespace.
     //authStoreModule, // this seems to unpack all the functions into the root store
-    //gradeStoreModule,
-    //scheduleStoreModule
     authStore: authStoreModule, // but this maintains a namespace
     gradeStore: gradeStoreModule,
     scheduleStore: scheduleStoreModule

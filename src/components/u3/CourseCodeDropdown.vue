@@ -17,10 +17,11 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { mapState } from "vuex";
+import { Options, Vue } from "vue-class-component";
 
-export default {
+@Options({
   name: "CourseCodeDropdown",
   props: {
     preselected: String
@@ -36,14 +37,11 @@ export default {
       ]
     };
   },
-  computed: mapState({
-    courseCodesArr: state => state.courseCodeArr,
-    currentActiveCourseCode: state => state.activeCourseCode
-  }),
+  computed: mapState(["courseCodeArr", "selectedCourse"]),
   beforeMount() {
-    for (let i = 0; i < this.courseCodesArr.length; i++) {
-      const courseCode = this.courseCodesArr[i];
-      if (courseCode === this.currentActiveCourseCode) {
+    for (let i = 0; i < this.courseCodeArr.length; i++) {
+      const courseCode = this.courseCodeArr[i];
+      if (courseCode === this.selectedCourse) {
         // todo: make the dropdown display the right course code on entry.
       }
       this.options.push({
@@ -52,7 +50,8 @@ export default {
       });
     }
   }
-};
+})
+export default class CourseCodeDropdown extends Vue {}
 </script>
 
 <style scoped></style>

@@ -61,10 +61,11 @@
   </header>
 </template>
 
-<script>
-import { mapState, mapActions } from "vuex";
+<script lang="ts">
+import { mapActions, mapState } from "vuex";
+import { Options, Vue } from "vue-class-component";
 
-export default {
+@Options({
   name: "NavBar",
   data() {
     return {
@@ -86,26 +87,14 @@ export default {
   },
   computed: {
     selected() {
+      // important!
       return this.$route.path;
     },
-    ...mapState({
-      isSignedIn: state => state.authStore.authUser.tokenId,
-      userEmail: state => state.authStore.authUser.userEmail
-    })
+    ...mapState("authStore", ["isSignedIn", "userEmail"])
   },
-  methods: mapActions({
-    doSignout: state => state.authStore.doSignout()
-  }),
-  setup(props) {
-    console.log(
-      "setup() in MyHeader.vue accessing props.userEmail:" + props.userEmail
-    );
-  }
-  /*  beforeMount() {
-    console.log("beforeMount() " + this.selected);
-    this.selected = this.$route.path;
-  }*/
-};
+  methods: mapActions("authStore", ["doSignout"])
+})
+export default class NavBar extends Vue {}
 </script>
 
 <style scoped>

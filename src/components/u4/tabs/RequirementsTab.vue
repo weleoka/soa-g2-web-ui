@@ -4,11 +4,14 @@
   </div>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import { Options, Vue } from "vue-class-component";
+
+@Options({
   name: "RequirementsTab",
   components: {}
-};
+})
+export default class RequirementsTab extends Vue {}
 </script>
 
 <style scoped></style>

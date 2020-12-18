@@ -6,27 +6,30 @@ Often this is where we would use local storage db and
 save state to a db on the client.
  */
 
-import occasionApiService from "@/service/u4/occasionApiService";
-
 export const scheduleStoreModule = {
   namespaced: true,
   state: {
-    occasionArr: [],
-    activeOccasionCode: ""
+    selectedOccasion: {},
+    selectedSchedule: {}
   },
-  getters: {},
-  actions: {
-    /**
-     * Commits the active courseCode to local root store state and then fetches
-     * occasions by course code, and commits those to local store state.
-     */
-    async doSetActiveCourseCode(context, courseCode) {
-      context.commit("setActiveCourseCode", courseCode);
+  mutations: {
+    // todo: try removing and replacing with mapMutations in callers.
+    /*    setSelectedOccasion(payload) {
+      console.debug("setSelectedOccasion() mutation: " + payload);
+      this.occasion = payload;
+    }*/
+  }
+};
+
+/*  actions: {
+    /!**
+     * Commits selected course to local root store store state, and then fetches
+     * occasions by course and returns them.
+     *!/
+    async doSetSelectedCourse(context, course) {
+      context.commit("setSelectedCourse", course);
       try {
-        context.commit(
-          "setOccasionArr",
-          await occasionApiService.getOccasionsByCourseCode(courseCode)
-        );
+        return await occasionApiService.getOccasions(course);
       } catch (e) {
         if (e instanceof TypeError) {
           console.error("No occasions");
@@ -35,16 +38,4 @@ export const scheduleStoreModule = {
         }
       }
     }
-  },
-  mutations: {
-    // todo: try removing and replacing with mapMutations in callers.
-    setActiveOccasionCode(state, payload) {
-      console.debug("setActiveOccasionCode() mutation: " + payload);
-      state.activeOccasionCode = payload;
-    },
-    setOccasionArr(state, payload) {
-      console.debug("setOccasionArr() mutation: " + payload);
-      state.occasionArr = payload;
-    }
-  }
-};
+  },*/

@@ -1,12 +1,9 @@
 <template>
   <div class="container-v" id="create-event-box">
     <h3>Ny lektion</h3>
-    <div
-      v-if="event"
-      id="event-detail-box"
-    >
-      <h4>Detaljer för eventet {{ event.id }}</h4>
-      Metadata info: {{ event }}
+    <div v-if="newEvent" id="new-event-detail-box">
+      <h4>Detaljer för eventet {{ newEvent.id }}</h4>
+      Metadata info: {{ newEvent }}
     </div>
     <div>
       Här så måste vi välja pass och annat roligt skoj.
@@ -14,14 +11,18 @@
   </div>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import { Options, Vue } from "vue-class-component";
+import { Event } from "@/service/types";
+
+@Options({
   name: "EventCreateBox",
   props: {
     timeSlots: Object,
-    event: Object
+    newEvent: Event
   }
-};
+})
+export default class EventCreateBox extends Vue {}
 </script>
 
 <style scoped>

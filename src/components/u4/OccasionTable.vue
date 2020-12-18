@@ -7,6 +7,7 @@
           <th scope="col">Plats</th>
           <th scope="col">Course</th>
           <th scope="col">Period</th>
+          <th scope="col">Rate</th>
         </tr>
       </thead>
       <tbody>
@@ -15,29 +16,32 @@
           <td>-</td>
           <td>-</td>
           <td>-</td>
+          <td>-</td>
         </tr>
         <tr
-          @click="this.rowClickedHandler(i, occasion.id)"
+          @click="this.rowClickedHandler(i, occasion)"
           v-for="(occasion, i) in occasionArr"
           :key="i"
-          :class="{'clicked-row' : clickedRow === i }"
+          :class="{ 'clicked-row': clickedRow === i }"
         >
           <td>{{ occasion.id }}</td>
           <td>{{ occasion.locationCode }}</td>
           <td>{{ occasion.courseCode }}</td>
           <td>{{ occasion.periodCode }}</td>
+          <td>{{ occasion.studyRate }}</td>
         </tr>
       </tbody>
     </table>
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { Options, Vue } from "vue-class-component";
 
-export default {
+@Options({
   name: "OccasionTable",
   props: {
-    occasionArr: Array
+    occasionArr: []
   },
   data() {
     return {
@@ -45,15 +49,18 @@ export default {
     };
   },
   watch: {
-    occasionArr() { this.clickedRow = null }
+    occasionArr() {
+      this.clickedRow = null;
+    }
   },
   methods: {
-    rowClickedHandler(rowId, occasionId) {
+    rowClickedHandler(rowId, occasion) {
       this.clickedRow = rowId;
-      this.$emit('selected-occasion-event', occasionId)
+      this.$emit("selected-occasion-event", occasion);
     }
   }
-};
+})
+export default class OccasionTable extends Vue {}
 </script>
 
 <style scoped>

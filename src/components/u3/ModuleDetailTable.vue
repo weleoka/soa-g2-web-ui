@@ -39,8 +39,10 @@
   </div>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import { Options, Vue } from "vue-class-component";
+
+@Options({
   //strict mode;
   name: "ModuleDetailTable",
   props: {
@@ -68,7 +70,8 @@ export default {
       this.busybusy = false;
     }
   }
-};
+})
+export default class ModuleDetailTable extends Vue {}
 </script>
 
 <style scoped></style>

@@ -13,7 +13,6 @@ export const gradeStoreModule = {
   state: {
     moduleArr: []
   },
-  getters: {}, // dummy getters replaced by mapState
   actions: {
     async populateModuleArr(context, courseCode) {
       console.debug("Populating moduleArr for courseCode: " + courseCode);

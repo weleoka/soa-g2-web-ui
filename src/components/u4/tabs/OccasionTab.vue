@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>Steg 1: välj kurstillfälle</h1>
-    <br>
+    <br />
     <CourseFinderBox
       :course-arr="courseArr"
       @refresh-courses-event="this.refreshCoursesHandler"
@@ -11,7 +11,6 @@
     <hr />
     <OccasionFinderBox
       :occasion-arr="occasionArr"
-      :occasion="occasion"
       @selected-occasion-event="this.selectedOccasionHandler"
       @refresh-occasions-event="this.refreshOccasionsHandler"
       @clear-occasions-event="this.clearOccasionBoxHandler"
@@ -19,74 +18,61 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import CourseFinderBox from "@/components/u4/CourseFinderBox.vue";
 import OccasionFinderBox from "@/components/u4/OccasionFinderBox.vue";
 import occasionApiService from "@/service/u4/occasionApiService";
 
 import { mapMutations, mapState } from "vuex";
 import courseApiService from "@/service/u4/courseApiService";
+import { Options, Vue } from "vue-class-component";
 
-export default {
+@Options({
   name: "OccasionTab",
   components: {
     CourseFinderBox,
-    OccasionFinderBox,
+    OccasionFinderBox
   },
   data() {
     return {
-      course: {}, // selected course
       courseArr: [],
-      occasion: {} // selected occasion
+      occasionArr: []
     };
   },
   computed: {
-    ...mapState({
-      activeCourseCode: state => state.activeCourseCode,
-      occasionArr: state => state.scheduleStore.occasionArr,
-      activeOccasionCode: state => state.scheduleStore.activeOccasionCode
-    })
+    ...mapState(["selectedCourse"])
   },
   methods: {
-    // todo: this does not work... seems to be the same issue as mapActions, need to use the (string, [string]) format.
-    /*...mapMutations({
-      setOccasionArr: state => state.scheduleStore.setOccasionArr,
-      setSelectedOccasion: state => state.scheduleStore.setSelectedOccasion,
-    }),*/
-    ...mapMutations("scheduleStore", [
-      "setOccasionArr",
-      "setActiveOccasionCode"
-    ]),
+    // this does not work, same as mapActions, need to use the (string, [string]) format,
+    // however it's useful for TypeScript separation to Vuex.
+    //...mapMutations({setSelectedOccasion: state => state.scheduleStore.setSelectedOccasion})
+    ...mapMutations("scheduleStore", ["setSelectedOccasion"]),
+    ...mapMutations(["setSelectedCourse"]),
+    //...mapActions(["scheduleStore"], ["doSetSelectedCourse"]),
 
-    /* Gets metadata from backend for a course.
-     * Sets the occasions list depending on course code,
-     * todo: should consolidate metadata and details.
-     */
-    async selectedCourseHandler(courseCode) {
-      console.debug("selectedCourseHandler() called.");
-      this.setOccasionArr(
-        await occasionApiService.getOccasionsByCourseCode(courseCode)
-      ); // set in store
-      this.course = await courseApiService.getCourseDetails(courseCode); // not implemented
+    /* Populates occasionArr by course */
+    async selectedCourseHandler(course) {
+      console.debug("OccasionTab->selectedCourseHandler()");
+      //await this.doSetSelectedCourse(course);
+      this.setSelectedCourse(course);
+      this.occasionArr = await occasionApiService.getOccasions(course);
     },
 
-    /* Get just a list of available courses, and then maps just the
-     * codes to a local data property. */
+    /* Populates courseArr */
     async refreshCoursesHandler() {
-      console.debug("refreshCoursesHandler() called.");
-      const res = await courseApiService.getCourseList();
-      this.courseArr = res.map(item => item);
+      console.debug("OccasionTab->refreshCoursesHandler()");
+      this.courseArr = await courseApiService.getCourses();
     },
 
     /* Searches for a part or full match case insensitive course code.
      * If no search string is supplied it sets the course list to none.
      */
     async searchCourseHandler(searchStr) {
+      console.debug("OccasionTab->searchCourseHandler()");
       if (searchStr) {
-        console.debug("searchCourseHandler() called.");
         // todo: make a serverside search API endpoint
         const regex = RegExp(searchStr, "i"); // i for case insensitive
-        const res = await courseApiService.getCourseList();
+        const res = await courseApiService.getCourses();
         const arr = [];
         for (let i = 0; i < res.length; i++) {
           if (res[i].id.match(regex)) {
@@ -100,31 +86,27 @@ export default {
       }
     },
 
-    /* Reload the occasions table. Mostly for testing requests. */
+    /* Reloads occasionArr in OccasionTab */
     async refreshOccasionsHandler() {
-      console.debug("refreshOccasionsHandler() called.");
-      const res = await occasionApiService.getOccasionsByCourseCode();
-      this.setOccasionArr(res); // mutate store state
+      console.debug("OccasionTab->refreshOccasionsHandler()");
+      this.occasionArr = await occasionApiService.getOccasions();
     },
 
-    /* Get meta info about an occasion.
-     * maybe for a popup or side-panel info window.
-     */
-    async selectedOccasionHandler(occasionCode) {
-      console.debug("selectedOccasionHandler() called.");
-      this.setActiveOccasionCode(occasionCode); // mutate store
-      const res = await occasionApiService.getOccasion(occasionCode);
-      this.occasion = await occasionApiService.getOccasionDetails(res);
+    /* Sets selectedOccasion in store */
+    async selectedOccasionHandler(occasion) {
+      console.debug("OccasionTab->selectedOccasionHandler()");
+      this.setSelectedOccasion(occasion); // mutate store
     },
 
-    /* Handler for the occasion table clearing button */
+    /* Clears occasionArr in OccasionTab */
     clearOccasionBoxHandler() {
-      this.setActiveOccasionCode(""); // mutate store
-      this.occasion = {}
-      this.setOccasionArr([]);
+      console.debug("OccasionTab->clearOccasionBoxHandler()");
+      this.setSelectedOccasion(""); // mutate store
+      this.occasionArr = [];
     }
   }
-};
+})
+export default class OccasionTab extends Vue {}
 </script>
 
 <style scoped></style>

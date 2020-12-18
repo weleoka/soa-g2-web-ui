@@ -42,20 +42,27 @@
   </div>
 </template>
 
-<script>
-import CourseTable from "@/components/u4/CourseTable";
+<script lang="ts">
+import { Options, PropOptions, Vue } from "vue-class-component";
+import { Course } from "@/service/types";
+import CourseTable from "@/components/u4/CourseTable.vue";
 
-export default {
+@Options({
   name: "CourseFinderBox",
   components: {
     CourseTable
   },
   props: {
-    courseArr: Array
+    courseArr: {
+      type: Array,
+      default() {
+        return [];
+      }
+    } as PropOptions<Course[]>
   },
   data() {
     return {
-      searchStr: "", // full, or part, case-insensitive matching a course code
+      searchStr: "" // full, or part, case-insensitive matching a course code
     };
   },
   methods: {
@@ -65,9 +72,10 @@ export default {
     clearSearch() {
       this.searchStr = "";
       this.$emit("search-course-code-event", this.searchStr);
-    },
+    }
   }
-};
+})
+export default class CourseFinderBox extends Vue {}
 </script>
 
 <style scoped>

@@ -7,6 +7,7 @@ save state to a db on the client.
  */
 
 import httpAxios from "@/service/httpAxios";
+import { throwApiError } from "@/service/errors";
 
 interface SubmissionObj {
   id: string;
@@ -19,17 +20,6 @@ interface SubmissionObj {
   moduleCode: string;
   grade: string;
   verified: boolean;
-}
-
-/*
-Because of the big complications in extending Error in Javascript we fake the process
-and use this custom error object instead...
- */
-function throwApiError(msg: string) {
-  throw {
-    name: "ApiError",
-    message: msg
-  };
 }
 
 export default {

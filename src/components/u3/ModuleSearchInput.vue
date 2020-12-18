@@ -10,15 +10,18 @@
   </div>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import { Options, Vue } from "vue-class-component";
+
+@Options({
   name: "ModuleSearchInput",
   data() {
     return {
       searchStr: ""
     };
   }
-};
+})
+export default class ModuleSearchInput extends Vue {}
 </script>
 
 <style scoped></style>

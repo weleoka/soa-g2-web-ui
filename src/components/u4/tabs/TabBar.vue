@@ -24,13 +24,15 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 // static import of components
 //import OccasionTab from "@/components/u4/tabs/OccasionTab.vue";
 //import TimeTab from "@/components/u4/tabs/TimeTab.vue";
 
 // dynamic imports of components
 import { defineAsyncComponent } from "@vue/runtime-core";
+import { Options, Vue } from "vue-class-component";
+
 const OccasionTab = defineAsyncComponent(() =>
   import("@/components/u4/tabs/OccasionTab.vue")
 );
@@ -44,7 +46,7 @@ const RoomTab = defineAsyncComponent(() =>
   import("@/components/u4/tabs/RoomTab.vue")
 );
 
-export default {
+@Options({
   component: "TabBar",
   components: {
     /*    OccasionTab: defineAsyncComponent(() => // todo: list dynamic components under components!
@@ -99,7 +101,8 @@ export default {
         : this.selected;
     }
   }
-};
+})
+export default class TabBar extends Vue {}
 </script>
 
 <style scoped>
@@ -139,6 +142,5 @@ export default {
 }
 
 #tab-view div {
-
 }
 </style>
