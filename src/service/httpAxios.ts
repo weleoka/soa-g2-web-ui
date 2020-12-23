@@ -7,23 +7,10 @@ Rewrite rules are depending on production and development and may be set by webp
  */
 
 import axios from "axios";
-/*
-export default {
-  myAxios: (a: AxiosInstance) => {
-    return axios.create({
-      baseURL: `http://api.pearson.com/v2/dictionaries`,
-      withCredentials: false,
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      }
-    })
-  }
-}
-*/
-
+const baseUrl = process.env.VUE_APP_BASE_URL + process.env.VUE_APP_API_PATH; // from .env file or shell
+console.debug("Axios baseURL: " + baseUrl);
 const instance = axios.create({
-  baseURL: process.env.VUE_APP_BASE_URL + "/appmw", // se rewrite rule in vue.config.js
+  baseURL: baseUrl,
   withCredentials: false,
   headers: {
     Accept: "application/json",
@@ -31,4 +18,25 @@ const instance = axios.create({
   }
 });
 
+
+// Add a request interceptor.
+// https://auralinna.blog/post/2019/global-http-request-and-response-handling-with-the-axios-interceptor/
+instance.interceptors.request.use(
+    function(config) {
+      return config;
+    },
+    function(error) {
+      // Do something with request error
+      return Promise.reject(error);
+    }
+);
+
 export default instance;
+
+/*
+const httpAxios = axios.create({
+  baseURL: process.env.VUE_APP_API_URL,
+  timeout: 3000,
+  headers: { "X-Custom-Header": "foobar" }
+});
+*/

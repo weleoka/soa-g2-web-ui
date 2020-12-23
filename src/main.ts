@@ -80,10 +80,11 @@ router.beforeEach((to, from, next) => {
 });
 // === END META HEAD hack ===
 
+// Removed the event bus called mitt. May be useful again at some point
 //const emitter = mitt(); // javascript way
-const emitter: Emitter = mitt(); // typescript way
+//const emitter: Emitter = mitt(); // typescript way
 const app = createApp(App);
-app.config.globalProperties.emitter = emitter;
+//app.config.globalProperties.emitter = emitter;
 
 //app.provide('emitter', emitter)
 app

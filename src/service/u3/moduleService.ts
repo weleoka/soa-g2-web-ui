@@ -6,7 +6,7 @@ Often this is where we would use local storage db and
 save state to a db on the client.
  */
 
-import myAxios from "@/service/myAxios";
+import httpAxios from "@/service/httpAxios";
 
 interface ModuleObj {
   id: string;
@@ -20,7 +20,7 @@ export default {
   async getModulesByCourseCode(courseCode: string) {
     const params = courseCode ? {course_code: courseCode} : {}; //eslint-disable-line
     try {
-      const res = await myAxios.get("/modules", { params });
+      const res = await httpAxios.get("/modules", { params });
       console.debug("GET request to: " + res.config.baseURL + res.config.url);
       return this.moduleObjectMapper(res.data);
     } catch (error) {
@@ -32,7 +32,7 @@ export default {
   async getModuleDetails() {
     // WARN: not implemented.
     try {
-      const res = await myAxios.get("/modules");
+      const res = await httpAxios.get("/modules");
       console.debug("GET request to: " + res.config.baseURL + res.config.url);
       return this.moduleObjectMapper(res.data);
     } catch (error) {
@@ -41,6 +41,7 @@ export default {
   },
 
   // Object mapper DTO to application
+  // todo: use object mapper library
   moduleObjectMapper(moduleArr: any[]) {
     console.debug("Mapping Module objects: " + moduleArr.length);
     const arr = [];

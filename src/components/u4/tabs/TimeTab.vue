@@ -9,10 +9,12 @@
     </div>
     <br />
     <EventCalendarBox
-      v-if="schedule"
+      v-if="!loading"
       :time-slots="timeSlots"
       @cell-clicked-event="cellClickedHandler"
     />
+    <p v-if="loading">Loading...</p>
+    <p v-if="error">Error!</p>
     <hr />
     <EventCreateBox
       v-if="schedule"
@@ -25,8 +27,8 @@
 <script lang="ts">
 import EventCreateBox from "@/components/u4/EventCreateBox.vue";
 import EventCalendarBox from "@/components/u4/EventCalendarBox.vue";
-import eventApiService from "@/service/u4/eventApiService";
-import scheduleApiService from "@/service/u4/scheduleApiService";
+import eventService from "@/service/u4/eventService";
+import scheduleService from "@/service/u4/scheduleService";
 import { mapState } from "vuex";
 import { Options, Vue } from "vue-class-component";
 import { Occasion } from "@/service/types";
@@ -39,9 +41,14 @@ import { Occasion } from "@/service/types";
   },
   data() {
     return {
-      schedule: {}, // set once the schedule is loaded from API.
+      state: {
+        loading: true,
+        error: null
+      },
       eventsArr: {},
+      schedule: {}, // todo: move to store
       timeSlots: {
+        // todo: move to store
         1: { from: 9 * 60 + 15, to: 9 * 60 + 45, class: "slot-1" },
         2: { from: 10 * 60 + 15, to: 11 * 60 + 45, class: "slot-2" },
         3: { from: 13 * 60, to: 14 * 60 + 30, class: "slot-3" },
@@ -50,6 +57,9 @@ import { Occasion } from "@/service/types";
       },
       newEvent: {}
     };
+  },
+  created() {
+    this.refreshScheduleHandler();
   },
   computed: {
     ...mapState("scheduleStore", ["selectedSchedule", "selectedOccasion"])
@@ -67,15 +77,28 @@ import { Occasion } from "@/service/types";
         content: "yay! 🎉",
         class: "blue-event"
       });
-      return await eventApiService.createNewEvent(this.newEvent);
+      return await eventService.createNewEvent(this.newEvent);
     },
 
-    /* Gets a schedule for selected curse occasion */
+    /* Refresh schedule and events objects */
     async refreshScheduleHandler() {
-      //this.schedule = await scheduleApiService.getScheduleByOccasion(this.selectedOccasion); // good
-      this.schedule = await scheduleApiService.getScheduleByOccasion(
+      this.state.loading = true;
+      await this.loadSchedule();
+      await this.loadEvents();
+      this.state.loading = false;
+    },
+
+    /* load the schedule depending on course occasion */
+    async loadSchedule() {
+      //this.schedule = await scheduleService.getScheduleByOccasion(this.selectedOccasion); // good
+      this.schedule = await scheduleService.getScheduleByOccasion(
         new Occasion("tillfalle03")
       ); // testing
+    },
+
+    /* load events, requires a schedule to be set */
+    async loadEvents() {
+      this.eventsArr = await eventService.getEventsBySchedule(this.schedule);
     },
 
     /* Processing the big click! */

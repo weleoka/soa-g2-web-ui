@@ -34,7 +34,7 @@ export default {
   },*/
   async getSubmissionsByAssignment(examinationCode: string) {
     console.log(
-      "Called resultsApiService->getAssignments() with examinationcode: " +
+      "Called resultService->getAssignments() with examinationcode: " +
         examinationCode
     );
     try {
@@ -97,23 +97,3 @@ export default {
     return arr;
   }
 };
-
-/*
-<!--
-  {"submissions":
-    [
-      {
-        "submission_id":"assignmt03",
-        "examination":null,
-        "student_id":"agåb-6",
-        "first_name":"Agnes",
-        "last_name":"Åberg",
-        "teacher_id":null,
-        "created_at":null,
-        "module_code":"module03",
-        "grade":"G",
-        "verified":false
-      }
-    ]
-  }
-  -->*/

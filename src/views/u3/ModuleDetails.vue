@@ -13,7 +13,7 @@
 
 <script lang="ts">
 import ModuleDetailTable from "@/components/u3/ModuleDetailTable.vue";
-import resultsApiService from "@/service/u3/resultsApiService";
+import resultService from "@/service/u3/resultService";
 import { Options, Vue } from "vue-class-component";
 
 @Options({
@@ -55,13 +55,13 @@ import { Options, Vue } from "vue-class-component";
     },
     async updateModuleObj() {
       this.loading = true;
-      this.submissionArr = await resultsApiService.getSubmissionsByAssignment(
+      this.submissionArr = await resultService.getSubmissionsByAssignment(
         this.moduleId
       );
       this.loading = false;
     },
     async verifyGradeHandler(submissionId: string, i: number) {
-      const res = await resultsApiService.submitGradeVerification(submissionId);
+      const res = await resultService.submitGradeVerification(submissionId);
       this.submissionArr[i].verified = true; // the ugly hack.
       //Todo here set the verification status locally as a fix... however that means we will have to
       //  mae the submissionArr/submissionsArr persistent in this.$store, which brings on the question

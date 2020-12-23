@@ -1,6 +1,6 @@
 <template>
   <div>
-    <CourseCodeDropdown @selection-event="selectedCourseCodeChange" />
+    <CourseCodeDropdown @selection-event="selectionEventHandler" />
     <div class="table-responsive py-4">
       <table class="table table-striped table-hover" id="module-table">
         <thead class="thead-light table-success">
@@ -50,20 +50,19 @@ import ModuleSearchInput from "@/components/u3/ModuleSearchInput.vue";
     ...mapState("gradeStore", ["moduleArr"])
   },
   methods: {
-    ...mapActions("gradeStore", ["populateModuleArr"]),
+    ...mapActions("gradeStore", ["doSelectCourseByCourseCode"]),
 
     /* Takes a search string to find modules by. NOT implemented */
     getModulesBySearchStr(searchStr) {
       console.log("getModulesBySearchStr() NOT implemented, str: " + searchStr);
     },
 
-    // Event handler for when selected Course Code changes
-    async selectedCourseCodeChange(courseCode) {
-      this.setActiveCourseCode(courseCode);
+    /* Event handler for when selected Course Code changes */
+    async selectionEventHandler(courseCode) {
       if (courseCode === "ALL") {
-        await this.populateModuleArr();
+        this.doSelectCourseByCourseCode();
       } else {
-        await this.populateModuleArr(courseCode);
+        this.doSelectCourseByCourseCode(courseCode);
       }
     }
   }

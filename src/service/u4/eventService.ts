@@ -3,22 +3,22 @@
 Service for working with backend or middleware apis.
 */
 
-import myAxios from "@/service/myAxios";
+import httpAxios from "@/service/httpAxios";
 // library https://www.npmjs.com/package/object-mapper
-import { objectMapper } from "object-mapper";
+import { morphism } from "morphism";
 import { dtoToEvent, Event, eventToDto, Schedule } from "@/service/types";
 
 export default {
   /* Gets events for a schedule */
   async getEventsBySchedule(schedule: Schedule) {
-    console.debug("eventApiService->getEventsBySchedule()");
+    console.debug("eventService->getEventsBySchedule()");
     const params = schedule ? {schedule_code: schedule.id} : {}; //eslint-disable-line
     if (params) {
       // only get events if there is an occasion code
       try {
-        const res = await myAxios.get("events", { params });
+        const res = await httpAxios.get("events", { params });
         console.debug("GET to: " + res.config.baseURL + "/" + res.config.url);
-        return await res.data.forEach(dto => objectMapper(dto, dtoToEvent));
+        return await res.data.forEach(dto => morphism(dtoToEvent, dto));
       } catch (error) {
         console.error(error);
       }
@@ -29,10 +29,10 @@ export default {
 
   /* POST request with a new event */
   async createNewEvent(event: Event) {
-    console.debug("eventApiService->createNewEvent()");
-    const data = objectMapper(event, eventToDto);
+    console.debug("eventService->createNewEvent()");
+    const data = morphism(eventToDto, event);
     try {
-      const res = await myAxios.post("events", { data });
+      const res = await httpAxios.post("events", { data });
       console.debug("POST to: " + res.config.baseURL + "/" + res.config.url);
       // todo: return id from backend?
     } catch (error) {

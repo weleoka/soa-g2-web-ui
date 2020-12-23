@@ -29,7 +29,7 @@ export const scheduleStoreModule = {
     async doSetSelectedCourse(context, course) {
       context.commit("setSelectedCourse", course);
       try {
-        return await occasionApiService.getOccasions(course);
+        return await occasionService.getOccasions(course);
       } catch (e) {
         if (e instanceof TypeError) {
           console.error("No occasions");

@@ -6,14 +6,14 @@ Often this is where we would use local storage db and
 save state to a db on the client.
  */
 
-import myAxios from "@/service/myAxios";
+import httpAxios from "@/service/httpAxios";
 /*
 This deals with communications to and from SubmissionService
  */
 export default {
   async getAssignments() {
     try {
-      const res = await myAxios.get("assignments");
+      const res = await httpAxios.get("assignments");
       console.log("GET request to: " + res.config.baseURL + res.config.url);
       return res;
     } catch (error) {
@@ -22,7 +22,7 @@ export default {
   },
   async getAssignmentsByModuleId(moduleId: string) {
     try {
-      const res = await myAxios.get("assignments", {
+      const res = await httpAxios.get("assignments", {
         params: {
           module_id: moduleId  //eslint-disable-line
         }

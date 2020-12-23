@@ -28,7 +28,7 @@ export class Occasion implements OccasionI {
   studentCount: number;
   studyRate: string;
 }
-export const occasionToDto = {
+export const dtoToOccasion = {
   occasion_code: "id",
   period_code: "periodCode",
   course_code: "courseCode",
@@ -37,7 +37,7 @@ export const occasionToDto = {
   student_count: "studentCount",
   study_rate: "studyRate"
 };
-export const dtoToOccasion = {
+export const occasionToDto = {
   id: "occasion_code",
   periodCode: "period_code",
   courseCode: "course_code",
@@ -62,14 +62,14 @@ export class Course implements CourseI {
   nameSe: string;
   status: string;
 }
-export const dtoToCourse = {
+export const courseToDto = {
   course_code: "id",
   course_admin: "admin",
   name_se: "nameSe",
   name_en: "nameEn",
   status: "status"
 };
-export const courseToDto = {
+export const dtoToCourse = {
   id: "course_code",
   admin: "course_admin",
   nameSe: "name_se",
@@ -86,11 +86,11 @@ export class Schedule implements ScheduleI {
   id: string;
   occasionCode: string;
 }
-export const dtoToSchedule = {
+export const scheduleToDto = {
   id: "id",
   occasion_code: "occasionCode"
 };
-export const scheduleToDto = {
+export const dtoToSchedule = {
   id: "id",
   occasionCode: "occasion_code"
 };
@@ -116,7 +116,7 @@ export class Event implements EventI {
   timeslot: number;
   title: string;
 }
-export const eventToDto = {
+export const dtoToEvent = {
   id: "id", //maybe EventCode
   title: "title",
   scheduleCode: "schedule_code",
@@ -126,7 +126,7 @@ export const eventToDto = {
   equipment: "equipment",
   teachers: "teachers"
 };
-export const dtoToEvent = {
+export const eventToDto = {
   id: "id",
   title: "title",
   schedule_code: "scheduleCode",

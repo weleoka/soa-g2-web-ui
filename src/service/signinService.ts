@@ -1,4 +1,4 @@
-import myAxios from "@/service/myAxios";
+import httpAxios from "@/service/httpAxios";
 
 interface AuthObj {
   userEmail: string;
@@ -10,7 +10,7 @@ export default {
   async signin(authData: { email: string; password: string }) {
     const debug = true;
     try {
-      const res = await myAxios.post("/signin", {
+      const res = await httpAxios.post("/signin", {
         email: authData.email,
         password: authData.password,
         returnSecureToken: true

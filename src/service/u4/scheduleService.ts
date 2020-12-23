@@ -3,17 +3,17 @@ EA & SOA Group 2 HT2020
 
 Business logic concerning the workings with courses over API's.
  */
-import myAxios from "@/service/myAxios";
+import httpAxios from "@/service/httpAxios";
 import { throwApiError } from "@/service/errors";
 import { dtoToSchedule, Occasion } from "@/service/types";
-import { objectMapper } from "object-mapper";
+import { morphism } from "morphism";
 
 export default {
   /* get a list of available schedule codes */
   async getScheduleList() {
     console.debug("getScheduleList()");
     try {
-      const res = await myAxios.get("schedules");
+      const res = await httpAxios.get("schedules");
       console.debug(
         "GET request to: " + res.config.baseURL + "/" + res.config.url
       );
@@ -25,7 +25,7 @@ export default {
 
   /*  /!* Convenience method calling other methods in order *!/
   async getCompleteScheduleByOccasion(occasion) {
-    console.debug("scheduleApiService->getCompleteScheduleByOccasion(): " + occasion.id);
+    console.debug("scheduleService->getCompleteScheduleByOccasion(): " + occasion.id);
     console.warn("Using hard-coded occasion!");
     const res = await this.getScheduleByOccasion(new Occasion("tillfalle03"));
     const schedule: Schedule = await res.data.forEach(dto => objectMapper(dto, dtoToSchedule))[0]; // only expecting 1 result
@@ -39,16 +39,20 @@ export default {
    * Returns only 1 result in an array. */
   async getScheduleByOccasion(occasion: Occasion) {
     console.debug(
-      "scheduleApiService->getScheduleByOccasion(): " + occasion.id
+      "scheduleService->getScheduleByOccasion(): " + occasion.id
     );
     const params = occasion ? {occasion_code: occasion.id} : {}; //eslint-disable-line
     try {
-      const res = await myAxios.get("schedules", { params });
+      const res = await httpAxios.get("schedules", { params });
       console.debug("GET: " + res.config.baseURL + "/" + res.config.url);
-      if (res.data.length !== 1) {
-        throwApiError("Bad response: multiple schedules received.");
+      if (res.status === 200) {
+        if (res.data.length === 1) {
+          return await res.data.forEach(dto => morphism(dtoToSchedule, dto));
+        } else {
+          throwApiError("Bad number of schedules received.");
+        }
       } else {
-        return await res.data.forEach(dto => objectMapper(dto, dtoToSchedule));
+        throwApiError(res.statusText);
       }
     } catch (error) {
       throwApiError(error.message);

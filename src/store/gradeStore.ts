@@ -6,7 +6,8 @@ Often this is where we would use local storage db and
 save state to a db on the client.
  */
 
-import moduleApiService from "@/service/u3/modulesApiService";
+import moduleApiService from "@/service/u3/moduleService";
+import courseService from "@/service/u4/courseService";
 
 export const gradeStoreModule = {
   namespaced: true,
@@ -14,14 +15,41 @@ export const gradeStoreModule = {
     moduleArr: []
   },
   actions: {
-    async populateModuleArr(context, courseCode) {
-      console.debug("Populating moduleArr for courseCode: " + courseCode);
+    /* Using a courseCode string fetch an actual Course object for setting selectedCourse,
+     * this action then fetches the relevant course modules for the selected course.
+     * If no parameter for courseCode then set selectedCourse to none. */
+    //async doSelectCourseByCourseCode(context, courseCode) { // equal to object unpacking below.
+    async doSelectCourseByCourseCode({ dispatch, commit, getters, rootGetters }, courseCode) {
+      console.debug("gradeStore->doSelectCourseByCourseCode(): " + courseCode);
+      /*if (!courseCode) {
+        context.commit("setSelectedCourse", {});
+      }*/
       try {
-        const res = await moduleApiService.getModulesByCourseCode(courseCode);
-        context.commit("setModuleArr", res);
+        const res = await courseService.getCourseByCourseCode(courseCode);
+        commit("setSelectedCourse", res, { root: true }); // dispatches to root store
+      } catch (e) {
+        if (e.name === "ApiError") {
+          console.warn("API error: " + e.message);
+        } else {
+          throw Error(e);
+        }
+      }
+      dispatch("populateModuleArr");
+    },
+
+    /* Loads modules from the value of this.selectedCourse. */
+    async populateModuleArr({ commit }) {
+      try {
+        console.debug(
+          "gradeStore->populateModuleArr(): " + this.selectedCourse.id
+        );
+        const res = await moduleApiService.getModulesByCourseCode(
+          this.selectedCourse.id
+        );
+        commit("setModuleArr", res);
       } catch (e) {
         if (e instanceof TypeError) {
-          console.log("No modules");
+          console.error("Course not set, or no modules: " + e);
         } else {
           throw e;
         }

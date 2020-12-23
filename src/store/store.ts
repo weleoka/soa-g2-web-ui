@@ -15,13 +15,13 @@ https://github.com/webpack-contrib/eslint-webpack-plugin
 */
 
 import { createStore } from "vuex";
-import myAxios from "../service/myAxios";
+import httpAxios from "../service/httpAxios";
 import { authStoreModule } from "@/store/authStore";
 import { gradeStoreModule } from "@/store/gradeStore";
 import { scheduleStoreModule } from "@/store/scheduleStore";
 import { Course } from "@/service/types";
 
-console.log(myAxios.defaults);
+console.log(httpAxios.defaults);
 
 export default createStore({
   // Set strict mode to not allow access to state without going through mutations.
@@ -32,9 +32,9 @@ export default createStore({
     selectedCourse: Course
   },
   mutations: {
-    setSelectedCourse(payload) {
-      console.debug("setSelectedCourse() mutation: " + payload);
-      this.selectedCourse = payload;
+    setSelectedCourse(course) {
+      console.debug("setSelectedCourse() mutation: " + course);
+      this.selectedCourse = course;
     }
   },
   actions: {},

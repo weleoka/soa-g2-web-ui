@@ -21,10 +21,10 @@
 <script lang="ts">
 import CourseFinderBox from "@/components/u4/CourseFinderBox.vue";
 import OccasionFinderBox from "@/components/u4/OccasionFinderBox.vue";
-import occasionApiService from "@/service/u4/occasionApiService";
+import occasionService from "@/service/u4/occasionService";
 
 import { mapMutations, mapState } from "vuex";
-import courseApiService from "@/service/u4/courseApiService";
+import courseService from "@/service/u4/courseService";
 import { Options, Vue } from "vue-class-component";
 
 @Options({
@@ -55,13 +55,13 @@ import { Options, Vue } from "vue-class-component";
       console.debug("OccasionTab->selectedCourseHandler()");
       //await this.doSetSelectedCourse(course);
       this.setSelectedCourse(course);
-      this.occasionArr = await occasionApiService.getOccasions(course);
+      this.occasionArr = await occasionService.getOccasions(course);
     },
 
     /* Populates courseArr */
     async refreshCoursesHandler() {
       console.debug("OccasionTab->refreshCoursesHandler()");
-      this.courseArr = await courseApiService.getCourses();
+      this.courseArr = await courseService.getCourses();
     },
 
     /* Searches for a part or full match case insensitive course code.
@@ -72,7 +72,7 @@ import { Options, Vue } from "vue-class-component";
       if (searchStr) {
         // todo: make a serverside search API endpoint
         const regex = RegExp(searchStr, "i"); // i for case insensitive
-        const res = await courseApiService.getCourses();
+        const res = await courseService.getCourses();
         const arr = [];
         for (let i = 0; i < res.length; i++) {
           if (res[i].id.match(regex)) {
@@ -89,7 +89,7 @@ import { Options, Vue } from "vue-class-component";
     /* Reloads occasionArr in OccasionTab */
     async refreshOccasionsHandler() {
       console.debug("OccasionTab->refreshOccasionsHandler()");
-      this.occasionArr = await occasionApiService.getOccasions();
+      this.occasionArr = await occasionService.getOccasions();
     },
 
     /* Sets selectedOccasion in store */
