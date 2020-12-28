@@ -3,7 +3,7 @@
     <h3>Ny lektion</h3>
     <div v-if="newEvent" id="new-event-detail-box">
       <h4>Detaljer för eventet {{ newEvent.id }}</h4>
-      Metadata info: {{ newEvent }}
+      Metadata info: {{ newEvent.datetime.toDateString() }}
     </div>
     <div>
       Här så måste vi välja pass och annat roligt skoj.
@@ -12,8 +12,8 @@
 </template>
 
 <script lang="ts">
-import { Options, Vue } from "vue-class-component";
-import { Event } from "@/service/types";
+import {Options, Vue} from "vue-class-component";
+import {Event} from "@/service/types";
 
 @Options({
   name: "EventCreateBox",

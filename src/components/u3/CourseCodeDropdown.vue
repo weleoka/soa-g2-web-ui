@@ -18,8 +18,8 @@
 </template>
 
 <script lang="ts">
-import { mapState } from "vuex";
-import { Options, Vue } from "vue-class-component";
+import {mapState} from "vuex";
+import {Options, Vue} from "vue-class-component";
 
 @Options({
   name: "CourseCodeDropdown",

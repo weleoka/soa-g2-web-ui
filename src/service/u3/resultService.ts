@@ -7,7 +7,7 @@ save state to a db on the client.
  */
 
 import httpAxios from "@/service/httpAxios";
-import { throwApiError } from "@/service/errors";
+import {throwApiError} from "@/service/errors";
 
 interface SubmissionObj {
   id: string;

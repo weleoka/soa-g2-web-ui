@@ -43,8 +43,8 @@
 </template>
 
 <script lang="ts">
-import { Options, PropOptions, Vue } from "vue-class-component";
-import { Course } from "@/service/types";
+import {Options, PropOptions, Vue} from "vue-class-component";
+import {Course} from "@/service/types";
 import CourseTable from "@/components/u4/CourseTable.vue";
 
 @Options({

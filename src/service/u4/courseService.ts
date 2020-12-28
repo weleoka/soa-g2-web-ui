@@ -4,9 +4,9 @@ EA & SOA Group 2 HT2020
 Business logic concerning the workings with courses over API's.
  */
 import httpAxios from "@/service/httpAxios";
-import { dtoToCourse, dtoToSchedule } from "@/service/types";
-import { morphism } from "morphism";
-import { throwApiError } from "@/service/errors";
+import {dtoToCourse} from "@/service/types";
+import {morphism} from "morphism";
+import {throwApiError} from "@/service/errors";
 
 export default {
   /* get a list of available courses */

@@ -35,9 +35,9 @@
 <script lang="ts">
 import OccasionTable from "@/components/u4/OccasionTable.vue";
 import OccasionDetailBox from "@/components/u4/OccasionDetailBox.vue";
-import { mapState } from "vuex";
-import { Options, PropOptions, Vue } from "vue-class-component";
-import { Occasion } from "@/service/types";
+import {mapState} from "vuex";
+import {Options, PropOptions, Vue} from "vue-class-component";
+import {Occasion} from "@/service/types";
 
 @Options({
   name: "OccasionFinderBox",

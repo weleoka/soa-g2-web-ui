@@ -14,12 +14,12 @@ https://github.com/vuejs-templates/webpack/issues/73
 https://github.com/webpack-contrib/eslint-webpack-plugin
 */
 
-import { createStore } from "vuex";
+import {createStore} from "vuex";
 import httpAxios from "../service/httpAxios";
-import { authStoreModule } from "@/store/authStore";
-import { gradeStoreModule } from "@/store/gradeStore";
-import { scheduleStoreModule } from "@/store/scheduleStore";
-import { Course } from "@/service/types";
+import {authStoreModule} from "@/store/authStore";
+import {gradeStoreModule} from "@/store/gradeStore";
+import {scheduleStoreModule} from "@/store/scheduleStore";
+import {Course} from "@/service/types";
 
 console.log(httpAxios.defaults);
 

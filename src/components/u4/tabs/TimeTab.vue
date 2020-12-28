@@ -17,7 +17,7 @@
     <p v-if="error">Error!</p>
     <hr />
     <EventCreateBox
-      v-if="schedule"
+      v-if="newEvent"
       :new-event="newEvent"
       :time-slots="timeSlots"
     />
@@ -29,9 +29,10 @@ import EventCreateBox from "@/components/u4/EventCreateBox.vue";
 import EventCalendarBox from "@/components/u4/EventCalendarBox.vue";
 import eventService from "@/service/u4/eventService";
 import scheduleService from "@/service/u4/scheduleService";
-import { mapState } from "vuex";
-import { Options, Vue } from "vue-class-component";
-import { Occasion } from "@/service/types";
+import {mapMutations, mapState} from "vuex";
+import {Options, Vue} from "vue-class-component";
+import {Occasion} from "@/service/types";
+import {Event} from "@/service/types";
 
 @Options({
   name: "TimeTab",
@@ -45,33 +46,27 @@ import { Occasion } from "@/service/types";
         loading: true,
         error: null
       },
-      eventsArr: {},
-      schedule: {}, // todo: move to store
-      timeSlots: {
-        // todo: move to store
-        1: { from: 9 * 60 + 15, to: 9 * 60 + 45, class: "slot-1" },
-        2: { from: 10 * 60 + 15, to: 11 * 60 + 45, class: "slot-2" },
-        3: { from: 13 * 60, to: 14 * 60 + 30, class: "slot-3" },
-        4: { from: 14 * 60 + 45, to: 16 * 60 + 45, class: "slot-4" },
-        5: { from: 16 * 60 + 35, to: 18 * 60, class: "slot-5" }
-      },
-      newEvent: {}
+      newEvent: {} // the unverified and being created event
     };
   },
   created() {
     this.refreshScheduleHandler();
   },
   computed: {
-    ...mapState("scheduleStore", ["selectedSchedule", "selectedOccasion"])
+    ...mapState("scheduleStore", ["selectedSchedule", "selectedOccasion", "timeSlots"]),
+    ...mapMutations("scheduleStore", ["setSelectedSchedule", "setEventArr"])
   },
   methods: {
-    /* Creates a new event */
-    async customEventCreation(datetime) {
-      // round off datetime to nearest day
-      // jump to other event creation sections
-      // set the title, content and class attributes
-      // get the equipment, teacher and room attributes
-      // repetition, week exclusion and variations for "burst" creation
+    /* Creates a new event
+    * - round off datetime to nearest day: no we dont have to bother now.
+    * - jump to other event creation sections
+    * - set the title, content and class attributes
+    * - get the equipment, teacher and room attributes
+    * - repetition, week exclusion and variations for "burst" creation
+    */
+    async createEvent(datetime: Date) {
+      this.newEvent = new Event(datetime);
+
       this.$refs.vueCal.createEvent(datetime, 90, {
         title: "New Event",
         content: "yay! 🎉",
@@ -91,19 +86,19 @@ import { Occasion } from "@/service/types";
     /* load the schedule depending on course occasion */
     async loadSchedule() {
       //this.schedule = await scheduleService.getScheduleByOccasion(this.selectedOccasion); // good
-      this.schedule = await scheduleService.getScheduleByOccasion(
-        new Occasion("tillfalle03")
-      ); // testing
+      this.setSelectedSchedule = await scheduleService.getScheduleByOccasion(
+        new Occasion("tillfalle03") // artificially setting occasion.
+      );
     },
 
     /* load events, requires a schedule to be set */
     async loadEvents() {
-      this.eventsArr = await eventService.getEventsBySchedule(this.schedule);
+      this.setEventArr = await eventService.getEventsBySchedule(this.selectedSchedule);
     },
 
     /* Processing the big click! */
-    async cellClickedHandler(cellData) {
-      console.debug(cellData);
+    async cellClickedHandler(datetime: Date) {
+      await this.createEvent(datetime)
     }
   }
 })

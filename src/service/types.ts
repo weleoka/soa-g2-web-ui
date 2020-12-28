@@ -100,13 +100,16 @@ export interface EventI {
   id: string;
   title: string;
   scheduleCode: string; // schedule uuid
-  datetime: Date; // javascript Date object
-  timeslot: number; // 1 through 5 (lektionspass)
+  datetime: Date; // javascript Date object (were only interested in DAY of the year really)
+  timeslot: number; // 1 through 5 (this is lektionspass)
   rooms: [];
   equipment: [];
   teachers: [];
 }
 export class Event implements EventI {
+  constructor(datetime: Date) {
+    this.datetime = datetime;
+  }
   datetime: Date;
   equipment: [];
   id: string;

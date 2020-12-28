@@ -29,7 +29,7 @@
 import VueCal from "vue-cal";
 import "vue-cal/dist/vuecal.css";
 import "vue-cal/dist/i18n/sv";
-import { Options, Vue } from "vue-class-component";
+import {Options, Vue} from "vue-class-component";
 
 @Options({
   name: "EventCalendarBox",
@@ -39,12 +39,13 @@ import { Options, Vue } from "vue-class-component";
   props: {
     timeSlots: Object
   },
+  emits: ["cell-clicked-event"],
   methods: {
     logEvents(str, event) {
       console.debug("Event: " + str + event);
     },
     cellClickHandler(str, datetime) {
-      console.debug("Event: " + str + "AAA " + datetime);
+      console.debug("Event: " + str + " with payload: " + datetime.toDateString());
       this.$emit("cell-clicked-event", datetime);
     }
   }

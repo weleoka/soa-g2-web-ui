@@ -30,8 +30,8 @@
 </template>
 
 <script lang="ts">
-import { mapActions, mapState } from "vuex";
-import { Options, Vue } from "vue-class-component";
+import {mapActions, mapState} from "vuex";
+import {Options, Vue} from "vue-class-component";
 import CourseCodeDropdown from "@/components/u3/CourseCodeDropdown.vue";
 import ModuleSearchInput from "@/components/u3/ModuleSearchInput.vue";
 

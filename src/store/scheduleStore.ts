@@ -6,11 +6,21 @@ Often this is where we would use local storage db and
 save state to a db on the client.
  */
 
+import {Occasion, Schedule} from "@/service/types";
+
 export const scheduleStoreModule = {
   namespaced: true,
   state: {
-    selectedOccasion: {},
-    selectedSchedule: {}
+    selectedOccasion: Occasion,
+    selectedSchedule: Schedule,
+    eventsArr: [], // loaded separately
+    timeSlots: {
+      1: { from: 9 * 60 + 15, to: 9 * 60 + 45, class: "slot-1" },
+      2: { from: 10 * 60 + 15, to: 11 * 60 + 45, class: "slot-2" },
+      3: { from: 13 * 60, to: 14 * 60 + 30, class: "slot-3" },
+      4: { from: 14 * 60 + 45, to: 16 * 60 + 45, class: "slot-4" },
+      5: { from: 16 * 60 + 35, to: 18 * 60, class: "slot-5" }
+    },
   },
   mutations: {
     // todo: try removing and replacing with mapMutations in callers.

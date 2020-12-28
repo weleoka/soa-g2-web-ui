@@ -28,8 +28,8 @@
 </template>
 
 <script lang="ts">
-import { Options, PropOptions, Vue } from "vue-class-component";
-import { Course } from "@/service/types";
+import {Options, PropOptions, Vue} from "vue-class-component";
+import {Course} from "@/service/types";
 
 @Options({
   name: "CourseTable",

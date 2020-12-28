@@ -23,9 +23,9 @@ import CourseFinderBox from "@/components/u4/CourseFinderBox.vue";
 import OccasionFinderBox from "@/components/u4/OccasionFinderBox.vue";
 import occasionService from "@/service/u4/occasionService";
 
-import { mapMutations, mapState } from "vuex";
+import {mapMutations, mapState} from "vuex";
 import courseService from "@/service/u4/courseService";
-import { Options, Vue } from "vue-class-component";
+import {Options, Vue} from "vue-class-component";
 
 @Options({
   name: "OccasionTab",

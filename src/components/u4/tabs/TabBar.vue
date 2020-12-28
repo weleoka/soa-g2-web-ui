@@ -30,8 +30,8 @@
 //import TimeTab from "@/components/u4/tabs/TimeTab.vue";
 
 // dynamic imports of components
-import { defineAsyncComponent } from "@vue/runtime-core";
-import { Options, Vue } from "vue-class-component";
+import {defineAsyncComponent} from "@vue/runtime-core";
+import {Options, Vue} from "vue-class-component";
 
 const OccasionTab = defineAsyncComponent(() =>
   import("@/components/u4/tabs/OccasionTab.vue")

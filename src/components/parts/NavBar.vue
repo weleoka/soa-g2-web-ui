@@ -62,8 +62,8 @@
 </template>
 
 <script lang="ts">
-import { mapActions, mapState } from "vuex";
-import { Options, Vue } from "vue-class-component";
+import {mapActions, mapState} from "vuex";
+import {Options, Vue} from "vue-class-component";
 
 @Options({
   name: "NavBar",

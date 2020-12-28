@@ -14,7 +14,7 @@
 <script lang="ts">
 import ModuleDetailTable from "@/components/u3/ModuleDetailTable.vue";
 import resultService from "@/service/u3/resultService";
-import { Options, Vue } from "vue-class-component";
+import {Options, Vue} from "vue-class-component";
 
 @Options({
   components: {

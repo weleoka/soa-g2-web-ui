@@ -5,8 +5,8 @@ Service for working with backend or middleware apis.
 
 import httpAxios from "@/service/httpAxios";
 // library https://www.npmjs.com/package/object-mapper
-import { morphism } from "morphism";
-import { dtoToEvent, Event, eventToDto, Schedule } from "@/service/types";
+import {morphism} from "morphism";
+import {dtoToEvent, Event, eventToDto, Schedule} from "@/service/types";
 
 export default {
   /* Gets events for a schedule */

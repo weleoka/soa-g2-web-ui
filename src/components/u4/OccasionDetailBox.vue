@@ -6,8 +6,8 @@
 </template>
 
 <script lang="ts">
-import { Options, Vue } from "vue-class-component";
-import { Occasion } from "@/service/types";
+import {Options, Vue} from "vue-class-component";
+import {Occasion} from "@/service/types";
 
 @Options({
   name: "OccasionDetailBox",
