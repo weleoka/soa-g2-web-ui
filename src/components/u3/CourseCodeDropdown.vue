@@ -26,6 +26,7 @@ import {Options, Vue} from "vue-class-component";
   props: {
     preselected: String
   },
+  emits: ["selection-event"],
   data() {
     return {
       selected: "",

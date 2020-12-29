@@ -8,19 +8,8 @@ save state to a db on the client.
 
 import httpAxios from "@/service/httpAxios";
 import {throwApiError} from "@/service/errors";
-
-interface SubmissionObj {
-  id: string;
-  examination: string;
-  studentId: string;
-  firstName: string;
-  lastName: string;
-  teacherId: string;
-  createdAt: string;
-  moduleCode: string;
-  grade: string;
-  verified: boolean;
-}
+import {morphism} from "morphism";
+import {scheduleFromDto, submissionFromDto} from "@/service/types";
 
 export default {
   /*  async getResults() {
@@ -41,16 +30,12 @@ export default {
       const res = await httpAxios.get("/examination/" + examinationCode);
       console.log("GET request to: " + res.config.baseURL + res.config.url);
       if (res.status === 200) {
-        return this.submissionObjectMapper(res.data.submissions);
+        return res.data.map(dto => morphism(submissionFromDto, dto));
       } else {
-        throwApiError("Response code not 200 OK.");
+        throwApiError("Response: " + res.status);
       }
     } catch (error) {
-      if (error.name === "ApiError") {
-        throw Error(error.message);
-      } else {
-        throw Error("Network problem: " + error.message);
-      }
+      console.error(error);
     }
   },
 
@@ -65,35 +50,10 @@ export default {
       if (res.status === 200) {
         return true;
       } else {
-        throwApiError("Response code not 200 OK.");
+        throwApiError("Response: " + res.status);
       }
     } catch (error) {
-      if (error.name === "ApiError") {
-        throw Error(error.message);
-      } else {
-        throw Error("Network problem: " + error.message);
-      }
+      console.error(error);
     }
   },
-
-  // Maps the API provided object to the application domain object.
-  submissionObjectMapper(submArr: string | any[]) {
-    const arr = [];
-    for (let i = 0; i < submArr.length; i++) {
-      const submObj: SubmissionObj = {
-        id: submArr[i].submission_id,
-        examination: submArr[i].examination,
-        studentId: submArr[i].student_id,
-        firstName: submArr[i].first_name,
-        lastName: submArr[i].last_name,
-        teacherId: submArr[i].teacher_id,
-        createdAt: submArr[i].created_at,
-        moduleCode: submArr[i].module_code,
-        grade: submArr[i].grade,
-        verified: submArr[i].verified
-      };
-      arr.push(submObj);
-    }
-    return arr;
-  }
 };
