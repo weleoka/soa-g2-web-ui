@@ -5,6 +5,7 @@
       v-if="!loading"
       :module-id-prop="moduleId"
       :submission-arr="submissionArr"
+      @verify-grade-event="verifyGradeHandler"
     />
     <div v-if="loading">Loading...</div>
     <button type="button" @click="returnToOverview">Return</button>
@@ -42,13 +43,6 @@ import {Options, Vue} from "vue-class-component";
       this.returnToOverview();
     }
   },
-  mounted() {
-    this.emitter.on("verify-grade-event", (eventData: any) => { //eslint-disable-line
-      console.log("Verifying submission: " + eventData.submissionId);
-      console.log("Faking the verification for index: " + eventData.indexNo);
-      this.verifyGradeHandler(eventData.submissionId, eventData.indexNo);
-    });
-  },
   methods: {
     returnToOverview() {
       this.$router.push("/");
@@ -61,11 +55,10 @@ import {Options, Vue} from "vue-class-component";
       this.loading = false;
     },
     async verifyGradeHandler(submissionId: string, i: number) {
+      console.log("Verifying submission: " + submissionId);
+      console.log("Faking the verification for index: " + i);
       const res = await resultService.submitGradeVerification(submissionId);
       this.submissionArr[i].verified = true; // the ugly hack.
-      //Todo here set the verification status locally as a fix... however that means we will have to
-      //  mae the submissionArr/submissionsArr persistent in this.$store, which brings on the question
-      //  of how when we read from local store and when we read from API. A kind of how-fresh-is-it scenario.
       console.log(res);
     }
   },

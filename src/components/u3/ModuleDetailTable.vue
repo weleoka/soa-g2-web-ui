@@ -49,6 +49,7 @@ import {Options, Vue} from "vue-class-component";
     moduleIdProp: String, // vue transforms this to module-id-prop in parent template.
     submissionArrProp: Object // vue transforms this to submissions-arr in parent template.
   },
+  emits: ["verify-grade-event"],
   data() {
     return {
       busybusy: false
@@ -59,14 +60,10 @@ import {Options, Vue} from "vue-class-component";
   },
   methods: {
     verifyGrade(submissionId, i) {
-      const eventData = {
-        submissionId: submissionId,
-        indexNo: i
-      };
       console.log("SubmissionID: " + submissionId);
       console.log("At index of: " + i);
       this.busybusy = true; // Todo: make this dynamically show and hide buttons...
-      this.emitter.emit("verify-grade-event", eventData); // supply i for the ugly hack.
+      this.emit("verify-grade-event", submissionId, i); // supply i for the ugly hack.
       this.busybusy = false;
     }
   }
