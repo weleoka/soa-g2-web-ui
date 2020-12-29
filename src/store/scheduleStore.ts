@@ -13,7 +13,7 @@ export const scheduleStoreModule = {
   state: {
     selectedOccasion: Occasion,
     selectedSchedule: Schedule,
-    eventsArr: [], // loaded separately
+    eventArr: [], // loaded separately
     timeSlots: {
       1: { from: 9 * 60 + 15, to: 9 * 60 + 45, class: "slot-1" },
       2: { from: 10 * 60 + 15, to: 11 * 60 + 45, class: "slot-2" },
@@ -24,10 +24,19 @@ export const scheduleStoreModule = {
   },
   mutations: {
     // todo: try removing and replacing with mapMutations in callers.
-    /*    setSelectedOccasion(payload) {
-      console.debug("setSelectedOccasion() mutation: " + payload);
-      this.occasion = payload;
-    }*/
+    setSelectedOccasion(state, payload) {
+      console.debug("setSelectedOccasion() mutation: " + payload.id);
+      state.selectedOccasion = payload;
+    },
+    setSelectedSchedule(state, payload) {
+      console.debug("setSelectedSchedule() mutation: " + payload.id);
+      state.selectedSchedule = payload;
+    },
+    //setEventArr: (state, payload) => state.eventArr = payload,
+    setEventArr(state, payload) {
+      console.debug("setEvenArr() mutation: " + payload.id);
+      state.eventArr = payload;
+    }
   }
 };
 

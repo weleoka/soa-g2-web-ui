@@ -11,14 +11,14 @@
             type="text"
             v-model="searchStr"
             placeholder="kurskod"
-            @keyup.enter="$emit('search-course-code-event', this.searchStr)"
+            @keyup.enter="$emit('search-course-code-event', searchStr)"
           />
         </label>
         <div class="container-compact">
           <button
             type="button"
             class="btn-a"
-            @click="$emit('search-course-code-event', this.searchStr)"
+            @click="$emit('search-course-code-event', searchStr)"
           >
             Sök
           </button>
@@ -36,7 +36,7 @@
       </div>
       <CourseTable
         :course-arr="courseArr"
-        @selected-course-event="this.selectedCourseHandler"
+        @selected-course-event="selectedCourseHandler"
       />
     </div>
   </div>
@@ -60,14 +60,15 @@ import CourseTable from "@/components/u4/CourseTable.vue";
       }
     } as PropOptions<Course[]>
   },
+  emits: ["selected-course-event", "refresh-courses-event", "search-course-code-event"],
   data() {
     return {
       searchStr: "" // full, or part, case-insensitive matching a course code
     };
   },
   methods: {
-    selectedCourseHandler(courseId) {
-      this.$emit("selected-course-event", courseId);
+    selectedCourseHandler(course) { // event bubble
+      this.$emit("selected-course-event", course);
     },
     clearSearch() {
       this.searchStr = "";

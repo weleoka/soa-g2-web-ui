@@ -5,37 +5,27 @@ Business logic concerning the workings with courses over API's.
  */
 import httpAxios from "@/service/httpAxios";
 import {throwApiError} from "@/service/errors";
-import {dtoToSchedule, Occasion} from "@/service/types";
+import {Occasion, scheduleFromDto} from "@/service/types";
 import {morphism} from "morphism";
 
 export default {
   /* get a list of available schedule codes */
   async getScheduleList() {
-    console.debug("getScheduleList()");
+    console.debug("scheduleService->getScheduleList()");
     try {
       const res = await httpAxios.get("schedules");
       console.debug(
         "GET request to: " + res.config.baseURL + "/" + res.config.url
       );
-      return this.scheduleObjectMapper(res.data);
+      if (res.status === 200) {
+        return res.data.map(dto => morphism(scheduleFromDto, dto))
+      }
     } catch (error) {
       console.error(error);
     }
   },
 
-  /*  /!* Convenience method calling other methods in order *!/
-  async getCompleteScheduleByOccasion(occasion) {
-    console.debug("scheduleService->getCompleteScheduleByOccasion(): " + occasion.id);
-    console.warn("Using hard-coded occasion!");
-    const res = await this.getScheduleByOccasion(new Occasion("tillfalle03"));
-    const schedule: Schedule = await res.data.forEach(dto => objectMapper(dto, dtoToSchedule))[0]; // only expecting 1 result
-    console.debug("Setting schedule: " + schedule.id);
-    const eventArr: Event[] = await getEventsBySchedule(schedule);
-    console.debug("Fetched events from db: " + eventArr.length);
-    return eventArr;
-  },*/
-
-  /* Find one or all schedules by occasion.
+  /* Find one schedule by occasion.
    * Returns only 1 result in an array. */
   async getScheduleByOccasion(occasion: Occasion) {
     console.debug(
@@ -47,7 +37,7 @@ export default {
       console.debug("GET: " + res.config.baseURL + "/" + res.config.url);
       if (res.status === 200) {
         if (res.data.length === 1) {
-          return await res.data.forEach(dto => morphism(dtoToSchedule, dto));
+          return await res.data.map(dto => morphism(scheduleFromDto, dto));
         } else {
           throwApiError("Bad number of schedules received.");
         }
@@ -59,3 +49,18 @@ export default {
     }
   }
 };
+
+
+
+
+/*  /!* Convenience method calling other methods in order *!/
+async getCompleteScheduleByOccasion(occasion) {
+  console.debug("scheduleService->getCompleteScheduleByOccasion(): " + occasion.id);
+  console.warn("Using hard-coded occasion!");
+  const res = await this.getScheduleByOccasion(new Occasion("tillfalle03"));
+  const schedule: Schedule = await res.data.forEach(dto => objectMapper(dto, dtoToSchedule))[0]; // only expecting 1 result
+  console.debug("Setting schedule: " + schedule.id);
+  const eventArr: Event[] = await getEventsBySchedule(schedule);
+  console.debug("Fetched events from db: " + eventArr.length);
+  return eventArr;
+},*/

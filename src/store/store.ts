@@ -32,9 +32,9 @@ export default createStore({
     selectedCourse: Course
   },
   mutations: {
-    setSelectedCourse(course) {
-      console.debug("setSelectedCourse() mutation: " + course);
-      this.selectedCourse = course;
+    setSelectedCourse(state, course) {
+      console.debug("setSelectedCourse() mutation: " + course.id);
+      state.selectedCourse = course;
     }
   },
   actions: {},

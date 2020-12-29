@@ -21,12 +21,9 @@ export const gradeStoreModule = {
     //async doSelectCourseByCourseCode(context, courseCode) { // equal to object unpacking below.
     async doSelectCourseByCourseCode({ dispatch, commit, getters, rootGetters }, courseCode) {
       console.debug("gradeStore->doSelectCourseByCourseCode(): " + courseCode);
-      /*if (!courseCode) {
-        context.commit("setSelectedCourse", {});
-      }*/
       try {
         const res = await courseService.getCourseByCourseCode(courseCode);
-        commit("setSelectedCourse", res, { root: true }); // dispatches to root store
+        commit("setSelectedCourse", res[0], { root: true }); // dispatches item [0] to root store
       } catch (e) {
         if (e.name === "ApiError") {
           console.warn("API error: " + e.message);
@@ -37,14 +34,14 @@ export const gradeStoreModule = {
       dispatch("populateModuleArr");
     },
 
-    /* Loads modules from the value of this.selectedCourse. */
-    async populateModuleArr({ commit }) {
+    /* Loads modules from the value of rootState.selectedCourse. */
+    async populateModuleArr({ commit, rootState }) {
       try {
         console.debug(
-          "gradeStore->populateModuleArr(): " + this.selectedCourse.id
+          "gradeStore->populateModuleArr(): " + rootState.selectedCourse.id
         );
         const res = await moduleApiService.getModulesByCourseCode(
-          this.selectedCourse.id
+          rootState.selectedCourse.id
         );
         commit("setModuleArr", res);
       } catch (e) {

@@ -4,7 +4,7 @@ EA & SOA Group 2 HT2020
 Business logic concerning the workings with courses over API's.
  */
 import httpAxios from "@/service/httpAxios";
-import {dtoToCourse} from "@/service/types";
+import {courseFromDto} from "@/service/types";
 import {morphism} from "morphism";
 import {throwApiError} from "@/service/errors";
 
@@ -15,7 +15,7 @@ export default {
     try {
       const res = await httpAxios.get("courses");
       console.debug("GET: " + res.config.baseURL + "/" + res.config.url);
-      return await res.data.forEach(dto => morphism(dtoToCourse, dto));
+      return await res.data.map(dto => morphism(courseFromDto, dto));
     } catch (error) {
       console.error(error);
     }
@@ -30,11 +30,7 @@ export default {
     console.debug("GET: " + res.config.baseURL + "/" + res.config.url);
     if (res.status === 200) {
       if (res.data.length === 1) {
-        for (let i = 0; i < res.data.length; i++) {
-          console.log(res.data[i]);
-          console.log(morphism(dtoToCourse, res.data[i]));
-        }
-        //console.log(res.data.forEach(dto => morphism(dtoToCourse, dto)));
+        return res.data.map(dto => morphism(courseFromDto, dto));
       } else {
         throwApiError(
           "Should be only one object, received: " + res.data.length

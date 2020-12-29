@@ -18,7 +18,7 @@ export default {
       try {
         const res = await httpAxios.get("events", { params });
         console.debug("GET to: " + res.config.baseURL + "/" + res.config.url);
-        return await res.data.forEach(dto => morphism(dtoToEvent, dto));
+        return await res.data.map(dto => morphism(dtoToEvent, dto));
       } catch (error) {
         console.error(error);
       }

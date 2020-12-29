@@ -8,26 +8,26 @@
         </p>
         <OccasionTable
           :occasion-arr="occasionArr"
-          @selected-occasion-event="this.selectedOccasionHandler"
+          @selected-occasion-event="selectedOccasionHandler"
         />
         <div>
           <button
             class="btn-a"
             type="button"
-            @click="this.$emit('refresh-occasions-event')"
+            @click="$emit('refresh-occasions-event')"
           >
             Alla kurstillfällen
           </button>
           <button
             type="button"
             class="btn-a"
-            @click="this.$emit('clear-occasions-event')"
+            @click="$emit('clear-occasions-event')"
           >
             Rensa
           </button>
         </div>
       </div>
-      <OccasionDetailBox :selected-occasion="this.selectedOccasion" />
+      <OccasionDetailBox :selected-occasion="selectedOccasion" />
     </div>
   </div>
 </template>
@@ -53,6 +53,7 @@ import {Occasion} from "@/service/types";
       }
     } as PropOptions<Occasion[]>
   },
+  emits: ["selected-occasion-event", "refresh-occasions-event", "clear-occasions-event"],
   computed: {
     ...mapState("scheduleStore", ["selectedOccasion"])
   },

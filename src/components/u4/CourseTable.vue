@@ -4,19 +4,19 @@
       <thead class="thead-light">
         <tr>
           <th scope="col">
-            Välj kurs av {{ this.courseArr.length }} alternativ
+            Välj kurs av {{ courseArr.length }} alternativ
           </th>
         </tr>
       </thead>
       <tbody>
-        <tr v-if="this.courseArr.length === 0">
+        <tr v-if="courseArr.length === 0">
           <td>Sök eller hämta kurslista</td>
         </tr>
         <tr
-          v-for="(course, i) in this.courseArr"
+          v-for="(course, i) in courseArr"
           :key="i"
-          :class="{ 'clicked-row': this.clickedRow === i }"
-          @click="this.rowClickedHandler(i, course.id)"
+          :class="{ 'clicked-row': clickedRow === i }"
+          @click="rowClickedHandler(i, course)"
         >
           <td>
             {{ course.id }} - {{ course.nameSe }} (status: {{ course.status }})
@@ -37,10 +37,11 @@ import {Course} from "@/service/types";
     courseArr: {
       type: Array,
       default() {
-        return [];
+        return [""];
       }
     } as PropOptions<Course[]>
   },
+  emits: ["selected-course-event"],
   data() {
     return {
       clickedRow: null
@@ -52,9 +53,9 @@ import {Course} from "@/service/types";
     }
   },
   methods: {
-    rowClickedHandler(rowId, courseId) {
+    rowClickedHandler(rowId, course: Course) {
       this.clickedRow = rowId;
-      this.$emit("selected-course-event", courseId);
+      this.$emit("selected-course-event", course);
     }
   }
 })

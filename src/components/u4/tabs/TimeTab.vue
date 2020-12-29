@@ -1,4 +1,4 @@
-<template>
+ <template>
   <div>
     <h1>Steg 2: välj lektionstider</h1>
     <div class="container-v" v-if="schedule">
@@ -16,11 +16,10 @@
     <p v-if="loading">Loading...</p>
     <p v-if="error">Error!</p>
     <hr />
-    <EventCreateBox
+<!--    <EventCreateBox
       v-if="newEvent"
       :new-event="newEvent"
-      :time-slots="timeSlots"
-    />
+    />-->
   </div>
 </template>
 
@@ -46,9 +45,10 @@ import {Event} from "@/service/types";
         loading: true,
         error: null
       },
-      newEvent: {} // the unverified and being created event
+      newEvent: {} // the unverified and under creation event
     };
   },
+  //mounted() {
   created() {
     this.refreshScheduleHandler();
   },
@@ -66,12 +66,7 @@ import {Event} from "@/service/types";
     */
     async createEvent(datetime: Date) {
       this.newEvent = new Event(datetime);
-
-      this.$refs.vueCal.createEvent(datetime, 90, {
-        title: "New Event",
-        content: "yay! 🎉",
-        class: "blue-event"
-      });
+      //
       return await eventService.createNewEvent(this.newEvent);
     },
 
@@ -93,7 +88,9 @@ import {Event} from "@/service/types";
 
     /* load events, requires a schedule to be set */
     async loadEvents() {
-      this.setEventArr = await eventService.getEventsBySchedule(this.selectedSchedule);
+      if (this.selectedSchedule) {
+        this.setEventArr = await eventService.getEventsBySchedule(this.selectedSchedule);
+      }
     },
 
     /* Processing the big click! */
@@ -103,6 +100,15 @@ import {Event} from "@/service/types";
   }
 })
 export default class TimeTab extends Vue {}
+
+/*
+this.$refs.vueCal.createEvent(datetime, 90, {
+title: "New Event",
+content: "yay! 🎉",
+class: "blue-event"
+});*/
 </script>
 
 <style scoped></style>
+
+

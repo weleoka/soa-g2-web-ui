@@ -19,10 +19,10 @@
           <td>-</td>
         </tr>
         <tr
-          @click="this.rowClickedHandler(i, occasion)"
           v-for="(occasion, i) in occasionArr"
           :key="i"
           :class="{ 'clicked-row': clickedRow === i }"
+          @click="rowClickedHandler(i, occasion)"
         >
           <td>{{ occasion.id }}</td>
           <td>{{ occasion.locationCode }}</td>
@@ -36,13 +36,20 @@
 </template>
 
 <script lang="ts">
-import {Options, Vue} from "vue-class-component";
+import {Options, PropOptions, Vue} from "vue-class-component";
+import {Occasion} from "@/service/types";
 
 @Options({
   name: "OccasionTable",
   props: {
-    occasionArr: []
+    occasionArr: {
+      type: Array,
+      default() {
+        return [];
+      }
+    } as PropOptions<Occasion[]>
   },
+  emits: ["selected-occasion-event"],
   data() {
     return {
       clickedRow: null
@@ -54,7 +61,7 @@ import {Options, Vue} from "vue-class-component";
     }
   },
   methods: {
-    rowClickedHandler(rowId, occasion) {
+    rowClickedHandler(rowId, occasion: Occasion) {
       this.clickedRow = rowId;
       this.$emit("selected-occasion-event", occasion);
     }

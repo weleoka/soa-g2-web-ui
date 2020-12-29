@@ -18,7 +18,6 @@ import {Event} from "@/service/types";
 @Options({
   name: "EventCreateBox",
   props: {
-    timeSlots: Object,
     newEvent: Event
   }
 })

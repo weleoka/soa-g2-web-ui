@@ -41,6 +41,7 @@ import ModuleSearchInput from "@/components/u3/ModuleSearchInput.vue";
     CourseCodeDropdown,
     ModuleSearchInput
   },
+  emits: ["select-module-event"],
   data() {
     return {
       checkedNames: []

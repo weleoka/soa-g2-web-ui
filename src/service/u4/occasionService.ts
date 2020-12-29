@@ -4,7 +4,7 @@ EA & SOA Group 2 HT2020
 Business logic concerning the workings with course occasions.
  */
 import httpAxios from "@/service/httpAxios";
-import {Course, dtoToOccasion} from "@/service/types";
+import {Course, occasionFromDto} from "@/service/types";
 import {morphism} from "morphism";
 
 export default {
@@ -15,7 +15,7 @@ export default {
     try {
       const res = await httpAxios.get("occasions", { params });
       console.debug("GET: " + res.config.baseURL + "/" + res.config.url);
-      return await res.data.forEach(dto => morphism(dtoToOccasion, dto));
+      return await res.data.map(dto => morphism(occasionFromDto, dto));
     } catch (error) {
       console.error(error);
     }

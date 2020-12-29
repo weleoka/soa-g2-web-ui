@@ -28,7 +28,7 @@ export class Occasion implements OccasionI {
   studentCount: number;
   studyRate: string;
 }
-export const dtoToOccasion = {
+export const occasionToDto = {
   occasion_code: "id",
   period_code: "periodCode",
   course_code: "courseCode",
@@ -37,7 +37,7 @@ export const dtoToOccasion = {
   student_count: "studentCount",
   study_rate: "studyRate"
 };
-export const occasionToDto = {
+export const occasionFromDto = {
   id: "occasion_code",
   periodCode: "period_code",
   courseCode: "course_code",
@@ -69,7 +69,7 @@ export const courseToDto = {
   name_en: "nameEn",
   status: "status"
 };
-export const dtoToCourse = {
+export const courseFromDto = {
   id: "course_code",
   admin: "course_admin",
   nameSe: "name_se",
@@ -90,10 +90,32 @@ export const scheduleToDto = {
   id: "id",
   occasion_code: "occasionCode"
 };
-export const dtoToSchedule = {
+export const scheduleFromDto = {
   id: "id",
   occasionCode: "occasion_code"
 };
+
+/* === MODULE === */
+interface ModuleI {
+  id: string;
+  courseCode: string;
+  description: string;
+  status: string;
+}
+export class Module implements ModuleI {
+  id: string;
+  courseCode: string;
+  description: string;
+  status: string;
+}
+export const moduleFromDto = {
+  id: "module_id",
+  courseCode: "course_code",
+  description: "description",
+  status: "status"
+}
+
+
 
 /* === EVENT === */
 export interface EventI {

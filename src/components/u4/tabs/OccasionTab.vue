@@ -4,16 +4,16 @@
     <br />
     <CourseFinderBox
       :course-arr="courseArr"
-      @refresh-courses-event="this.refreshCoursesHandler"
-      @search-course-code-event="this.searchCourseHandler"
-      @selected-course-event="this.selectedCourseHandler"
+      @refresh-courses-event="refreshCoursesHandler"
+      @search-course-code-event="searchCourseHandler"
+      @selected-course-event="selectedCourseHandler"
     />
     <hr />
     <OccasionFinderBox
       :occasion-arr="occasionArr"
-      @selected-occasion-event="this.selectedOccasionHandler"
-      @refresh-occasions-event="this.refreshOccasionsHandler"
-      @clear-occasions-event="this.clearOccasionBoxHandler"
+      @selected-occasion-event="selectedOccasionHandler"
+      @refresh-occasions-event="refreshOccasionsHandler"
+      @clear-occasions-event="clearOccasionBoxHandler"
     />
   </div>
 </template>
@@ -26,6 +26,7 @@ import occasionService from "@/service/u4/occasionService";
 import {mapMutations, mapState} from "vuex";
 import courseService from "@/service/u4/courseService";
 import {Options, Vue} from "vue-class-component";
+import {Course} from "@/service/types";
 
 @Options({
   name: "OccasionTab",
@@ -51,17 +52,20 @@ import {Options, Vue} from "vue-class-component";
     //...mapActions(["scheduleStore"], ["doSetSelectedCourse"]),
 
     /* Populates occasionArr by course */
-    async selectedCourseHandler(course) {
+    async selectedCourseHandler(course: Course) {
       console.debug("OccasionTab->selectedCourseHandler()");
       //await this.doSetSelectedCourse(course);
       this.setSelectedCourse(course);
       this.occasionArr = await occasionService.getOccasions(course);
+      console.log("SDFGSDFGSD#¤sdfGSDSFG " + this.occasionArr[0].id)
+      console.debug("OccasionArr length: " + this.occasionArr.length);
     },
 
     /* Populates courseArr */
     async refreshCoursesHandler() {
       console.debug("OccasionTab->refreshCoursesHandler()");
       this.courseArr = await courseService.getCourses();
+      console.debug("CourseArr length: " + this.courseArr.length);
     },
 
     /* Searches for a part or full match case insensitive course code.
