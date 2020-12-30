@@ -7,7 +7,7 @@ and other things like that.
 It finishes by binding the Vue instance to a DOM element.
 
  */
-import {createApp} from "vue";
+import { createApp } from "vue";
 import App from "./App.vue";
 //import "./registerServiceWorker"; // Not currently used.
 import router from "./router/router";

@@ -3,13 +3,11 @@
     <table class="table table-borderless table-striped table-hover">
       <thead class="thead-light">
         <tr>
-          <th scope="col">
-            Välj kurs av {{ courseArr.length }} alternativ
-          </th>
+          <th scope="col">Välj kurs av {{ courseArr.length }} alternativ</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-if="courseArr.length === 0">
+        <tr v-if="!courseArr.length">
           <td>Sök eller hämta kurslista</td>
         </tr>
         <tr
@@ -28,8 +26,8 @@
 </template>
 
 <script lang="ts">
-import {Options, PropOptions, Vue} from "vue-class-component";
-import {Course} from "@/service/types";
+import { Options, PropOptions, Vue } from "vue-class-component";
+import { Course } from "@/service/types";
 
 @Options({
   name: "CourseTable",

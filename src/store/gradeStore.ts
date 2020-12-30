@@ -19,7 +19,7 @@ export const gradeStoreModule = {
      * this action then fetches the relevant course modules for the selected course.
      * If no parameter for courseCode then set selectedCourse to none. */
     //async doSelectCourseByCourseCode(context, courseCode) { // equal to object unpacking below.
-    async doSelectCourseByCourseCode({ dispatch, commit, getters, rootGetters }, courseCode) {
+    async doSelectCourseByCourseCode({ dispatch, commit }, courseCode) {
       console.debug("gradeStore->doSelectCourseByCourseCode(): " + courseCode);
       try {
         const res = await courseService.getCourseByCourseCode(courseCode);

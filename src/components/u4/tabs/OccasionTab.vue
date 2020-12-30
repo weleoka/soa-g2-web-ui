@@ -23,10 +23,10 @@ import CourseFinderBox from "@/components/u4/CourseFinderBox.vue";
 import OccasionFinderBox from "@/components/u4/OccasionFinderBox.vue";
 import occasionService from "@/service/u4/occasionService";
 
-import {mapMutations, mapState} from "vuex";
+import { mapMutations, mapState } from "vuex";
 import courseService from "@/service/u4/courseService";
-import {Options, Vue} from "vue-class-component";
-import {Course} from "@/service/types";
+import { Options, Vue } from "vue-class-component";
+import { Course } from "@/service/types";
 
 @Options({
   name: "OccasionTab",
@@ -36,8 +36,8 @@ import {Course} from "@/service/types";
   },
   data() {
     return {
-      courseArr: [],
-      occasionArr: []
+      occasionArr: [],
+      courseArr: []
     };
   },
   computed: {
@@ -57,7 +57,7 @@ import {Course} from "@/service/types";
       //await this.doSetSelectedCourse(course);
       this.setSelectedCourse(course);
       this.occasionArr = await occasionService.getOccasions(course);
-      console.log("SDFGSDFGSD#¤sdfGSDSFG " + this.occasionArr[0].id)
+      console.log("SDFGSDFGSD#¤sdfGSDSFG " + this.occasionArr[0].id);
       console.debug("OccasionArr length: " + this.occasionArr.length);
     },
 

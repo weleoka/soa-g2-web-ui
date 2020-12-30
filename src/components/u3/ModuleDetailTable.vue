@@ -1,7 +1,11 @@
 <template>
   <div>
     <div class="table-responsive py-4">
-      <table class="table table-striped table-hover" id="module-detail-table">
+      <table
+        v-if="Object.keys(submission).length"
+        class="table table-striped table-hover"
+        id="module-detail-table"
+      >
         <thead class="thead-light table-success">
           <tr>
             <th scope="col">Submission ID</th>
@@ -40,7 +44,7 @@
 </template>
 
 <script lang="ts">
-import {Options, Vue} from "vue-class-component";
+import { Options, Vue } from "vue-class-component";
 
 @Options({
   //strict mode;

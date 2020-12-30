@@ -77,6 +77,7 @@ export const courseFromDto = {
   status: "status"
 };
 
+
 /* === SCHEDULE === */
 export interface ScheduleI {
   id: string;
@@ -87,13 +88,14 @@ export class Schedule implements ScheduleI {
   occasionCode: string;
 }
 export const scheduleToDto = {
-  id: "id",
+  schedule_code: "id",
   occasion_code: "occasionCode"
 };
 export const scheduleFromDto = {
-  id: "id",
+  id: "schedule_code",
   occasionCode: "occasion_code"
 };
+
 
 /* === MODULE === */
 interface ModuleI {
@@ -141,8 +143,8 @@ export class Event implements EventI {
   timeslot: number;
   title: string;
 }
-export const dtoToEvent = {
-  id: "id", //maybe EventCode
+export const eventFromDto = {
+  id: "event_code",
   title: "title",
   scheduleCode: "schedule_code",
   datetime: "datetime",
@@ -152,7 +154,7 @@ export const dtoToEvent = {
   teachers: "teachers"
 };
 export const eventToDto = {
-  id: "id",
+  event_code: "id",
   title: "title",
   schedule_code: "scheduleCode",
   datetime: "datetime",

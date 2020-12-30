@@ -19,17 +19,16 @@ const instance = axios.create({
   }
 });
 
-
 // Add a request interceptor.
 // https://auralinna.blog/post/2019/global-http-request-and-response-handling-with-the-axios-interceptor/
 instance.interceptors.request.use(
-    function(config) {
-      return config;
-    },
-    function(error) {
-      // Do something with request error
-      return Promise.reject(error);
-    }
+  function(config) {
+    return config;
+  },
+  function(error) {
+    // Do something with request error
+    return Promise.reject(error);
+  }
 );
 
 export default instance;

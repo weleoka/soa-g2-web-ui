@@ -43,8 +43,8 @@
 </template>
 
 <script lang="ts">
-import {Options, PropOptions, Vue} from "vue-class-component";
-import {Course} from "@/service/types";
+import { Options, PropOptions, Vue } from "vue-class-component";
+import { Course } from "@/service/types";
 import CourseTable from "@/components/u4/CourseTable.vue";
 
 @Options({
@@ -60,14 +60,19 @@ import CourseTable from "@/components/u4/CourseTable.vue";
       }
     } as PropOptions<Course[]>
   },
-  emits: ["selected-course-event", "refresh-courses-event", "search-course-code-event"],
+  emits: [
+    "selected-course-event",
+    "refresh-courses-event",
+    "search-course-code-event"
+  ],
   data() {
     return {
       searchStr: "" // full, or part, case-insensitive matching a course code
     };
   },
   methods: {
-    selectedCourseHandler(course) { // event bubble
+    selectedCourseHandler(course) {
+      // event bubble
       this.$emit("selected-course-event", course);
     },
     clearSearch() {

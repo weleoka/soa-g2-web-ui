@@ -4,9 +4,9 @@ EA & SOA Group 2 HT2020
 Business logic concerning the workings with courses over API's.
  */
 import httpAxios from "@/service/httpAxios";
-import {throwApiError} from "@/service/errors";
-import {Occasion, scheduleFromDto} from "@/service/types";
-import {morphism} from "morphism";
+import { throwApiError } from "@/service/errors";
+import { Occasion, Schedule, scheduleFromDto } from "@/service/types";
+import { morphism } from "morphism";
 
 export default {
   /* get a list of available schedule codes */
@@ -18,7 +18,7 @@ export default {
         "GET request to: " + res.config.baseURL + "/" + res.config.url
       );
       if (res.status === 200) {
-        return res.data.map(dto => morphism(scheduleFromDto, dto))
+        return res.data.map(dto => morphism(scheduleFromDto, dto));
       }
     } catch (error) {
       console.error(error);
@@ -26,20 +26,30 @@ export default {
   },
 
   /* Find one schedule by occasion.
-   * Returns only 1 result in an array. */
+   * Returns array of 1 result */
   async getScheduleByOccasion(occasion: Occasion) {
-    console.debug(
-      "scheduleService->getScheduleByOccasion(): " + occasion.id
-    );
+    console.debug("scheduleService->getScheduleByOccasion(): " + occasion.id);
     const params = occasion ? {occasion_code: occasion.id} : {}; //eslint-disable-line
     try {
       const res = await httpAxios.get("schedules", { params });
       console.debug("GET: " + res.config.baseURL + "/" + res.config.url);
       if (res.status === 200) {
-        if (res.data.length === 1) {
-          return await res.data.map(dto => morphism(scheduleFromDto, dto));
+        const arrLen = res.data.length;
+        if (arrLen === 1) {
+          /*console.debug("1: " + Object.keys(res.data[0]))
+          console.debug("2: " + res.data)
+          console.debug("2.25: " + (res.data[0]));
+          const tmp = await res.data.map(dto => morphism(scheduleFromDto, dto, Schedule));
+          console.debug(JSON.stringify(tmp[0]));
+          console.debug("2.5: " + (Array.isArray(tmp[0])));
+          console.debug("2.5: " + (tmp[0] instanceof Schedule));
+          console.debug("3: " + Object.keys(tmp[0]));
+          return tmp; */
+          return await res.data.map(dto =>
+            morphism(scheduleFromDto, dto, Schedule)
+          );
         } else {
-          throwApiError("Bad number of schedules received.");
+          throwApiError("Bad number of schedules received: " + arrLen);
         }
       } else {
         throwApiError(res.statusText);
@@ -49,9 +59,6 @@ export default {
     }
   }
 };
-
-
-
 
 /*  /!* Convenience method calling other methods in order *!/
 async getCompleteScheduleByOccasion(occasion) {

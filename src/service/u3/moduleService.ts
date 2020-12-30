@@ -7,8 +7,8 @@ save state to a db on the client.
  */
 
 import httpAxios from "@/service/httpAxios";
-import {morphism} from "morphism";
-import {moduleFromDto} from "@/service/types";
+import { morphism } from "morphism";
+import { moduleFromDto } from "@/service/types";
 
 export default {
   /* Get modules by course code or get all modules */
@@ -16,8 +16,13 @@ export default {
     const params = courseCode ? {course_code: courseCode} : {}; //eslint-disable-line
     try {
       const res = await httpAxios.get("/modules", { params });
-      console.debug("GET request to: " + res.config.baseURL + res.config.url + res.config.params);
-      const asd =  res.data.map(dto => morphism(moduleFromDto, dto));
+      console.debug(
+        "GET request to: " +
+          res.config.baseURL +
+          res.config.url +
+          res.config.params
+      );
+      const asd = res.data.map(dto => morphism(moduleFromDto, dto));
       return asd;
     } catch (error) {
       console.error(error.message);
@@ -34,5 +39,5 @@ export default {
     } catch (error) {
       console.error(error.message);
     }
-  },
+  }
 };

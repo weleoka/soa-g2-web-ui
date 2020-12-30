@@ -4,8 +4,8 @@ EA & SOA Group 2 HT2020
 Business logic concerning the workings with course occasions.
  */
 import httpAxios from "@/service/httpAxios";
-import {Course, occasionFromDto} from "@/service/types";
-import {morphism} from "morphism";
+import { Course, occasionFromDto } from "@/service/types";
+import { morphism } from "morphism";
 
 export default {
   /* Gets occasions by course code, or all if no course code specified */

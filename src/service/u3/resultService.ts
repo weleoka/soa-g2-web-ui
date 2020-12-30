@@ -7,9 +7,9 @@ save state to a db on the client.
  */
 
 import httpAxios from "@/service/httpAxios";
-import {throwApiError} from "@/service/errors";
-import {morphism} from "morphism";
-import {scheduleFromDto, submissionFromDto} from "@/service/types";
+import { throwApiError } from "@/service/errors";
+import { morphism } from "morphism";
+import { submissionFromDto } from "@/service/types";
 
 export default {
   /*  async getResults() {
@@ -55,5 +55,5 @@ export default {
     } catch (error) {
       console.error(error);
     }
-  },
+  }
 };

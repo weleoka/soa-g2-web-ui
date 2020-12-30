@@ -1,13 +1,13 @@
 <template>
-  <div id="occasion-detail-box" v-if="occasion">
+  <div id="occasion-detail-box" v-if="Object.keys(occasion).length">
     <h4>Detaljer för {{ occasion.id }}</h4>
     Metadata info: {{ occasion }}
   </div>
 </template>
 
 <script lang="ts">
-import {Options, Vue} from "vue-class-component";
-import {Occasion} from "@/service/types";
+import { Options, Vue } from "vue-class-component";
+import { Occasion } from "@/service/types";
 
 @Options({
   name: "OccasionDetailBox",

@@ -11,7 +11,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-if="occasionArr.length < 1">
+        <tr v-if="!occasionArr.length">
           <td>inga tillfällen</td>
           <td>-</td>
           <td>-</td>
@@ -36,8 +36,8 @@
 </template>
 
 <script lang="ts">
-import {Options, PropOptions, Vue} from "vue-class-component";
-import {Occasion} from "@/service/types";
+import { Options, PropOptions, Vue } from "vue-class-component";
+import { Occasion } from "@/service/types";
 
 @Options({
   name: "OccasionTable",
