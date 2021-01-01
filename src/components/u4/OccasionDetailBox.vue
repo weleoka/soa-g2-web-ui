@@ -1,5 +1,5 @@
 <template>
-  <div id="occasion-detail-box" v-if="Object.keys(occasion).length">
+  <div id="occasion-detail-box" v-if="occasion && Object.keys(occasion).length">
     <h4>Detaljer för {{ occasion.id }}</h4>
     Metadata info: {{ occasion }}
   </div>

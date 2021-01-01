@@ -19,8 +19,7 @@ export default {
       console.debug(
         "GET request to: " +
           res.config.baseURL +
-          res.config.url +
-          res.config.params
+          res.config.url
       );
       const asd = res.data.map(dto => morphism(moduleFromDto, dto));
       return asd;

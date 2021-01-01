@@ -21,7 +21,7 @@ export default {
         return res.data.map(dto => morphism(scheduleFromDto, dto));
       }
     } catch (error) {
-      console.error(error);
+      throwApiError(error.message);
     }
   },
 

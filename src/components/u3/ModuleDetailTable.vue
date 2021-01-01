@@ -1,8 +1,9 @@
 <template>
   <div>
     <div class="table-responsive py-4">
+<div >ASDFASFDASDFASDF
       <table
-        v-if="Object.keys(submission).length"
+        v-if="submissionArr && submissionArr.length"
         class="table table-striped table-hover"
         id="module-detail-table"
       >
@@ -18,8 +19,8 @@
             <th scope="col">Verifierat betyg</th>
           </tr>
         </thead>
-        <tbody>
-          <tr v-for="(submission, i) in submissionArrProp" :key="i">
+        <tbody v-if="submissionArr && submissionArr.length">
+          <tr v-for="(submission, i) in submissionArr" :key="i">
             <td>{{ submission.id }}</td>
             <td>{{ submission.studentId }}</td>
             <td>{{ submission.firstName }} {{ submission.lastName }}</td>
@@ -30,7 +31,7 @@
             <td>
               <p v-if="submission.verified">verifierat</p>
               <button
-                v-else-if="!busybusy"
+                v-else-if="!state.loading"
                 @click="verifyGrade(submission.id, i)"
               >
                 Verifiera
@@ -39,36 +40,40 @@
           </tr>
         </tbody>
       </table>
+</div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { Options, Vue } from "vue-class-component";
+import {Options, PropOptions, Vue} from "vue-class-component";
+import {Submission} from "@/service/types";
 
 @Options({
-  //strict mode;
   name: "ModuleDetailTable",
   props: {
-    moduleIdProp: String, // vue transforms this to module-id-prop in parent template.
-    submissionArrProp: Object // vue transforms this to submissions-arr in parent template.
+    submissionArr: {
+      type: Array,
+      default() {
+        return [];
+      }
+    } as PropOptions<Submission[]>
   },
   emits: ["verify-grade-event"],
   data() {
     return {
-      busybusy: false
+      state: {
+        loading: false
+      }
     };
-  },
-  created() {
-    console.log("Loaded ModuleDetailTable for: " + this.moduleIdProp);
   },
   methods: {
     verifyGrade(submissionId, i) {
       console.log("SubmissionID: " + submissionId);
       console.log("At index of: " + i);
-      this.busybusy = true; // Todo: make this dynamically show and hide buttons...
+      this.state.loading = true; // Todo: make this dynamically show and hide buttons...
       this.emit("verify-grade-event", submissionId, i); // supply i for the ugly hack.
-      this.busybusy = false;
+      this.state.loading = false;
     }
   }
 })

@@ -1,7 +1,10 @@
 <template>
   <div class="container-v" id="create-event-box">
     <h3>Ny lektion</h3>
-    <div v-if="!Object.keys(newEvent).length" id="new-event-detail-box">
+    <div
+      v-if="newEvent && !Object.keys(newEvent).length"
+      id="new-event-detail-box"
+    >
       <h4>Detaljer för eventet {{ newEvent.id }}</h4>
       Metadata info: {{ newEvent.datetime.toDateString() }}
     </div>

@@ -1,7 +1,10 @@
 <template>
   <div>
     <h1>Steg 2: välj lektionstider</h1>
-    <div class="container-v" v-if="Object.keys(selectedSchedule).length">
+    <div
+      class="container-v"
+      v-if="selectedSchedule && Object.keys(selectedSchedule).length"
+    >
       <p>Hämta schemat för aktuellt kurstillfälle</p>
       <button class="btn-a" type="button" @click="refreshScheduleHandler">
         Hämta schema

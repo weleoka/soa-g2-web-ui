@@ -2,12 +2,11 @@
   <div id="module_details">
     <h1>Detaljvy för inlämningar i "{{ moduleId }}"</h1>
     <ModuleDetailTable
-      v-if="!loading"
-      :module-id-prop="moduleId"
+      v-if="!state.loading"
       :submission-arr="submissionArr"
       @verify-grade-event="verifyGradeHandler"
     />
-    <div v-if="loading">Loading...</div>
+    <div v-if="state.loading">Loading...</div>
     <button type="button" @click="returnToOverview">Return</button>
   </div>
 </template>
@@ -16,17 +15,19 @@
 import ModuleDetailTable from "@/components/u3/ModuleDetailTable.vue";
 import resultService from "@/service/u3/resultService";
 import { Options, Vue } from "vue-class-component";
+import {handle, throwApiError} from "@/service/errors";
 
 @Options({
   components: {
     ModuleDetailTable
   },
-
   data() {
     return {
-      loading: false, // the detail table content loading
+      state: {
+        loading: false,
+      },
       moduleId: "placeholderID",
-      submissionArr: {}
+      submissionArr: []
     };
   },
   created() {
@@ -35,25 +36,44 @@ import { Options, Vue } from "vue-class-component";
         this.$route.params.moduleId
     );
     this.moduleId = this.$route.params.moduleId;
-    try {
-      this.updateModuleObj();
-      console.log("Updated module details.");
-    } catch (e) {
-      console.log("Couldn't get module details. Returning to overview view.");
+
+    this.state.loading = true;
+    let res = [];
+    (async () => {
+      res = await resultService.getSubmissionsByAssignment(this.moduleId);
+    })().catch(e => {
+      console.log(e);
+    });
+    this.state.loading = false;
+    if (res.length) {
+      this.submissionArr = res;
+    } else {
+      console.log("No submissions found for module " + this.moduleId);
       this.returnToOverview();
     }
   },
   methods: {
     returnToOverview() {
-      this.$router.push("/");
+      this.$router.push("/gradeworks");
     },
-    async updateModuleObj() {
-      this.loading = true;
-      this.submissionArr = await resultService.getSubmissionsByAssignment(
+
+    /* Tries to update submissionsArr */
+/*    async updateSubmissionArr() {
+      console.debug("updateSubmissionArr() with: " + this.moduleId);
+      const [arr, err] = await handle(resultService.getSubmissionsByAssignment(
         this.moduleId
-      );
-      this.loading = false;
-    },
+      ));
+      if (!err) {
+        console.debug("Updated submissionArr: " + arr);
+        return arr;
+      } else {
+        console.error("ERROR: " + err.message + "\n" + err);
+        console.log("Couldn't get module details. Returning to overview view.");
+        return []
+      }
+    },*/
+
+    /* Hacked method faking verification */
     async verifyGradeHandler(submissionId: string, i: number) {
       console.log("Verifying submission: " + submissionId);
       console.log("Faking the verification for index: " + i);

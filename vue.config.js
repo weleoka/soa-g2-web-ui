@@ -12,7 +12,14 @@ module.exports = {
     devtool: "inline-source-map",
     devServer: {
       port: 9997,
-      proxy: {
+      proxy: { // Rules order is important.
+        "/api/examination": {
+          //changeOrigin: true,
+          target: "http://localhost:8085", // app-middleware
+          //secure: false, // will ignore the https
+          pathRewrite: { "^/api/examination": "/app/V1/examination" },  //eslint-disable-line
+          logLevel: "debug"
+        },
         "/api": {
           //changeOrigin: true,
           target: "http://localhost:8282", // nodemocks
