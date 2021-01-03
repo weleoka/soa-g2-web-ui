@@ -12,7 +12,8 @@ module.exports = {
     devtool: "inline-source-map",
     devServer: {
       port: 9997,
-      proxy: { // Rules order is important.
+      proxy: {
+        // Rules order is important.
         "/api/examination": {
           //changeOrigin: true,
           target: "http://localhost:8085", // app-middleware

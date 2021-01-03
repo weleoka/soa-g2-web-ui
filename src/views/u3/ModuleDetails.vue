@@ -15,7 +15,6 @@
 import ModuleDetailTable from "@/components/u3/ModuleDetailTable.vue";
 import resultService from "@/service/u3/resultService";
 import { Options, Vue } from "vue-class-component";
-import {handle, throwApiError} from "@/service/errors";
 
 @Options({
   components: {
@@ -24,7 +23,7 @@ import {handle, throwApiError} from "@/service/errors";
   data() {
     return {
       state: {
-        loading: false,
+        loading: false
       },
       moduleId: "placeholderID",
       submissionArr: []
@@ -58,7 +57,7 @@ import {handle, throwApiError} from "@/service/errors";
     },
 
     /* Tries to update submissionsArr */
-/*    async updateSubmissionArr() {
+    /*    async updateSubmissionArr() {
       console.debug("updateSubmissionArr() with: " + this.moduleId);
       const [arr, err] = await handle(resultService.getSubmissionsByAssignment(
         this.moduleId

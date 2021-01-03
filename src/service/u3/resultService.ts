@@ -1,42 +1,30 @@
 /*
 EA & SOA Group 2 HT2020
-
-This deals with runtime state across the whole app.
-Often this is where we would use local storage db and
-save state to a db on the client.
- */
+*/
 
 import httpAxios from "@/service/httpAxios";
-import { handle, throwApiError } from "@/service/errors";
+import { throwApiError, throwApiResponseError } from "@/service/errors";
 import { morphism } from "morphism";
-import { submissionFromDto } from "@/service/types";
+import { Submission, submissionFromDto } from "@/service/types";
 
 export default {
-  /*  async getResults() {
-    try {
-      const res = await httpAxios.get("/results");
-      console.log("GET request to: " + res.config.baseURL + res.config.url);
-      return res;
-    } catch (error) {
-      console.error(error);
-    }
-  },*/
+  /* get submissions by module id */
   async getSubmissionsByAssignment(moduleId: string) {
-    console.log(
-      "Called resultService->getAssignments() with moduleId: " +
-        moduleId
-    );
+    console.debug(`resultService->getSubmissionsByAssignment(): ${moduleId}`);
+    const apiCall = `/examination/${moduleId}`;
+    const data = {};
     try {
-      const res = await httpAxios.get("/examination/" + moduleId);
-      console.log("GET request to: " + res.config.baseURL + res.config.url);
+      const res = await httpAxios.get(apiCall, data);
+      console.debug(`GET: ${res.config.baseURL}/${res.config.url}`);
       if (res.status === 200) {
         if (res.data.length) {
-          return res.data.map(dto => morphism(submissionFromDto, dto));
-        } else {
-          return [];
+          return res.data.map(dto =>
+            morphism(submissionFromDto, dto, Submission)
+          );
         }
+        return [];
       } else {
-        throwApiError("Response: " + res.status);
+        throwApiResponseError(res);
         return [];
       }
     } catch (error) {
@@ -45,21 +33,37 @@ export default {
     }
   },
 
+  /* set verified status on a grade. */
   async submitGradeVerification(submissionId: string) {
-    const apiCall = "/submission/" + submissionId + "/verify";
-    console.log("trying POST request to: " + apiCall);
+    console.debug(`resultService->submitGradeVerification(): ${submissionId}`);
+    const apiCall = `/submission/${submissionId}/verify`;
+    const data = {submission_id: submissionId}; //eslint-disable-line
     try {
-      const res = await httpAxios.post(apiCall, {
-        submission_id: submissionId  //eslint-disable-line
-      });
-      console.log("POST request to: " + res.config.baseURL + res.config.url);
+      const res = await httpAxios.post(apiCall, data);
+      console.debug(`POST: ${res.config.baseURL}/${res.config.url}`);
       if (res.status === 200) {
-        return true;
+        if (res.data.length) {
+          return res.data; // not certain what data to return
+        }
+        return [];
       } else {
-        throwApiError("Response: " + res.status);
+        throwApiResponseError(res);
+        return [];
       }
     } catch (error) {
       throwApiError(error.message);
+      return [];
     }
   }
+
+  /* Test call mock services for results objects */
+  /*async getResults() {
+    try {
+      const res = await httpAxios.get("/results");
+      console.log("GET request to: " + res.config.baseURL + res.config.url);
+      return res;
+    } catch (error) {
+      console.error(error);
+    }
+  },*/
 };

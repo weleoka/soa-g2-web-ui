@@ -6,7 +6,7 @@ Business logic concerning the workings with courses over API's.
 import httpAxios from "@/service/httpAxios";
 import { courseFromDto } from "@/service/types";
 import { morphism } from "morphism";
-import { throwApiError } from "@/service/errors";
+import { throwApiResponseError } from "@/service/errors";
 
 export default {
   /* get a list of available courses */
@@ -32,12 +32,13 @@ export default {
       if (res.data.length === 1) {
         return res.data.map(dto => morphism(courseFromDto, dto));
       } else {
-        throwApiError(
-          "Should be only one object, received: " + res.data.length
+        throwApiResponseError(
+          undefined,
+          "Expected 1 response object, received: " + res.data.length
         );
       }
     } else {
-      throwApiError(res.statusText);
+      throwApiResponseError(res);
     }
   }
 };

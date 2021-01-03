@@ -27,7 +27,7 @@
           </button>
         </div>
       </div>
-      <OccasionDetailBox :selected-occasion="selectedOccasion" />
+      <OccasionDetailBox :occasion="selectedOccasion" />
     </div>
   </div>
 </template>

@@ -33,8 +33,7 @@ import eventService from "@/service/u4/eventService";
 import scheduleService from "@/service/u4/scheduleService";
 import { mapMutations, mapState } from "vuex";
 import { Options, Vue } from "vue-class-component";
-import { Occasion } from "@/service/types";
-import { Event } from "@/service/types";
+import { Event, Occasion } from "@/service/types";
 
 @Options({
   name: "TimeTab",

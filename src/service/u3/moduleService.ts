@@ -16,11 +16,7 @@ export default {
     const params = courseCode ? {course_code: courseCode} : {}; //eslint-disable-line
     try {
       const res = await httpAxios.get("/modules", { params });
-      console.debug(
-        "GET request to: " +
-          res.config.baseURL +
-          res.config.url
-      );
+      console.debug("GET request to: " + res.config.baseURL + res.config.url);
       const asd = res.data.map(dto => morphism(moduleFromDto, dto));
       return asd;
     } catch (error) {
