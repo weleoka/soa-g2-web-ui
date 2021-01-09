@@ -3,7 +3,7 @@
     <h1>Steg 2: välj lektionstider</h1>
     <div
       class="container-v"
-      v-if="selectedSchedule && Object.keys(selectedSchedule).length"
+      v-if="!selectedSchedule && !Object.keys(selectedSchedule).length"
     >
       <p>Hämta schemat för aktuellt kurstillfälle</p>
       <button class="btn-a" type="button" @click="refreshScheduleHandler">
@@ -33,7 +33,7 @@ import eventService from "@/service/u4/eventService";
 import scheduleService from "@/service/u4/scheduleService";
 import { mapMutations, mapState } from "vuex";
 import { Options, Vue } from "vue-class-component";
-import { Event, Occasion, Schedule } from "@/service/types";
+import {Event, Occasion, Reservation, Schedule} from "@/service/types";
 
 @Options({
   name: "TimeTab",
@@ -86,14 +86,16 @@ import { Event, Occasion, Schedule } from "@/service/types";
       this.setSelectedOccasion(new Occasion("15")); // FOR TESTING! REMOVE LATER!
       const schedule = await this.getScheduleByOccasion(this.selectedOccasion);
       if (schedule && Object.keys(schedule).length) {
-        // all this is because morphism fails silently!
         this.setSelectedSchedule(schedule);
-        const eventsArr = await this.getEventsBySchedule(schedule);
+        console.log(`Reservations are reservations: ${schedule.reservations[0] instanceof Reservation}`);
+        console.log(`RESERVATIONS2: ${JSON.stringify(schedule.reservations2)}`);
+        this.setEventArr(schedule.reservations)
+        /*const eventsArr = await this.getEventsBySchedule(schedule);
         if (eventsArr.length) {
           this.setEventArr(eventsArr);
         } else {
           console.log(`No events found for schedule`);
-        }
+        }*/
       } else {
         throw Error(
           `Schedule for occasion: ${this.selectedOccasion.id} not found or bad data!`

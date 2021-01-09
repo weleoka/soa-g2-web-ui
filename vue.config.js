@@ -16,10 +16,16 @@ module.exports = {
         // Rules order has significance
         // /schedule-service/V1/schedule/occasion/{courseOccasionId}
         "/api/schedule/occasion": {
+          target: "http://localhost:8282", // nodemocks
+          //pathRewrite: { "^/api/schedule/occasion": "/api/schedule/occasion" },  //eslint-disable-line
+          logLevel: "debug"
+        },
+        // /schedule-service/V1/schedule/occasion/{courseOccasionId}
+/*        "/api/schedule/occasion": {
           target: "http://localhost:8083", // schedule-service
           pathRewrite: { "^/api/schedule/occasion": "/schedule-service/V1/schedule/occasion" },  //eslint-disable-line
           logLevel: "debug"
-        },
+        },*/
         "/api/occasions": {
           target: "http://localhost:8082", // course-service
           pathRewrite: { "^/api/occasions": "/course-service/V1/occasions" },  //eslint-disable-line

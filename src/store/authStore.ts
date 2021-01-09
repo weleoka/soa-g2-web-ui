@@ -13,6 +13,10 @@ export const authStoreModule = {
       tokenId: ""
     }
   },
+  getters: {
+    isSignedIn: state => !!state.authUser.userEmail, // returns bool
+    getUserEmail: state => state.authUser.userEmail
+  },
   actions: {
     async doSignin(context, formData) {
       console.log("Trying to sign in: " + formData.email);
@@ -22,9 +26,9 @@ export const authStoreModule = {
         return true;
       }
     },
-    async doSignout(context) {
+    doSignout(context) {
       context.commit("signout");
-      await this.$router.push("/");
+      this.$router.push("/");
     }
   },
   mutations: {

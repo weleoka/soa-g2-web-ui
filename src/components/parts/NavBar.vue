@@ -51,7 +51,7 @@
                 Signin
               </router-link>
               <a href="/#" class="nav-link" v-else @click="doSignout">
-                <span v-if="isSignedIn"> - Sign out {{ userEmail }} - </span>
+                <span v-if="isSignedIn"> - Sign out {{ getUserEmail }} - </span>
               </a>
             </li>
           </ul>
@@ -62,7 +62,7 @@
 </template>
 
 <script lang="ts">
-import { mapActions, mapState } from "vuex";
+import {mapActions, mapGetters, mapState} from "vuex";
 import { Options, Vue } from "vue-class-component";
 
 @Options({
@@ -90,7 +90,8 @@ import { Options, Vue } from "vue-class-component";
       // important!
       return this.$route.path;
     },
-    ...mapState("authStore", ["isSignedIn", "userEmail"])
+    ...mapGetters("authStore", ["isSignedIn", "getUserEmail"]),
+    //...mapState("authStore", ["authUser"])
   },
   methods: mapActions("authStore", ["doSignout"])
 })
