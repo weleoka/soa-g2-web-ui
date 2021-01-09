@@ -8,7 +8,6 @@ todo: implement - const toDto = fromDto.map((key, value) => value, key) to flip 
 
 
 /* === OCCASION === */
-
 export interface OccasionI {
   id: string;
   periodCode: string;
@@ -20,9 +19,8 @@ export interface OccasionI {
 }
 export class Occasion implements OccasionI {
   constructor(id?: string) {
-    this.id = id;
+    this.id = id ? id : null;
   }
-
   courseCode: string;
   id: string;
   locationCode: string;
@@ -60,8 +58,7 @@ export const occasionToDto = {
 export const occasionFromDto = {
   id: "course_occasion_id",
   courseCode: "course_code",
-  locationCode: "location_code",
-  location: "location",
+  locationCode: "location",
   year: "year",
   timeEditObjectId: "time_edit_object_id",
   periods: "periods",
