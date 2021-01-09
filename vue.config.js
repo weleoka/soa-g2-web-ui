@@ -14,6 +14,21 @@ module.exports = {
       port: 9997,
       proxy: {
         // Rules order is important.
+        "/api/occasions": {
+          //changeOrigin: true,
+          target: "http://localhost:8082", // course-service
+          //secure: false, // will ignore the https
+          pathRewrite: { "^/api/occasions": "/course-service/V1/occasions" },  //eslint-disable-line
+          logLevel: "debug"
+        },
+        // Rules order is important.
+        "/api/courses": {
+          //changeOrigin: true,
+          target: "http://localhost:8082", // course-service
+          //secure: false, // will ignore the https
+          pathRewrite: { "^/api/courses": "/course-service/V1/courses" },  //eslint-disable-line
+          logLevel: "debug"
+        },
         "/api/examination": {
           //changeOrigin: true,
           target: "http://localhost:8085", // app-middleware

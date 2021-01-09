@@ -6,33 +6,19 @@ Often this is where we would use local storage db and
 save state to a db on the client.
  */
 
-import httpAxios from "@/service/httpAxios";
-import { morphism } from "morphism";
-import { moduleFromDto } from "@/service/types";
+import {morphism} from "morphism";
+import {Module, moduleFromDto} from "@/service/types";
+import requests from "@/service/requests";
 
 export default {
   /* Get modules by course code or get all modules */
   async getModulesByCourseCode(courseCode: string) {
+    console.debug(`moduleService->getModulesByCourseCode(): ${courseCode}`);
+    const apiCall = `modules`;
     const params = courseCode ? {course_code: courseCode} : {}; //eslint-disable-line
-    try {
-      const res = await httpAxios.get("/modules", { params });
-      console.debug("GET request to: " + res.config.baseURL + res.config.url);
-      const asd = res.data.map(dto => morphism(moduleFromDto, dto));
-      return asd;
-    } catch (error) {
-      console.error(error.message);
-    }
-  },
-
-  /* Get all the details about a module. */
-  async getModuleDetails() {
-    // WARN: not implemented.
-    try {
-      const res = await httpAxios.get("/modules");
-      console.debug("GET request to: " + res.config.baseURL + res.config.url);
-      return res.data.map(dto => morphism(moduleFromDto, dto));
-    } catch (error) {
-      console.error(error.message);
-    }
+    const res = await requests.getRequest(apiCall, params);
+    return res.map(dto =>
+        morphism(moduleFromDto, dto, Module)
+    );
   }
 };

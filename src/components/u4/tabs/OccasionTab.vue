@@ -23,10 +23,10 @@ import CourseFinderBox from "@/components/u4/CourseFinderBox.vue";
 import OccasionFinderBox from "@/components/u4/OccasionFinderBox.vue";
 import occasionService from "@/service/u4/occasionService";
 
-import { mapMutations, mapState } from "vuex";
+import {mapMutations, mapState} from "vuex";
 import courseService from "@/service/u4/courseService";
-import { Options, Vue } from "vue-class-component";
-import { Course } from "@/service/types";
+import {Options, Vue} from "vue-class-component";
+import {Course} from "@/service/types";
 
 @Options({
   name: "OccasionTab",
@@ -45,7 +45,7 @@ import { Course } from "@/service/types";
   },
   methods: {
     // this does not work, same as mapActions, need to use the (string, [string]) format,
-    // however it's useful for TypeScript separation to Vuex.
+    // however this is useful for TypeScript to not include Vuex.
     //...mapMutations({setSelectedOccasion: state => state.scheduleStore.setSelectedOccasion})
     ...mapMutations("scheduleStore", ["setSelectedOccasion"]),
     ...mapMutations(["setSelectedCourse"]),
@@ -56,16 +56,31 @@ import { Course } from "@/service/types";
       console.debug("OccasionTab->selectedCourseHandler()");
       //await this.doSetSelectedCourse(course);
       this.setSelectedCourse(course);
-      this.occasionArr = await occasionService.getOccasions(course);
-      console.log("SDFGSDFGSD#¤sdfGSDSFG " + this.occasionArr[0].id);
-      console.debug("OccasionArr length: " + this.occasionArr.length);
+      try {
+        this.occasionArr = await occasionService.getOccasionsByCourseId(course.id);
+      } catch (e) {
+        if (e.name === "ApiError") {
+          console.warn(`ApiError ${e.message}`);
+        } else {
+          console.warn(`Error ${e.message}`);
+        }
+      }
+      console.debug(`OccasionArr length: ${this.occasionArr.length}`);
     },
 
     /* Populates courseArr */
     async refreshCoursesHandler() {
       console.debug("OccasionTab->refreshCoursesHandler()");
-      this.courseArr = await courseService.getCourses();
-      console.debug("CourseArr length: " + this.courseArr.length);
+      try {
+        this.courseArr = await courseService.getAllCourses(); //.catch(err => new Error(err));
+      } catch (e) {
+        if (e.name === "ApiError") {
+          console.warn(`ApiError ${e.message}`);
+        } else {
+          console.warn(`Error ${e.message}`);
+        }
+      }
+      console.debug(`CourseArr length: ${this.courseArr.length}`);
     },
 
     /* Searches for a part or full match case insensitive course code.
@@ -76,7 +91,7 @@ import { Course } from "@/service/types";
       if (searchStr) {
         // todo: make a serverside search API endpoint
         const regex = RegExp(searchStr, "i"); // i for case insensitive
-        const res = await courseService.getCourses();
+        const res = await courseService.getAllCourses(); //.catch(err => new Error(err));
         const arr = [];
         for (let i = 0; i < res.length; i++) {
           if (res[i].id.match(regex)) {
@@ -93,7 +108,7 @@ import { Course } from "@/service/types";
     /* Reloads occasionArr in OccasionTab */
     async refreshOccasionsHandler() {
       console.debug("OccasionTab->refreshOccasionsHandler()");
-      this.occasionArr = await occasionService.getOccasions();
+      this.occasionArr = await occasionService.getAllOccasions();
     },
 
     /* Sets selectedOccasion in store */

@@ -3,65 +3,35 @@ EA & SOA Group 2 HT2020
 
 Business logic concerning the workings with course occasions.
  */
-import httpAxios from "@/service/httpAxios";
-import { Course, Occasion, occasionFromDto } from "@/service/types";
-import { morphism } from "morphism";
-import { throwApiError, throwApiResponseError } from "@/service/errors";
+import requests from "@/service/requests";
+import {morphism} from "morphism";
+import {Occasion, occasionFromDto} from "@/service/types";
+import {ApiError} from "@/service/errors";
+
+const apiCall = `occasions`;
 
 export default {
-  /* Gets occasions by course, or all if no course specified */
-  async getOccasions(course?: Course) {
-    console.debug(`occasionService->getOccasions()`);
-    const param = course ? {course_code: course.id} : ""; //eslint-disable-line
-    const apiCall = `/occasions/${param}`;
-    const data = {};
+  /* Gets occasions by course id*/
+  async getOccasionsByCourseId(courseId: string) {
+    console.debug(`occasionService->getOccasionsByCourseId() ${courseId}`);
+    const params = {course_code: courseId}; //eslint-disable-line
+    const res = await requests.getRequest(apiCall, params);
+    return this.mapper(res);
+  },
+
+  /* get all occasions */
+  async getAllOccasions() {
+    console.debug(`occasionService->getAllOccasions()`);
+    const res = await requests.getRequest(apiCall);
+    return this.mapper(res);
+  },
+
+  /* mapping from dto to domain objects */
+  mapper(res) {
     try {
-      const res = await httpAxios.get(apiCall, data);
-      console.debug(`GET: ${res.config.baseURL}/${res.config.url}`);
-      if (res.status === 200) {
-        if (res.data.length) {
-          return res.data.map(dto => morphism(occasionFromDto, dto, Occasion));
-        }
-        return [];
-      } else {
-        throwApiResponseError(res);
-        return [];
-      }
-    } catch (error) {
-      throwApiError(error.message);
-      return [];
+      return res.map(dto => morphism(occasionFromDto, dto, Occasion));
+    } catch (e) {
+      return new ApiError(`Bad data: ${res}`);
     }
   }
-  /*    /!* Gets occasions by course code, or all if no course code specified *!/
-  async getOccasions(course?: Course) {
-    const params = course.id ? {course_code: course.id} : {}; //eslint-disable-line
-    //const params = {course_code: course.id}; //eslint-disable-line
-    try {
-      const res = await httpAxios.get("occasions", { params });
-      console.debug("GET: " + res.config.baseURL + "/" + res.config.url);
-      return await res.data.map(dto => morphism(occasionFromDto, dto));
-    } catch (error) {
-      console.error(error);
-    }
-  }*/
-
-  /*
-  /!* Gets a single occasion *!/
-  async getOccasion(occasionCode: string) {
-    const params = occasionCode ? {occasion_code: occasionCode} : {}; //eslint-disable-line
-    try {
-      const res = await httpAxios.get("occasions", { params });
-      console.debug(
-        "GET request to: " + res.config.baseURL + "/" + res.config.url
-      );
-      if (res.data.length === 1) {
-        return this.occasionObjectMapper(res.data);
-      } else {
-        throwApiResponseError("API error, more than one occasions returned!");
-      }
-    } catch (error) {
-      throwApiResponseError(error.message);
-    }
-  },
-*/
 };

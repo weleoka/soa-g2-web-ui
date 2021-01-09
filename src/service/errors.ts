@@ -6,18 +6,78 @@ and can use custom named error hack by including name attribute in returned obje
  */
 
 /* Wrapper for async to handle errors  by always resolving promise */
-import { AxiosResponse } from "axios";
 
 export const handle = promise => {
   return promise
-    .then(data => [data, undefined])
-    .catch(error => Promise.resolve([undefined, error]));
+      .then(data => [data, undefined])
+      .catch(error => Promise.resolve([undefined, error]));
 };
+
+export class ApiResponseError extends Error {
+  status: string;
+  statusText: string;
+
+  constructor(apiRes, message) {
+    super(message);
+    this.name = "ApiResponseError"
+    this.status = apiRes.status;
+    this.statusText = apiRes.statusText;
+    this.message = message;
+  }
+
+  toJSON() {
+    return {
+      error: {
+        name: this.name,
+        message: this.message,
+        stacktrace: this.stack
+      }
+    }
+  }
+}
+
+/* A more general error from API calls which may occur during request stages */
+export class ApiError extends Error {
+  constructor(message) {
+    super(message);
+    this.name = "ApiError"
+    this.message = message;
+  }
+
+  toJSON() {
+    return {
+      error: {
+        name: this.name,
+        message: this.message,
+        stacktrace: this.stack
+      }
+    }
+  }
+}
+
+export class AxiosError extends Error {
+  constructor(message) {
+    super(message);
+    this.name = "AxiosError"
+    this.message = message;
+  }
+
+  toJSON() {
+    return {
+      error: {
+        name: this.name,
+        message: this.message,
+        stacktrace: this.stack
+      }
+    }
+  }
+}
 
 /*
 USed for bubbling errors of the nature where there has been API call but the
 response is unexpected.
  */
+/*
 export function throwApiResponseError(
   apiRes: AxiosResponse,
   customText?: string
@@ -30,10 +90,11 @@ export function throwApiResponseError(
   };
 }
 
-/* A more general error from API calls which may occur during request stages */
-export function throwApiError(customText?: string) {
+/!* A more general error from API calls which may occur during request stages *!/
+export function ApiError(customText?: string) {
   throw {
     name: "ApiResponseError",
     customText: customText
   };
 }
+*/

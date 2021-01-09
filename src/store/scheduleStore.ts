@@ -6,7 +6,7 @@ Often this is where we would use local storage db and
 save state to a db on the client.
  */
 
-import { Occasion, Schedule } from "@/service/types";
+import {Occasion, Schedule} from "@/service/types";
 
 export const scheduleStoreModule = {
   namespaced: true,
@@ -48,7 +48,7 @@ export const scheduleStoreModule = {
     async doSetSelectedCourse(context, course) {
       context.commit("setSelectedCourse", course);
       try {
-        return await occasionService.getOccasions(course);
+        return await occasionService.getOccasionsByCourseId(course);
       } catch (e) {
         if (e instanceof TypeError) {
           console.error("No occasions");

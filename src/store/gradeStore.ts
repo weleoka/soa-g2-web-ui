@@ -21,16 +21,8 @@ export const gradeStoreModule = {
     //async doSelectCourseByCourseCode(context, courseCode) { // equal to object unpacking below.
     async doSelectCourseByCourseCode({ dispatch, commit }, courseCode) {
       console.debug("gradeStore->doSelectCourseByCourseCode(): " + courseCode);
-      try {
-        const res = await courseService.getCourseByCourseCode(courseCode);
-        commit("setSelectedCourse", res[0], { root: true }); // dispatches item [0] to root store
-      } catch (e) {
-        if (e.name === "ApiError") {
-          console.warn("API error: " + e.message);
-        } else {
-          throw Error(e);
-        }
-      }
+      const res = await courseService.getCourseByCourseId(courseCode);
+      commit("setSelectedCourse", res[0], {root: true}); // dispatches item [0] to root store
       dispatch("populateModuleArr");
     },
 

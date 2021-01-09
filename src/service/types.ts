@@ -6,7 +6,9 @@ todo: implement - const toDto = fromDto.map((key, value) => value, key) to flip 
 
 /* eslint-disable */
 
+
 /* === OCCASION === */
+
 export interface OccasionI {
   id: string;
   periodCode: string;
@@ -20,6 +22,7 @@ export class Occasion implements OccasionI {
   constructor(id: string) {
     this.id = id;
   }
+
   courseCode: string;
   id: string;
   locationCode: string;
@@ -27,6 +30,13 @@ export class Occasion implements OccasionI {
   periodCode: string;
   studentCount: number;
   studyRate: string;
+
+  /* course-service extensions*/
+  location: string;
+  year: string;
+  timeEditObjectId: string;
+  periods: [];
+  teachers: [];
 }
 export const occasionToDto = {
   occasion_code: "id",
@@ -37,7 +47,7 @@ export const occasionToDto = {
   student_count: "studentCount",
   study_rate: "studyRate"
 };
-export const occasionFromDto = {
+/*export const occasionFromDto = {
   id: "occasion_code",
   periodCode: "period_code",
   courseCode: "course_code",
@@ -45,7 +55,19 @@ export const occasionFromDto = {
   parallelOccasions: "parallel_occasions",
   studentCount: "student_count",
   studyRate: "study_rate"
+};*/
+/* Course-service DTO */
+export const occasionFromDto = {
+  id: "course_occasion_id",
+  courseCode: "course_code",
+  locationCode: "location_code",
+  location: "location",
+  year: "year",
+  timeEditObjectId: "time_edit_object_id",
+  periods: "periods",
+  teachers: "teachers",
 };
+
 
 /* === COURSE === */
 export interface CourseI {
@@ -54,14 +76,22 @@ export interface CourseI {
   nameSe: string; // name swedish
   nameEn: string; // name english
   status: string;
+  ects: string;
+  occasions: [];
 }
+
 export class Course implements CourseI {
-  admin: string;
   id: string;
+  admin: string;
   nameEn: string;
   nameSe: string;
   status: string;
+
+  /* course-service extensions*/
+  ects: string;
+  occasions: [];
 }
+
 export const courseToDto = {
   course_code: "id",
   course_admin: "admin",
@@ -69,13 +99,32 @@ export const courseToDto = {
   name_en: "nameEn",
   status: "status"
 };
-export const courseFromDto = {
+/* Nodemocks Dto */
+/*export const courseFromDto = {
   id: "course_code",
   admin: "course_admin",
   nameSe: "name_se",
   nameEn: "name_en",
   status: "status"
+};*/
+/* Course-service DTO */
+export const courseFromDto = {
+  id: "course_code",
+  nameSe: "name",
+  ects: "ects",
+  //occasions: "course_instances",
+  /*  occasions: {
+      path: 'bar',
+      fn: dto => morphism(occasionFromDto, dto, Occasion)
+    }*/
+  /*occasions: iteratee => iteratee.course_instances.map(
+      dto => morphism(occasionFromDto, dto, Occasion)
+  )*/
 };
+
+/*export function courseServiceCourseMapper(dto) {
+
+}*/
 
 
 /* === SCHEDULE === */
@@ -83,6 +132,7 @@ export interface ScheduleI {
   id: string;
   occasionCode: string;
 }
+
 export class Schedule implements ScheduleI {
   id: string;
   occasionCode: string;
@@ -164,8 +214,8 @@ export const eventToDto = {
   teachers: "teachers"
 };
 
-/* === SUBMISSIION === */
 
+/* === SUBMISSION === */
 export interface SubmissionI {
   id: string;
   examination: string;
@@ -202,3 +252,6 @@ export const submissionFromDto = {
   grade: "grade",
   verified: "verified"
 }
+
+/* === ASSIGNMENT === */
+// not implemented

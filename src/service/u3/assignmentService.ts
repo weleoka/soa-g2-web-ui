@@ -6,31 +6,31 @@ Often this is where we would use local storage db and
 save state to a db on the client.
  */
 
-import httpAxios from "@/service/httpAxios";
+import requests from "@/service/requests";
 /*
 This deals with communications to and from SubmissionService
  */
 export default {
-  async getAssignments() {
-    try {
-      const res = await httpAxios.get("assignments");
-      console.log("GET request to: " + res.config.baseURL + res.config.url);
-      return res;
-    } catch (error) {
-      console.error(error);
-    }
+  /* get a list of all courses */
+  async getAllAssignments() {
+    console.debug(`assignmentService->getAllAssignments()`);
+    const apiCall = `assignments`;
+    const params = {};
+    const res = await requests.getRequest(apiCall, params);
+    /*    return res.map(dto =>
+            morphism(assignmentFromDto, dto, Assignment)
+        );*/
   },
+
   async getAssignmentsByModuleId(moduleId: string) {
-    try {
-      const res = await httpAxios.get("assignments", {
-        params: {
-          module_id: moduleId  //eslint-disable-line
-        }
-      });
-      console.log("GET request to: " + res.config.baseURL + res.config.url);
-      return res;
-    } catch (error) {
-      console.error(error);
-    }
+    console.debug(`assignmentService->getAllAssignments()`);
+    const apiCall = `assignments`;
+    const params = {
+      module_id: moduleId  //eslint-disable-line
+    };
+    const res = await requests.getRequest(apiCall, params);
+    /*  return res.map(dto =>
+          morphism(assignmentFromDto, dto, Assignment)
+      );*/
   }
 };
