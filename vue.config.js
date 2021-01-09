@@ -13,42 +13,39 @@ module.exports = {
     devServer: {
       port: 9997,
       proxy: {
-        // Rules order is important.
+        // Rules order has significance
+        // /schedule-service/V1/schedule/occasion/{courseOccasionId}
+        "/api/schedule/occasion": {
+          target: "http://localhost:8083", // schedule-service
+          pathRewrite: { "^/api/schedule/occasion": "/schedule-service/V1/schedule/occasion" },  //eslint-disable-line
+          logLevel: "debug"
+        },
         "/api/occasions": {
-          //changeOrigin: true,
           target: "http://localhost:8082", // course-service
-          //secure: false, // will ignore the https
           pathRewrite: { "^/api/occasions": "/course-service/V1/occasions" },  //eslint-disable-line
           logLevel: "debug"
         },
-        // Rules order is important.
         "/api/courses": {
-          //changeOrigin: true,
           target: "http://localhost:8082", // course-service
-          //secure: false, // will ignore the https
           pathRewrite: { "^/api/courses": "/course-service/V1/courses" },  //eslint-disable-line
           logLevel: "debug"
         },
         "/api/examination": {
-          //changeOrigin: true,
           target: "http://localhost:8085", // app-middleware
-          //secure: false, // will ignore the https
           pathRewrite: { "^/api/examination": "/app/V1/examination" },  //eslint-disable-line
           logLevel: "debug"
         },
         "/api": {
-          //changeOrigin: true,
           target: "http://localhost:8282", // nodemocks
-          //secure: false, // will ignore the https
-          // rewrite /api to ""
           pathRewrite: { "^/api": "" },  //eslint-disable-line
           logLevel: "debug"
         },
         "/appmw": {
-          //changeOrigin: true,
           target: "http://localhost:8085", // app-middleware
           pathRewrite: { "^/appmw": "/app/V1" },  //eslint-disable-line
           logLevel: "debug"
+          //changeOrigin: true,
+          //secure: false, // will ignore the https
         }
       }
     }

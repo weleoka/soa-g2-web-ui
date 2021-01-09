@@ -14,7 +14,7 @@ export default {
     console.debug("eventService->getEventsBySchedule()");
     const apiCall = `events`;
     const params = schedule ? {schedule_code: schedule.id} : {}; //eslint-disable-line
-    const res = await requests.getRequest(apiCall, params);
+    const res = await requests.getMany(apiCall, params);
     return res.map(dto => morphism(eventFromDto, dto, Event));
   },
 
@@ -23,6 +23,6 @@ export default {
     console.debug("eventService->createNewEvent()");
     const apiCall = `events`;
     const data = morphism(eventToDto, event);
-    return await requests.getRequest(apiCall, data);
+    return await requests.getMany(apiCall, data);
   }
 };

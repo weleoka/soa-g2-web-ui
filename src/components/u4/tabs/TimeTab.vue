@@ -33,7 +33,7 @@ import eventService from "@/service/u4/eventService";
 import scheduleService from "@/service/u4/scheduleService";
 import { mapMutations, mapState } from "vuex";
 import { Options, Vue } from "vue-class-component";
-import { Event, Occasion } from "@/service/types";
+import { Event, Occasion, Schedule } from "@/service/types";
 
 @Options({
   name: "TimeTab",
@@ -62,7 +62,11 @@ import { Event, Occasion } from "@/service/types";
     ])
   },
   methods: {
-    ...mapMutations("scheduleStore", ["setSelectedSchedule", "setEventArr"]),
+    ...mapMutations("scheduleStore", [
+      "setSelectedSchedule",
+      "setSelectedOccasion",
+      "setEventArr"
+    ]),
     /* Creates a new event
      * - round off datetime to nearest day: no we dont have to bother now.
      * - jump to other event creation sections
@@ -77,29 +81,58 @@ import { Event, Occasion } from "@/service/types";
 
     /* Refresh schedule and events objects */
     async refreshScheduleHandler() {
+      console.debug(`TimeTab->refreshScheduleHandler()`);
       this.state.loading = true;
-      await this.loadSchedule();
-      await this.loadEvents();
-      this.state.loading = false;
-    },
-
-    /* load the schedule depending on course occasion */
-    async loadSchedule() {
-      //const sched = await scheduleService.getScheduleByOccasion(this.selectedOccasion)[0]; // good
-      const res = await scheduleService.getScheduleByOccasion(
-        new Occasion("tillfalle03") // artificially setting occasion.
-      );
-      console.debug("TimeTab->loadSchedule(): " + res[0].id);
-      this.setSelectedSchedule(res[0]);
-    },
-
-    /* load events, requires a schedule to be set */
-    async loadEvents() {
-      if (Object.keys(this.selectedSchedule).length) {
-        this.setEventArr = await eventService.getEventsBySchedule(
-          this.selectedSchedule
+      this.setSelectedOccasion(new Occasion("15")); // FOR TESTING! REMOVE LATER!
+      const schedule = await this.getScheduleByOccasion(this.selectedOccasion);
+      if (schedule && Object.keys(schedule).length) {
+        // all this is because morphism fails silently!
+        this.setSelectedSchedule(schedule);
+        const eventsArr = await this.getEventsBySchedule(schedule);
+        if (eventsArr.length) {
+          this.setEventArr(eventsArr);
+        } else {
+          console.log(`No events found for schedule`);
+        }
+      } else {
+        throw Error(
+          `Schedule for occasion: ${this.selectedOccasion.id} not found or bad data!`
         );
       }
+      this.state.loading = false;
+      return true;
+    },
+
+    /* get single schedule for a course occasion */
+    async getScheduleByOccasion(occasion: Occasion): Promise<Schedule> {
+      console.debug(`TimeTab->getScheduleByOccasion()`);
+      try {
+        return await scheduleService.getScheduleByOccasionUsingPathVar(
+          occasion
+        );
+      } catch (e) {
+        if (e.name === "ApiError") {
+          console.warn(`ApiError ${e.message}`);
+        } else {
+          console.warn(`Error ${e.message}`);
+        }
+      }
+      return null;
+    },
+
+    /* get events by schedule */
+    async getEventsBySchedule(schedule: Schedule): Promise<Array<Event>> {
+      console.debug(`TimeTab->getEventsBySchedule()`);
+      try {
+        return await eventService.getEventsBySchedule(schedule);
+      } catch (e) {
+        if (e.name === "ApiError") {
+          console.warn(`ApiError ${e.message}`);
+        } else {
+          console.warn(`Error ${e.message}`);
+        }
+      }
+      return [];
     },
 
     /* Processing the big click! */
@@ -119,3 +152,11 @@ class: "blue-event"
 </script>
 
 <style scoped></style>
+
+/* /* load the schedule depending on course occasion */ async
+getScheduleBySelectedOccasion() { //const sched = await
+scheduleService.getScheduleByOccasion(this.selectedOccasion)[0]; // good const
+res = await scheduleService.getScheduleByOccasion( new Occasion("tillfalle03")
+// artificially setting occasion. );
+console.debug("TimeTab->getScheduleBySelectedOccasion(): " + res[0].id);
+this.setSelectedSchedule(res[0]); }, */

@@ -14,7 +14,7 @@ export default {
   /* get a list of all courses */
   async getAllCourses() {
     console.debug(`courseService->getAllCourses()`);
-    const res = await requests.getRequest(apiCall);
+    const res = await requests.getMany(apiCall);
     return this.mapper(res);
   },
 
@@ -23,7 +23,7 @@ export default {
   async getCourseByCourseId(courseId: string) {
     console.debug(`courseService->getCourseByCourseId(): ${courseId}`);
     const params = {course_code: courseId}; //eslint-disable-line
-    const res = await requests.getRequest(apiCall, params); //.catch(err => new Error(err));
+    const res = await requests.getMany(apiCall, params); //.catch(err => new Error(err));
     return this.mapper(res);
   },
 

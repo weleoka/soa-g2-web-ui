@@ -16,7 +16,7 @@ export default {
     console.debug(`assignmentService->getAllAssignments()`);
     const apiCall = `assignments`;
     const params = {};
-    const res = await requests.getRequest(apiCall, params);
+    const res = await requests.getMany(apiCall, params);
     /*    return res.map(dto =>
             morphism(assignmentFromDto, dto, Assignment)
         );*/
@@ -28,7 +28,7 @@ export default {
     const params = {
       module_id: moduleId  //eslint-disable-line
     };
-    const res = await requests.getRequest(apiCall, params);
+    const res = await requests.getMany(apiCall, params);
     /*  return res.map(dto =>
           morphism(assignmentFromDto, dto, Assignment)
       );*/

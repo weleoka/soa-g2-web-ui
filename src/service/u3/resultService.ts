@@ -11,7 +11,7 @@ export default {
     console.debug(`resultService->getSubmissionsByAssignment(): ${moduleId}`);
     const apiCall = `/examination/${moduleId}`;
     const params = {};
-    const res = await requests.getRequest(apiCall, params);
+    const res = await requests.getMany(apiCall, params);
     return res.map(dto => morphism(submissionFromDto, dto, Submission));
   },
 
@@ -20,7 +20,7 @@ export default {
     console.debug(`resultService->submitGradeVerification(): ${submissionId}`);
     const apiCall = `/submission/${submissionId}/verify`;
     const params = {submission_id: submissionId}; //eslint-disable-line
-    const res = await requests.getRequest(apiCall, params);
+    const res = await requests.getMany(apiCall, params);
     return res.map(dto => morphism(submissionFromDto, dto, Submission));
   }
 };

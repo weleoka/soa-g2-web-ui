@@ -16,7 +16,7 @@ export default {
     console.debug(`moduleService->getModulesByCourseCode(): ${courseCode}`);
     const apiCall = `modules`;
     const params = courseCode ? {course_code: courseCode} : {}; //eslint-disable-line
-    const res = await requests.getRequest(apiCall, params);
+    const res = await requests.getMany(apiCall, params);
     return res.map(dto => morphism(moduleFromDto, dto, Module));
   }
 };

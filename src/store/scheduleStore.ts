@@ -25,16 +25,16 @@ export const scheduleStoreModule = {
   mutations: {
     // todo: try removing and replacing with mapMutations in callers.
     setSelectedOccasion(state, payload) {
-      console.debug("setSelectedOccasion() mutation: " + payload.id);
+      console.debug(`setSelectedOccasion() mutation: ${payload}`);
       state.selectedOccasion = payload;
     },
     setSelectedSchedule(state, payload) {
-      console.debug("setSelectedSchedule() mutation: " + payload.id);
+      console.debug(`setSelectedSchedule() mutation: ${payload}`);
       state.selectedSchedule = payload;
     },
     //setEventArr: (state, payload) => state.eventArr = payload,
     setEventArr(state, payload) {
-      console.debug("setEvenArr() mutation: " + payload.id);
+      console.debug(`setEventArr() mutation: ${payload.length}`);
       state.eventArr = payload;
     }
   }

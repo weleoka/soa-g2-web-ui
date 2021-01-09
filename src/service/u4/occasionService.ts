@@ -15,14 +15,14 @@ export default {
   async getOccasionsByCourseId(courseId: string) {
     console.debug(`occasionService->getOccasionsByCourseId() ${courseId}`);
     const params = {course_code: courseId}; //eslint-disable-line
-    const res = await requests.getRequest(apiCall, params);
+    const res = await requests.getMany(apiCall, params);
     return this.mapper(res);
   },
 
   /* get all occasions */
   async getAllOccasions() {
     console.debug(`occasionService->getAllOccasions()`);
-    const res = await requests.getRequest(apiCall);
+    const res = await requests.getMany(apiCall);
     return this.mapper(res);
   },
 

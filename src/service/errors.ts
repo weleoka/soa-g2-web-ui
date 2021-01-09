@@ -73,6 +73,13 @@ export class AxiosError extends Error {
   }
 }
 
+export class MappingError extends Error {
+  constructor(message) {
+    super(message);
+    this.name = "MappingError";
+    this.message = message;
+  }
+}
 /*
 USed for bubbling errors of the nature where there has been API call but the
 response is unexpected.

@@ -8,7 +8,7 @@
           <th scope="col">Kurs</th>
           <th scope="col">År</th>
           <th scope="col">Period</th>
-<!--          <th scope="col">Rate</th>-->
+          <!--          <th scope="col">Rate</th>-->
         </tr>
       </thead>
       <tbody>
@@ -30,7 +30,7 @@
           <td>{{ occasion.courseCode }}</td>
           <td>{{ occasion.year }}</td>
           <td>{{ occasion.periods }}</td>
-<!--          <td>{{ occasion.studyRate }}</td>-->
+          <!--          <td>{{ occasion.studyRate }}</td>-->
         </tr>
       </tbody>
     </table>

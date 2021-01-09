@@ -26,7 +26,7 @@ import occasionService from "@/service/u4/occasionService";
 import { mapMutations, mapState } from "vuex";
 import courseService from "@/service/u4/courseService";
 import { Options, Vue } from "vue-class-component";
-import {Course, Occasion} from "@/service/types";
+import { Course, Occasion } from "@/service/types";
 
 @Options({
   name: "OccasionTab",

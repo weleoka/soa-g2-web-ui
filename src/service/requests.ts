@@ -8,7 +8,7 @@ import { ApiError, ApiResponseError } from "@/service/errors";
 
 export default {
   /* run a get */
-  async getRequest(apiCall, params?) {
+  async getMany(apiCall, params?) {
     let res = null;
     try {
       res = await httpAxios.get(apiCall, { params: params });
@@ -21,6 +21,26 @@ export default {
         return res.data;
       } else {
         return [];
+      }
+    } else {
+      throw new ApiResponseError(res, "Not OK");
+    }
+  },
+
+  /* Fetches single object expecting no array response */
+  async getSingle(apiCall, params?) {
+    let res = null;
+    try {
+      res = await httpAxios.get(apiCall, { params: params });
+      console.debug(`GET: ${res.config.baseURL}/${res.config.url}`);
+    } catch (e) {
+      throw new ApiError(e.message);
+    }
+    if (res.status === 200) {
+      if (res.data.length) {
+        throw new ApiResponseError(res, "Expected object, got array");
+      } else {
+        return res.data;
       }
     } else {
       throw new ApiResponseError(res, "Not OK");
@@ -66,7 +86,7 @@ export default {
 //},
 
 /* A wrapper for GET requests, with optional URL params. */
-//async getRequest(apiCall, params?) {
+//async getMany(apiCall, params?) {
 //    return await this.executeGet(apiCall, params).catch(err => new Error(err));
 /*
     if (e.name === "ApiError") {
