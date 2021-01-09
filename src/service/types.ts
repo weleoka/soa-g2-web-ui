@@ -19,7 +19,7 @@ export interface OccasionI {
   studyRate: string;
 }
 export class Occasion implements OccasionI {
-  constructor(id: string) {
+  constructor(id?: string) {
     this.id = id;
   }
 

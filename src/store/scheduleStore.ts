@@ -11,8 +11,8 @@ import { Occasion, Schedule } from "@/service/types";
 export const scheduleStoreModule = {
   namespaced: true,
   state: {
-    selectedOccasion: Occasion,
-    selectedSchedule: Schedule,
+    selectedOccasion: new Occasion(),
+    selectedSchedule: new Schedule(),
     eventArr: [], // loaded separately
     timeSlots: {
       1: { from: 9 * 60 + 15, to: 9 * 60 + 45, class: "slot-1" },
