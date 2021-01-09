@@ -4,9 +4,9 @@ EA & SOA Group 2 HT2020
 Business logic concerning the workings with course occasions.
  */
 import requests from "@/service/requests";
-import {morphism} from "morphism";
-import {Occasion, occasionFromDto} from "@/service/types";
-import {ApiError} from "@/service/errors";
+import { morphism } from "morphism";
+import { Occasion, occasionFromDto } from "@/service/types";
+import { ApiError } from "@/service/errors";
 
 const apiCall = `occasions`;
 

@@ -6,7 +6,7 @@ Often this is where we would use local storage db and
 save state to a db on the client.
  */
 
-import {Occasion, Schedule} from "@/service/types";
+import { Occasion, Schedule } from "@/service/types";
 
 export const scheduleStoreModule = {
   namespaced: true,

@@ -4,14 +4,14 @@ EA & SOA Group 2 HT2020
 API requests wrapper for error handling and feedback.
  */
 import httpAxios from "@/service/httpAxios";
-import {ApiError, ApiResponseError} from "@/service/errors";
+import { ApiError, ApiResponseError } from "@/service/errors";
 
 export default {
   /* run a get */
   async getRequest(apiCall, params?) {
     let res = null;
     try {
-      res = await httpAxios.get(apiCall, {params: params});
+      res = await httpAxios.get(apiCall, { params: params });
       console.debug(`GET: ${res.config.baseURL}/${res.config.url}`);
     } catch (e) {
       throw new ApiError(e.message);
@@ -45,9 +45,8 @@ export default {
     } else {
       throw new ApiResponseError(res, "Not OK");
     }
-  },
+  }
 };
-
 
 /* A wrapper for POST requests, with optional data. */
 // async postRequest(apiCall, data?) {

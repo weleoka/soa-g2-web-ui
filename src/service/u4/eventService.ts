@@ -4,8 +4,8 @@ Service for working with backend or middleware apis.
 */
 
 // library https://www.npmjs.com/package/object-mapper
-import {morphism} from "morphism";
-import {Event, eventFromDto, eventToDto, Schedule} from "@/service/types";
+import { morphism } from "morphism";
+import { Event, eventFromDto, eventToDto, Schedule } from "@/service/types";
 import requests from "@/service/requests";
 
 export default {
@@ -15,9 +15,7 @@ export default {
     const apiCall = `events`;
     const params = schedule ? {schedule_code: schedule.id} : {}; //eslint-disable-line
     const res = await requests.getRequest(apiCall, params);
-    return res.map(dto =>
-        morphism(eventFromDto, dto, Event)
-    );
+    return res.map(dto => morphism(eventFromDto, dto, Event));
   },
 
   /* POST request with a new event */

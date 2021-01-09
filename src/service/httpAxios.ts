@@ -7,7 +7,7 @@ Rewrite rules are depending on production and development and may be set by webp
  */
 
 import axios from "axios";
-import {AxiosError} from "@/service/errors";
+import { AxiosError } from "@/service/errors";
 
 const baseUrl = process.env.VUE_APP_BASE_URL + process.env.VUE_APP_API_PATH; // from .env file or shell
 console.debug("Axios baseURL: " + baseUrl);
@@ -27,7 +27,7 @@ instance.interceptors.request.use(
     return config;
   },
   function(error) {
-    return Promise.reject(new AxiosError("Request was rejected"));
+    return Promise.reject(new AxiosError(`Request problem: ${error.message}`));
   }
 );
 

@@ -9,8 +9,8 @@ and can use custom named error hack by including name attribute in returned obje
 
 export const handle = promise => {
   return promise
-      .then(data => [data, undefined])
-      .catch(error => Promise.resolve([undefined, error]));
+    .then(data => [data, undefined])
+    .catch(error => Promise.resolve([undefined, error]));
 };
 
 export class ApiResponseError extends Error {
@@ -19,7 +19,7 @@ export class ApiResponseError extends Error {
 
   constructor(apiRes, message) {
     super(message);
-    this.name = "ApiResponseError"
+    this.name = "ApiResponseError";
     this.status = apiRes.status;
     this.statusText = apiRes.statusText;
     this.message = message;
@@ -32,7 +32,7 @@ export class ApiResponseError extends Error {
         message: this.message,
         stacktrace: this.stack
       }
-    }
+    };
   }
 }
 
@@ -40,7 +40,7 @@ export class ApiResponseError extends Error {
 export class ApiError extends Error {
   constructor(message) {
     super(message);
-    this.name = "ApiError"
+    this.name = "ApiError";
     this.message = message;
   }
 
@@ -51,14 +51,14 @@ export class ApiError extends Error {
         message: this.message,
         stacktrace: this.stack
       }
-    }
+    };
   }
 }
 
 export class AxiosError extends Error {
   constructor(message) {
     super(message);
-    this.name = "AxiosError"
+    this.name = "AxiosError";
     this.message = message;
   }
 
@@ -69,7 +69,7 @@ export class AxiosError extends Error {
         message: this.message,
         stacktrace: this.stack
       }
-    }
+    };
   }
 }
 

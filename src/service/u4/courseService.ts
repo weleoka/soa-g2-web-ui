@@ -4,14 +4,13 @@ EA & SOA Group 2 HT2020
 Business logic concerning the workings with courses over API's.
  */
 import requests from "@/service/requests";
-import {morphism} from "morphism";
-import {Course, courseFromDto} from "@/service/types";
-import {ApiError} from "@/service/errors";
+import { morphism } from "morphism";
+import { Course, courseFromDto } from "@/service/types";
+import { ApiError } from "@/service/errors";
 
 const apiCall = `courses`;
 
 export default {
-
   /* get a list of all courses */
   async getAllCourses() {
     console.debug(`courseService->getAllCourses()`);
@@ -36,4 +35,4 @@ export default {
       return new ApiError(`Bad data: ${res}`);
     }
   }
-}
+};

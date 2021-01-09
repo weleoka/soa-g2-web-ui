@@ -22,7 +22,7 @@ export const gradeStoreModule = {
     async doSelectCourseByCourseCode({ dispatch, commit }, courseCode) {
       console.debug("gradeStore->doSelectCourseByCourseCode(): " + courseCode);
       const res = await courseService.getCourseByCourseId(courseCode);
-      commit("setSelectedCourse", res[0], {root: true}); // dispatches item [0] to root store
+      commit("setSelectedCourse", res[0], { root: true }); // dispatches item [0] to root store
       dispatch("populateModuleArr");
     },
 

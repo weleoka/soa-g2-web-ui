@@ -23,10 +23,10 @@ import CourseFinderBox from "@/components/u4/CourseFinderBox.vue";
 import OccasionFinderBox from "@/components/u4/OccasionFinderBox.vue";
 import occasionService from "@/service/u4/occasionService";
 
-import {mapMutations, mapState} from "vuex";
+import { mapMutations, mapState } from "vuex";
 import courseService from "@/service/u4/courseService";
-import {Options, Vue} from "vue-class-component";
-import {Course} from "@/service/types";
+import { Options, Vue } from "vue-class-component";
+import { Course } from "@/service/types";
 
 @Options({
   name: "OccasionTab",
@@ -57,10 +57,12 @@ import {Course} from "@/service/types";
       //await this.doSetSelectedCourse(course);
       this.setSelectedCourse(course);
       try {
-        this.occasionArr = await occasionService.getOccasionsByCourseId(course.id);
+        this.occasionArr = await occasionService.getOccasionsByCourseId(
+          course.id
+        );
       } catch (e) {
         if (e.name === "ApiError") {
-          console.warn(`ApiError ${e.message}`);
+          console.warn(`ApiError: ${e.message} ${e.trace}`);
         } else {
           console.warn(`Error ${e.message}`);
         }
