@@ -13,6 +13,36 @@ events: [ // This is what vuecal uses
 
 /* eslint-disable */
 
+import {createSchema} from "morphism";
+export class Event implements EventI {
+  constructor(date: Date) {
+    this.date = date;
+  }
+  id: string;
+  title: string;
+  scheduleCode: string;
+  date: Date;
+  timeslot: number;
+  rooms: [];
+  equipment: [];
+  teachers: [];
+  class: string;
+  content: string;
+  location: string;
+  contactName: string;
+  description: string;
+  distanceUrl: string;
+  end: Date;
+  eventUrl: string;
+  session: string;
+  start: Date;
+  userId: number;
+  /*content() {
+    return '<i class="icon material-icons">block</i><br>' +
+        '<p>${this.description}</p>' +
+        '<p>${this.location}</p>';
+  };*/
+}
 export interface EventI {
   id: string;
   title: string;
@@ -22,21 +52,31 @@ export interface EventI {
   rooms: [];
   equipment: [];
   teachers: [];
+  content: string; // beautiful HTML representation (not passed in DTO)
+  /* imposed by backend */
+  location: string;
+  userId: number,
+  contactName: string,
+  distanceUrl: string,
+  eventUrl: string,
+  description: string,
+  start: Date,
+  end: Date,
+  session: string,
 }
-export class Event implements EventI {
-  constructor(date: Date) {
-    this.date = date;
-  }
-  date: Date;
-  equipment: [];
-  id: string;
-  rooms: [];
-  scheduleCode: string;
-  teachers: [];
-  timeslot: number;
-  title: string;
+export interface EventDtoI {
+  title: string,
+  location: string,
+  user_id: number,
+  contact_name: string,
+  distance_url: string,
+  event_url: string,
+  description: string,
+  start_time: Date,
+  end_time: Date,
+  session: string
 }
-export const eventFromDto = {
+export const eventFromDto = createSchema<EventI, EventDtoI>({
   id: "event_code",
   title: "title",
   scheduleCode: "schedule_code",
@@ -52,6 +92,12 @@ export const eventFromDto = {
   distanceUrl: "distance_url",
   eventUrl: "event_url",
   description: "description",
+  content: { // todo: fix this to pretty print. Or alternatively let the store process this.
+    path: "start_time",
+    fn: (str, source) => {
+      return '<i class="icon material-icons">block</i>';
+    }
+  },
   start: {
     path: "start_time",
     fn: (str, source) => {
@@ -65,17 +111,9 @@ export const eventFromDto = {
     }
   },
   session: "session"
-};
-export const eventToDto = {
-  event_code: "id",
+});
+export const eventToDto = createSchema<EventDtoI, EventI>({
   title: "title",
-  schedule_code: "scheduleCode",
-  date: "date",
-  timeslot: "timeslot",
-  rooms: "rooms",
-  equipment: "equipment",
-  teachers: "teachers",
-  /* imposed by backend */
   location: "location",
   user_id: "userId",
   contact_name: "contactName",
@@ -85,4 +123,4 @@ export const eventToDto = {
   start_time: "startTime",
   end_time: "endTime",
   session: "session"
-};
+});

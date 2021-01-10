@@ -1,6 +1,11 @@
 /* For testing and during development put styles here if they
 don't belong exclusively to a specific component. */
 
+/* Vue cal */
+.vuecal__event.sport {background-color: rgba(255, 102, 102, 0.9);border: 1px solid rgb(235, 82, 82);color: #fff;}
+
+
+
 /* Mouse pointer for table rows*/
 tr {
     cursor: pointer;

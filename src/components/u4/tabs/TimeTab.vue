@@ -152,11 +152,3 @@ class: "blue-event"
 </script>
 
 <style scoped></style>
-
-/* /* load the schedule depending on course occasion */ async
-getScheduleBySelectedOccasion() { //const sched = await
-scheduleService.getScheduleByOccasion(this.selectedOccasion)[0]; // good const
-res = await scheduleService.getScheduleByOccasion( new Occasion("tillfalle03")
-// artificially setting occasion. );
-console.debug("TimeTab->getScheduleBySelectedOccasion(): " + res[0].id);
-this.setSelectedSchedule(res[0]); }, */

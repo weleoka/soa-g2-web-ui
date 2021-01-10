@@ -11,7 +11,7 @@
     <div id="calendar-wrapper">
       <VueCal
         ref="vueCal"
-        active-view="month"
+        active-view="week"
         :disable-views="['years', 'year', 'day']"
         locale="sv"
         :selected-date="selectedDate"
@@ -24,6 +24,7 @@
         :on-event-click="onEventClick"
         @cell-focus="onCellFocus($event)"
         :events="eventArr"
+        events-on-month-view="short"
       />
     </div>
   </div>
@@ -36,6 +37,7 @@ import "vue-cal/dist/i18n/sv";
 import { Options, Vue } from "vue-class-component";
 import { mapState } from "vuex";
 import { Event } from "@/entities/event";
+import {Ut} from "@/service/utils";
 
 @Options({
   name: "EventCalendarBox",
@@ -48,6 +50,7 @@ import { Event } from "@/entities/event";
   emits: ["cell-clicked-event"],
   data() {
     return {
+      //bEventArr: [], // this is filled with beautified and fixed events
       selectedDate: {}, // default centering of calendar
       selectedEvent: {},
       newEvent: {} // set when clicking empty part in calendar
@@ -55,29 +58,31 @@ import { Event } from "@/entities/event";
   },
   computed: {
     ...mapState("scheduleStore", ["eventArr"])
+
   },
   methods: {
     logEvents(str, event) {
-      console.debug("Event: " + str + event);
+      Ut.ld("Event: " + str + event);
     },
     onCellFocus(datetime) {
-      console.log("Cell focus event");
-      console.log(`Date is date: ${datetime instanceof Date}`);
+      Ut.l("Cell focus event");
+      Ut.l(`Date is date: ${datetime instanceof Date}`);
       this.selectedEvent = null;
       this.newEvent = new Event(datetime);
     },
-    onEventClick(event, e) {
-      console.log("Event clicked");
-      console.log(JSON.stringify(event));
-      this.selectedEvent = event;
+    onEventClick(clickedEvent, e) {
+      Ut.l("Event clicked");
+      Ut.pp(clickedEvent);
+      this.selectedEvent = clickedEvent;
       // Prevent navigating to narrower view (default vue-cal behavior).
       e.stopPropagation();
-    }
+    },
   },
   created() {
     this.selectedDate = new Date("2020-10-15"); //.getDate();
-    console.log(JSON.stringify(this.eventArr));
-    console.log("asdfasdfasdf" + (this.eventArr[0].start instanceof Date));
+    Ut.pp(this.eventArr);
+    //ut.pp(this.eventArr[0].content());
+    //ut.pp(Object.keys(this.eventArr[0]));
   }
 })
 export default class EventCalendarBox extends Vue {}
@@ -91,4 +96,5 @@ export default class EventCalendarBox extends Vue {}
 #work-zone {
   height: 200px;
 }
+
 </style>
