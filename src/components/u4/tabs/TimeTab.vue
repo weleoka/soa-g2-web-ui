@@ -33,7 +33,7 @@ import eventService from "@/service/u4/eventService";
 import scheduleService from "@/service/u4/scheduleService";
 import { mapMutations, mapState } from "vuex";
 import { Options, Vue } from "vue-class-component";
-import {Event, Occasion, Reservation, Schedule} from "@/service/types";
+import { Event, Occasion, Schedule } from "@/service/types";
 
 @Options({
   name: "TimeTab",
@@ -87,15 +87,15 @@ import {Event, Occasion, Reservation, Schedule} from "@/service/types";
       const schedule = await this.getScheduleByOccasion(this.selectedOccasion);
       if (schedule && Object.keys(schedule).length) {
         this.setSelectedSchedule(schedule);
-        console.log(`Reservations are reservations: ${schedule.reservations[0] instanceof Reservation}`);
-        console.log(`RESERVATIONS2: ${JSON.stringify(schedule.reservations2)}`);
-        this.setEventArr(schedule.reservations)
-        /*const eventsArr = await this.getEventsBySchedule(schedule);
-        if (eventsArr.length) {
-          this.setEventArr(eventsArr);
+        //console.log(`Events are events: ${schedule.events[0] instanceof Event}`);
+        //console.log(`RESERVATIONS2: ${schedule.reservations2.map(reser => JSON.stringify(reser))}`);
+        //const eventsArr = await this.getEventsBySchedule(schedule); // preferred fetching separately?
+        if (schedule.events) {
+          console.debug(`Events count: ${schedule.events.length}`);
+          this.setEventArr(schedule.events);
         } else {
-          console.log(`No events found for schedule`);
-        }*/
+          console.warn(`No events found for schedule`);
+        }
       } else {
         throw Error(
           `Schedule for occasion: ${this.selectedOccasion.id} not found or bad data!`

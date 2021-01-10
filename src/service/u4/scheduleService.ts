@@ -34,10 +34,9 @@ export default {
     console.debug(
       `scheduleService->getScheduleByOccasionUsingPathVar(): ${occasion.id}`
     );
-    const res = await requests.getSingle(`schedule/occasion/${occasion.id}`);
+    const res = await requests.getSingle(`schedules/${occasion.id}`);
     try {
-      const schedule = this.singleMapper(res);
-      return schedule;
+      return this.singleMapper(res);
     } catch (e) {
       if (e.name === "MappingError") {
         console.warn("Bad object for mapping to Schedule");

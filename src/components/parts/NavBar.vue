@@ -62,7 +62,7 @@
 </template>
 
 <script lang="ts">
-import {mapActions, mapGetters, mapState} from "vuex";
+import { mapActions, mapGetters, mapState } from "vuex";
 import { Options, Vue } from "vue-class-component";
 
 @Options({
@@ -90,7 +90,7 @@ import { Options, Vue } from "vue-class-component";
       // important!
       return this.$route.path;
     },
-    ...mapGetters("authStore", ["isSignedIn", "getUserEmail"]),
+    ...mapGetters("authStore", ["isSignedIn", "getUserEmail"])
     //...mapState("authStore", ["authUser"])
   },
   methods: mapActions("authStore", ["doSignout"])

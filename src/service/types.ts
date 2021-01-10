@@ -5,11 +5,9 @@ todo: implement - const toDto = fromDto.map((key, value) => value, key) to flip 
 */
 
 /* eslint-disable */
-
-
-/* === OCCASION === */
 import {morphism} from "morphism";
 
+/* === OCCASION === */
 export interface OccasionI {
   id: string;
   periodCode: string;
@@ -30,7 +28,6 @@ export class Occasion implements OccasionI {
   periodCode: string;
   studentCount: number;
   studyRate: string;
-
   /* course-service imposed extensions*/
   location: string;
   year: string;
@@ -78,19 +75,16 @@ export interface CourseI {
   ects: string;
   occasions: [];
 }
-
 export class Course implements CourseI {
   id: string;
   admin: string;
   nameEn: string;
   nameSe: string;
   status: string;
-
-  /* course-service extensions*/
+  /* imposed by backend */
   ects: string;
   occasions: [];
 }
-
 export const courseToDto = {
   course_code: "id",
   course_admin: "admin",
@@ -98,20 +92,16 @@ export const courseToDto = {
   name_en: "nameEn",
   status: "status"
 };
-/* Nodemocks Dto */
-/*export const courseFromDto = {
-  id: "course_code",
-  admin: "course_admin",
-  nameSe: "name_se",
-  nameEn: "name_en",
-  status: "status"
-};*/
-/* Course-service DTO */
 export const courseFromDto = {
   id: "course_code",
+  admin: "course_admin",
+  //nameSe: "name_se",
+  nameEn: "name_en",
+  status: "status",
+  /* imposed by backend */
   nameSe: "name",
   ects: "ects",
-  //occasions: "course_instances",
+  //occasions: "course_instances", // todo: work here!
   /*  occasions: {
       path: 'bar',
       fn: dto => morphism(occasionFromDto, dto, Occasion)
@@ -128,18 +118,19 @@ export const courseFromDto = {
 export interface ScheduleI {
   id: string;
   occasionCode: string;
+  events: [];
 }
 export class Schedule implements ScheduleI {
   id: string;
   occasionCode: string;
-
+  events: [];
   /* imposed by backend */
   courseId: number;
   courseOccasionId: number;
   timeEditObjectId: number;
-  reservations: [];
-  reservations2: [];
-  course_code: string;
+  courseCode: string;
+  /* testing */
+  events2: [];
 }
 export const scheduleToDto = {
   schedule_code: "id",
@@ -152,19 +143,20 @@ export const scheduleToDto = {
 export const scheduleFromDto = {
   id: "schedule_code",
   occasionCode: "occasion_code",
+  courseCode: "course_code",
   courseId: "course_id",
   occasionId: "course_occasion_id",
   timeEditObjectId: "time_edit_object_id",
-  reservations: (iteratee, source, destination) => {
-    return iteratee.reservations.map(nestedDto => morphism(reservationFromDto, nestedDto, Reservation))
-  },
-  reservations2: {
+  /* The following is two ways of doing the same thing with morphism */
+  events: {
     path: "reservations",
     fn: (reservations, source) => {
-      return reservations.map(reservationDto => morphism(reservationFromDto, reservationDto, Reservation));
+      return reservations.map(reservationDto => morphism(eventFromDto, reservationDto, Event));
     }
   },
-  courseCode: "course_code"
+  events2: (iteratee, source, destination) => {
+    return iteratee.reservations.map(nestedDto => morphism(eventFromDto, nestedDto, Event))
+  },
 };
 
 
@@ -188,7 +180,8 @@ export const moduleFromDto = {
   status: "status"
 }
 
-/* === EVENT === */
+
+/* === EVENT === aka. reservation in backend */
 export interface EventI {
   id: string;
   title: string;
@@ -211,6 +204,16 @@ export class Event implements EventI {
   teachers: [];
   timeslot: number;
   title: string;
+  /* imposed by backend */
+  location: string;
+  userId: number;
+  contactName: string;
+  distanceUrl: string;
+  eventUrl: string;
+  description: string;
+  startTime: Date;
+  endTime: Date;
+  session: string;
 }
 export const eventFromDto = {
   id: "event_code",
@@ -220,7 +223,17 @@ export const eventFromDto = {
   timeslot: "timeslot",
   rooms: "rooms",
   equipment: "equipment",
-  teachers: "teachers"
+  teachers: "teachers",
+  /* imposed by backend */
+  location: "location",
+  userId: "user_id",
+  contactName: "contact_name",
+  distanceUrl: "distance_url",
+  eventUrl: "event_url",
+  description: "description",
+  startTime: "start_time",
+  endTime: "end_time",
+  session: "session"
 };
 export const eventToDto = {
   event_code: "id",
@@ -230,56 +243,13 @@ export const eventToDto = {
   timeslot: "timeslot",
   rooms: "rooms",
   equipment: "equipment",
-  teachers: "teachers"
-};
-
-
-/* === RESERVATION === */
-// This is a domain object imposed by backend,
-// and could have been Event if the project was managed.
-export interface ReservationI {
-  location: string,
-  userId: number,
-  contactName: string,
-  distanceUrl: string,
-  eventUrl: string,
-  title: string,
-  description: string,
-  startTime: Date,
-  endTime: Date,
-  session: string
-}
-export class Reservation implements ReservationI {
-  location: string;
-  userId: number;
-  contactName: string;
-  distanceUrl: string;
-  eventUrl: string;
-  title: string;
-  description: string;
-  startTime: Date;
-  endTime: Date;
-  session: string;
-}
-export const reservationFromDto = {
-  location: "location",
-  userId: "user_id",
-  contactName: "contact_name",
-  distanceUrl: "distance_url",
-  eventUrl: "event_url",
-  title: "title",
-  description: "description",
-  startTime: "start_time",
-  endTime: "end_time",
-  session: "session"
-};
-export const reservationToDto = {
+  teachers: "teachers",
+  /* imposed by backend */
   location: "location",
   user_id: "userId",
   contact_name: "contactName",
   distance_url: "distanceUrl",
   event_url: "eventUrl",
-  title: "title",
   description: "description",
   start_time: "startTime",
   end_time: "endTime",
