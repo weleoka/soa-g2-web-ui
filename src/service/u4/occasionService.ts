@@ -5,8 +5,8 @@ Business logic concerning the workings with course occasions.
  */
 import requests from "@/service/requests";
 import { morphism } from "morphism";
-import { Occasion, occasionFromDto } from "@/service/types";
 import { ApiError } from "@/service/errors";
+import { Occasion, occasionFromDto } from "@/entities/occasion";
 
 const apiCall = `occasions`;
 

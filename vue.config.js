@@ -20,29 +20,37 @@ module.exports = {
           //pathRewrite: { "^/api/schedules": "/api/schedules" },  //eslint-disable-line
           logLevel: "debug"
         },
+        "/api/events": {
+          target: "http://localhost:8282", // app-middleware
+          pathRewrite: { "^/api/events": "/app/V1/schedules" },  //eslint-disable-line
+          logLevel: "debug"
+        },
 
         // /app/V1/schedules/{courseOccasionId}
-        "/api/schedules-nevermatch": {
+        /*        "/api/schedules": {
           target: "http://localhost:8086", // app-middleware
           pathRewrite: { "^/api/schedules": "/app/V1/schedules" },  //eslint-disable-line
           logLevel: "debug"
-        },
+        },*/
         // /schedule-service/V1/schedule/occasion/{courseOccasionId}
         /*        "/api/schedule/occasion": {
           target: "http://localhost:8085", // schedule-service
           pathRewrite: { "^/api/schedule/occasion": "/schedule-service/V1/schedule/occasion" },  //eslint-disable-line
           logLevel: "debug"
         },*/
+
         "/api/occasions": {
-          target: "http://localhost:8084", // course-service
-          pathRewrite: { "^/api/occasions": "/course-service/V1/occasions" },  //eslint-disable-line
+          target: "http://localhost:8086", // app-middleware
+          pathRewrite: { "^/api/occasions": "/app/V1/courses/occasions" },  //eslint-disable-line
           logLevel: "debug"
         },
         "/api/courses": {
-          target: "http://localhost:8084", // course-service
-          pathRewrite: { "^/api/courses": "/course-service/V1/courses" },  //eslint-disable-line
+          target: "http://localhost:8084", // app-middleware
+          pathRewrite: { "^/api/courses": "/app/V1/courses" },  //eslint-disable-line
           logLevel: "debug"
         },
+
+        /* === OLD === */
         "/api/examination": {
           target: "http://localhost:8086", // app-middleware
           pathRewrite: { "^/api/examination": "/app/V1/examination" },  //eslint-disable-line
@@ -52,8 +60,8 @@ module.exports = {
           target: "http://localhost:8282", // nodemocks
           pathRewrite: { "^/api": "" },  //eslint-disable-line
           logLevel: "debug"
-        },
-/*        "/appmw": {
+        }
+        /*        "/appmw": {
           target: "http://localhost:8086", // app-middleware
           pathRewrite: { "^/appmw": "/app/V1" },  //eslint-disable-line
           logLevel: "debug"

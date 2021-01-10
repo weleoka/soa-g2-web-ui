@@ -5,7 +5,7 @@ Business logic concerning the workings with courses over API's.
  */
 import requests from "@/service/requests";
 import { morphism } from "morphism";
-import { Course, courseFromDto } from "@/service/types";
+import { Course, courseFromDto } from "@/entities/course";
 import { ApiError } from "@/service/errors";
 
 const apiCall = `courses`;

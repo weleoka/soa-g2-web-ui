@@ -62,7 +62,7 @@
 </template>
 
 <script lang="ts">
-import { mapActions, mapGetters, mapState } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 import { Options, Vue } from "vue-class-component";
 
 @Options({

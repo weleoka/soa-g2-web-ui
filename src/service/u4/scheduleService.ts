@@ -3,10 +3,11 @@ EA & SOA Group 2 HT2020
 
 Business logic concerning the workings with courses over API's.
  */
-import { Occasion, Schedule, scheduleFromDto } from "@/service/types";
 import { morphism } from "morphism";
 import requests from "@/service/requests";
 import { MappingError } from "@/service/errors";
+import { Schedule, scheduleFromDto } from "@/entities/schedule";
+import { Occasion } from "@/entities/occasion";
 
 const apiCall = `schedules`;
 

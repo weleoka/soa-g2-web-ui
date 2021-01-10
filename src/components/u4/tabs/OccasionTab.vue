@@ -26,7 +26,11 @@ import occasionService from "@/service/u4/occasionService";
 import { mapMutations, mapState } from "vuex";
 import courseService from "@/service/u4/courseService";
 import { Options, Vue } from "vue-class-component";
-import { Course, Occasion } from "@/service/types";
+import { Occasion } from "@/entities/occasion";
+import { Course } from "@/entities/course";
+
+//import {} from "@/entities/types"
+//const types = require("@/entities/types")
 
 @Options({
   name: "OccasionTab",

@@ -7,7 +7,7 @@ save state to a db on the client.
  */
 
 import { morphism } from "morphism";
-import { Module, moduleFromDto } from "@/service/types";
+import { Module, moduleFromDto } from "@/entities/module";
 import requests from "@/service/requests";
 
 export default {

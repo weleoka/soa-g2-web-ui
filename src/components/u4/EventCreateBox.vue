@@ -16,7 +16,7 @@
 
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
-import { Event } from "@/service/types";
+import { Event } from "@/entities/event";
 
 @Options({
   name: "EventCreateBox",

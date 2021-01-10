@@ -39,7 +39,7 @@
 
 <script lang="ts">
 import { Options, PropOptions, Vue } from "vue-class-component";
-import { Occasion } from "@/service/types";
+import { Occasion } from "@/entities/occasion";
 
 @Options({
   name: "OccasionTable",

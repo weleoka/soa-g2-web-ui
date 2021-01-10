@@ -47,7 +47,7 @@
 
 <script lang="ts">
 import { Options, PropOptions, Vue } from "vue-class-component";
-import { Submission } from "@/service/types";
+import { Submission } from "@/entities/submission";
 
 @Options({
   name: "ModuleDetailTable",

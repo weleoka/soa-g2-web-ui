@@ -19,7 +19,7 @@ import httpAxios from "../service/httpAxios";
 import { authStoreModule } from "@/store/authStore";
 import { gradeStoreModule } from "@/store/gradeStore";
 import { scheduleStoreModule } from "@/store/scheduleStore";
-import { Course } from "@/service/types";
+import { Course } from "@/entities/course";
 
 console.log(httpAxios.defaults);
 

@@ -44,7 +44,7 @@
 
 <script lang="ts">
 import { Options, PropOptions, Vue } from "vue-class-component";
-import { Course } from "@/service/types";
+import { Course } from "@/entities/course";
 import CourseTable from "@/components/u4/CourseTable.vue";
 
 @Options({

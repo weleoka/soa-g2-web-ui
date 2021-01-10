@@ -3,7 +3,7 @@ EA & SOA Group 2 HT2020
 */
 import requests from "@/service/requests";
 import { morphism } from "morphism";
-import { Submission, submissionFromDto } from "@/service/types";
+import { Submission, submissionFromDto } from "@/entities/submission";
 
 export default {
   /* get submissions by module id */
