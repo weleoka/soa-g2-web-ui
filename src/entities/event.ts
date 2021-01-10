@@ -1,4 +1,15 @@
-/* aka. reservation in backend */
+/* aka. reservation in backend, booking? */
+/*
+events: [ // This is what vuecal uses
+  {
+    start: '2018-11-21',
+    end: '2018-11-21',
+    title: 'Need to go shopping',
+    content: '<i class="v-icon material-icons">shopping_cart</i>',
+    class: 'leisure'
+  },
+];
+*/
 
 /* eslint-disable */
 
@@ -6,17 +17,17 @@ export interface EventI {
   id: string;
   title: string;
   scheduleCode: string; // schedule uuid
-  datetime: Date; // javascript Date object (were only interested in DAY of the year really)
+  date: Date; // javascript Date object (were only interested in DAY of the year really)
   timeslot: number; // 1 through 5 (this is lektionspass)
   rooms: [];
   equipment: [];
   teachers: [];
 }
 export class Event implements EventI {
-  constructor(datetime: Date) {
-    this.datetime = datetime;
+  constructor(date: Date) {
+    this.date = date;
   }
-  datetime: Date;
+  date: Date;
   equipment: [];
   id: string;
   rooms: [];
@@ -24,22 +35,12 @@ export class Event implements EventI {
   teachers: [];
   timeslot: number;
   title: string;
-  /* imposed by backend */
-  location: string;
-  userId: number;
-  contactName: string;
-  distanceUrl: string;
-  eventUrl: string;
-  description: string;
-  startTime: Date;
-  endTime: Date;
-  session: string;
 }
 export const eventFromDto = {
   id: "event_code",
   title: "title",
   scheduleCode: "schedule_code",
-  datetime: "datetime",
+  date: "date",
   timeslot: "timeslot",
   rooms: "rooms",
   equipment: "equipment",
@@ -51,15 +52,25 @@ export const eventFromDto = {
   distanceUrl: "distance_url",
   eventUrl: "event_url",
   description: "description",
-  startTime: "start_time",
-  endTime: "end_time",
+  start: {
+    path: "start_time",
+    fn: (str, source) => {
+      return new Date(str);
+    }
+  },
+  end: {
+    path: "end_time",
+    fn: (str, source) => {
+      return new Date(str);
+    }
+  },
   session: "session"
 };
 export const eventToDto = {
   event_code: "id",
   title: "title",
   schedule_code: "scheduleCode",
-  datetime: "datetime",
+  date: "date",
   timeslot: "timeslot",
   rooms: "rooms",
   equipment: "equipment",

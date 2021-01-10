@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Steg 2: välj lektionstider</h1>
+    <h1>Steg 2: välj tid eller lektion</h1>
     <div
       class="container-v"
       v-if="!selectedSchedule && !Object.keys(selectedSchedule).length"
@@ -10,6 +10,7 @@
         Hämta schema
       </button>
     </div>
+
     <br />
     <EventCalendarBox
       v-if="!state.loading"
@@ -82,6 +83,9 @@ import { Event } from "@/entities/event";
     },
 
     /* Refresh schedule and events objects */
+    //console.log(`Events are events: ${schedule.events[0] instanceof Event}`);
+    //console.log(`RESERVATIONS2: ${schedule.reservations2.map(reser => JSON.stringify(reser))}`);
+    //const eventsArr = await this.getEventsBySchedule(schedule); // preferred fetching separately?
     async refreshScheduleHandler() {
       console.debug(`TimeTab->refreshScheduleHandler()`);
       this.state.loading = true;
@@ -89,15 +93,7 @@ import { Event } from "@/entities/event";
       const schedule = await this.getScheduleByOccasion(this.selectedOccasion);
       if (schedule && Object.keys(schedule).length) {
         this.setSelectedSchedule(schedule);
-        //console.log(`Events are events: ${schedule.events[0] instanceof Event}`);
-        //console.log(`RESERVATIONS2: ${schedule.reservations2.map(reser => JSON.stringify(reser))}`);
-        //const eventsArr = await this.getEventsBySchedule(schedule); // preferred fetching separately?
-        if (schedule.events) {
-          console.debug(`Events count: ${schedule.events.length}`);
-          this.setEventArr(schedule.events);
-        } else {
-          console.warn(`No events found for schedule`);
-        }
+        this.setEventArr(schedule.events);
       } else {
         throw Error(
           `Schedule for occasion: ${this.selectedOccasion.id} not found or bad data!`

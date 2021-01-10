@@ -1,5 +1,5 @@
 import { morphism } from "morphism";
-import { eventFromDto } from "@/entities/event";
+import { Event, eventFromDto } from "@/entities/event";
 
 /* eslint-disable */
 
@@ -34,11 +34,11 @@ export const scheduleFromDto = {
   /* The following is two ways of doing the same thing with morphism */
   events: {
     path: "reservations",
-    fn: (reservations, source) => {
-      return reservations.map(reservationDto => morphism(eventFromDto, reservationDto, Event));
+    fn: (dtoArr, source) => { // dtoArr is arr of reservations.
+      return dtoArr.map(dto => morphism(eventFromDto, dto, Event));
     }
   },
-  events2: (iteratee, source, destination) => {
-    return iteratee.reservations.map(nestedDto => morphism(eventFromDto, nestedDto, Event))
+  events2: (rObj, source, destination) => { // response object = rObj
+    return rObj.reservations.map(nestedDto => morphism(eventFromDto, nestedDto, Event))
   },
 };
