@@ -14,6 +14,9 @@ export interface CourseI {
   occasions: [];
 }
 export class Course implements CourseI {
+  constructor(id: string) {
+    this.id = id;
+  }
   id: string;
   admin: string;
   nameEn: string;

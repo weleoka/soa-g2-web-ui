@@ -1,4 +1,3 @@
-
 class Ut {
   static pp(obj) {
     console.log(JSON.stringify(obj, null, 2));
@@ -12,4 +11,4 @@ class Ut {
     console.debug(str);
   }
 }
-export {Ut}
+export { Ut };

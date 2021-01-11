@@ -1,6 +1,8 @@
 <template>
   <div>
-    <h1>Steg 2: välj tid eller lektion</h1>
+    <h1>
+      Steg 2: välj tid eller lektion <small>({{ selectedCourse.id }})</small>
+    </h1>
     <div
       class="container-v"
       v-if="!selectedSchedule && !Object.keys(selectedSchedule).length"
@@ -15,20 +17,18 @@
     <EventCalendarBox
       v-if="!state.loading"
       :time-slots="timeSlots"
-      @cell-clicked-event="cellClickedHandler"
+      @create-event-event="onCreateEvent"
+      @modify-event-event="onModifyEvent"
     />
     <p v-if="state.loading">Loading...</p>
     <p v-if="state.error">Error!</p>
     <hr />
-    <!--    <EventCreateBox
-      v-if="newEvent"
-      :new-event="newEvent"
-    />-->
+    <EventDetailBox v-if="wob && Object.keys(wob).length" :wob="wob" />
   </div>
 </template>
 
 <script lang="ts">
-import EventCreateBox from "@/components/u4/EventCreateBox.vue";
+import EventDetailBox from "@/components/u4/EventDetailBox.vue";
 import EventCalendarBox from "@/components/u4/EventCalendarBox.vue";
 import eventService from "@/service/u4/eventService";
 import scheduleService from "@/service/u4/scheduleService";
@@ -37,12 +37,14 @@ import { Options, Vue } from "vue-class-component";
 import { Occasion } from "@/entities/occasion";
 import { Schedule } from "@/entities/schedule";
 import { Event } from "@/entities/event";
+import { Course } from "@/entities/course";
+import { Ut } from "@/service/utils";
 
 @Options({
   name: "TimeTab",
   components: {
     EventCalendarBox,
-    EventCreateBox
+    EventDetailBox
   },
   data() {
     return {
@@ -50,10 +52,9 @@ import { Event } from "@/entities/event";
         loading: true,
         error: null
       },
-      newEvent: {} // the unverified and under creation event
+      wob: {} // working object, new or existing Event.
     };
   },
-  //mounted() {
   created() {
     this.refreshScheduleHandler();
   },
@@ -61,8 +62,10 @@ import { Event } from "@/entities/event";
     ...mapState("scheduleStore", [
       "selectedSchedule",
       "selectedOccasion",
-      "timeSlots"
-    ])
+      "timeSlots",
+      "eventArr"
+    ]),
+    ...mapState(["selectedCourse"])
   },
   methods: {
     ...mapMutations("scheduleStore", [
@@ -70,26 +73,25 @@ import { Event } from "@/entities/event";
       "setSelectedOccasion",
       "setEventArr"
     ]),
-    /* Creates a new event
-     * - round off datetime to nearest day: no we dont have to bother now.
-     * - jump to other event creation sections
-     * - set the title, content and class attributes
-     * - get the equipment, teacher and room attributes
-     * - repetition, week exclusion and variations for "burst" creation
-     */
-    async createEvent(datetime: Date) {
-      this.newEvent = new Event(datetime);
-      return await eventService.createNewEvent(this.newEvent);
+    ...mapMutations(["setSelectedCourse"]),
+    async onCreateEvent(datetime: Date) {
+      Ut.l(`TimeTab->onCreateEvent`);
+      this.wob = new Event(datetime);
+    },
+    async onModifyEvent(wob: Event) {
+      Ut.l(`TimeTab->onModifyEvent`);
+      this.wob = this.eventArr.find(obj => {
+        // get the original event instance back.
+        return obj.tmpId === wob.tmpId;
+      });
     },
 
-    /* Refresh schedule and events objects */
-    //console.log(`Events are events: ${schedule.events[0] instanceof Event}`);
-    //console.log(`RESERVATIONS2: ${schedule.reservations2.map(reser => JSON.stringify(reser))}`);
-    //const eventsArr = await this.getEventsBySchedule(schedule); // preferred fetching separately?
+    /* Fetches a schedule and other required data */
     async refreshScheduleHandler() {
       console.debug(`TimeTab->refreshScheduleHandler()`);
       this.state.loading = true;
-      this.setSelectedOccasion(new Occasion("15")); // FOR TESTING! REMOVE LATER!
+      this.setSelectedCourse(new Course("D0031N")); // todo: FOR TESTING! REMOVE LATER!
+      this.setSelectedOccasion(new Occasion("15")); // todo: FOR TESTING! REMOVE LATER!
       const schedule = await this.getScheduleByOccasion(this.selectedOccasion);
       if (schedule && Object.keys(schedule).length) {
         this.setSelectedSchedule(schedule);
@@ -133,22 +135,10 @@ import { Event } from "@/entities/event";
         }
       }
       return [];
-    },
-
-    /* Processing the big click! */
-    async cellClickedHandler(datetime: Date) {
-      await this.createEvent(datetime);
     }
   }
 })
 export default class TimeTab extends Vue {}
-
-/*
-this.$refs.vueCal.createEvent(datetime, 90, {
-title: "New Event",
-content: "yay! 🎉",
-class: "blue-event"
-});*/
 </script>
 
 <style scoped></style>

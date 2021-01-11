@@ -84,9 +84,10 @@ router.beforeEach((to, from, next) => {
 //const emitter: Emitter = mitt(); // typescript way
 const app = createApp(App);
 //app.config.globalProperties.emitter = emitter;
-
+//import VueFormulate from '@braid/vue-formulate'
 //app.provide('emitter', emitter)
 app
   .use(store)
   .use(router)
+  //    .use(VueFormulate)
   .mount("#app");

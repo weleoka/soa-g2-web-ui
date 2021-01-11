@@ -14,6 +14,7 @@
     "core-js": "^3.6.5",
     "morphism": "^1.12.3",
     "register-service-worker": "^1.7.1",
+    "uuid": "^3.4.0",
     "vue": "^3.0.4",
     "vue-class-component": "^8.0.0-0",
     "vue-router": "^4.0.0-0",
