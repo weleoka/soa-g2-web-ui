@@ -75,18 +75,15 @@ import { Ut } from "@/service/utils";
     ]),
     ...mapMutations(["setSelectedCourse"]),
     async onCreateEvent(datetime: Date) {
-      Ut.l(`TimeTab->onCreateEvent`);
-      Ut.l(datetime.getTime());
-      datetime.setMinutes(0); // gets closest hour
-      //datetime.setHours(0);
-      //datetime = Ut.addMinutes(datetime, 25);
-      Ut.pp(datetime);
-      this.wob = new Event(datetime);
+      Ut.l(`TsimeTab->onCreateEvent`);
+      datetime.setMinutes(0); // sets to closest hour.
+      datetime.setHours(0); // sets beginning of day.
+      this.wob = new Event(datetime); // create new event with start midnight.
     },
     async onModifyEvent(wob: any) {
       Ut.l(`TimeTab->onModifyEvent`);
+      // get the original event instance back from arr.
       this.wob = this.eventArr.find(obj => {
-        // get the original event instance back.
         return obj.tmpId === wob.tmpId;
       });
     },

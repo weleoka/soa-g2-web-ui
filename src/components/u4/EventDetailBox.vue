@@ -17,10 +17,7 @@
         Vill du skapa en lektion på {{ wob.start.format("dddd DD MMMM") }}? Välj
         ett tidspass och klicka sedan på nästa
       </p>
-      <TimeSlotDropdown
-        :datetime="wob.start"
-        @selection-event="onTimeSlotSelect"
-      />
+      <TimeSlotDropdown @selection-event="onTimeSlotSelect" />
     </div>
   </div>
 </template>
@@ -30,6 +27,7 @@ import { Options, Vue } from "vue-class-component";
 import { Event } from "@/entities/event";
 import TimeSlotDropdown from "@/components/u4/TimeSlotDropdown.vue";
 import { Ut } from "@/service/utils";
+import { mapState } from "vuex";
 
 @Options({
   name: "EventCreateBox",
@@ -44,15 +42,20 @@ import { Ut } from "@/service/utils";
     }
   },
   computed: {
+    ...mapState("scheduleStore", ["timeSlots"]),
     //isNotNew: vm => !!vm.wob.id, // if id isn't set we assume it's new
     isNew: vm => !vm.wob.tmpId // if id isn't set we assume it's new
   },
   methods: {
     /* Event handler for when selected Time Slot changes */
-    async onTimeSlotSelect(timeSlot) {
+    async onTimeSlotSelect(timeSlotId) {
       Ut.ld(`EventDetailBox->onTimeSlotSelect()`);
-      //const start = Ut.addMinutes(this.datetime, slot.from);
-      //const end = Ut.addMinutes(this.datetime, slot.end);
+      Ut.l(timeSlotId);
+      const slot = this.timeSlots[timeSlotId];
+      const start = Ut.addMinutes(this.wob.start, slot.from);
+      const end = Ut.addMinutes(this.wob.start, slot.to);
+      this.wob.start = start;
+      this.wob.end = end;
     }
   }
 })

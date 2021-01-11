@@ -45,7 +45,7 @@ module.exports = {
           logLevel: "debug"
         },
         "/api/courses": {
-          target: "http://localhost:8084", // app-middleware
+          target: "http://localhost:8086", // app-middleware
           pathRewrite: { "^/api/courses": "/app/V1/courses" },  //eslint-disable-line
           logLevel: "debug"
         },

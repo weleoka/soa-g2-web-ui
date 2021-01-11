@@ -3,8 +3,8 @@ class Ut {
     console.log(JSON.stringify(obj, null, 2));
   }
 
-  static l(str) {
-    console.log(str);
+  static l(any) {
+    console.log(any);
   }
 
   static ld(str) {
@@ -14,7 +14,7 @@ class Ut {
   static minutesToHoursAndMinutes(input) {
     const hours = Math.floor(input / 60);
     const mins = input % 60;
-    return hours + ":" + mins;
+    return hours + ":" + (mins === 0 ? "00" : mins);
   }
 
   static addMinutes(date, minutes) {

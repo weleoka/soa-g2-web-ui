@@ -1,7 +1,7 @@
 <template>
   <div>
     <label>
-      Tid
+      Tidspass:
       <select
         @change="$emit('selection-event', this.selected)"
         v-model="selected"
@@ -37,7 +37,6 @@ import { Ut } from "@/service/utils";
   computed: mapState("scheduleStore", ["timeSlots"]),
   beforeMount() {
     for (let i = 1; i < Object.keys(this.timeSlots).length + 1; i++) {
-      //Ut.pp(this.timeSlots[`${i}`]);
       const slot = this.timeSlots[`${i}`];
       const startStr: string = Ut.minutesToHoursAndMinutes(slot.from);
       const endStr: string = Ut.minutesToHoursAndMinutes(slot.to);

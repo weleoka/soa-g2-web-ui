@@ -16,11 +16,11 @@ export const scheduleStoreModule = {
     selectedSchedule: new Schedule(),
     eventArr: [], // loaded separately
     timeSlots: {
-      1: { from: 9 * 60 + 15, to: 9 * 60 + 45, class: "slot-1" },
-      2: { from: 10 * 60 + 15, to: 11 * 60 + 45, class: "slot-2" },
-      3: { from: 13 * 60, to: 14 * 60 + 30, class: "slot-3" },
-      4: { from: 14 * 60 + 45, to: 16 * 60 + 45, class: "slot-4" },
-      5: { from: 16 * 60 + 35, to: 18 * 60, class: "slot-5" }
+      1: { from: 9 * 60 + 15, to: 9 * 60 + 45, session: "PASS1" },
+      2: { from: 10 * 60 + 15, to: 11 * 60 + 45, session: "PASS2" },
+      3: { from: 13 * 60, to: 14 * 60 + 30, session: "PASS3" },
+      4: { from: 14 * 60 + 45, to: 16 * 60 + 15, session: "PASS4" },
+      5: { from: 16 * 60 + 30, to: 18 * 60, session: "PASS5" }
     }
   },
   mutations: {
