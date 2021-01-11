@@ -13,8 +13,14 @@
       <p>{{ wob.description }}</p>
     </div>
     <div v-if="isNew && wob && Object.keys(wob).length">
-      <p>Skapa lektion på {{ wob.start.format("dddd DD MMMM") }}</p>
-      <p>Klicka på nästa</p>
+      <p>
+        Vill du skapa en lektion på {{ wob.start.format("dddd DD MMMM") }}? Välj
+        ett tidspass och klicka sedan på nästa
+      </p>
+      <TimeSlotDropdown
+        :datetime="wob.start"
+        @selection-event="onTimeSlotSelect"
+      />
     </div>
   </div>
 </template>
@@ -22,12 +28,17 @@
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
 import { Event } from "@/entities/event";
+import TimeSlotDropdown from "@/components/u4/TimeSlotDropdown.vue";
+import { Ut } from "@/service/utils";
 
 @Options({
   name: "EventCreateBox",
+  components: {
+    TimeSlotDropdown
+  },
   props: {
+    // working object
     wob: {
-      // working object
       type: Event,
       default: null
     }
@@ -35,6 +46,12 @@ import { Event } from "@/entities/event";
   computed: {
     //isNotNew: vm => !!vm.wob.id, // if id isn't set we assume it's new
     isNew: vm => !vm.wob.tmpId // if id isn't set we assume it's new
+  },
+  methods: {
+    /* Event handler for when selected Time Slot changes */
+    async onTimeSlotSelect(timeSlot) {
+      Ut.ld(`EventDetailBox->onTimeSlotSelect()`);
+    }
   }
 })
 export default class EventCreateBox extends Vue {}

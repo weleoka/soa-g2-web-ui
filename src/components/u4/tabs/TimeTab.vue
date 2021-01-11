@@ -76,9 +76,14 @@ import { Ut } from "@/service/utils";
     ...mapMutations(["setSelectedCourse"]),
     async onCreateEvent(datetime: Date) {
       Ut.l(`TimeTab->onCreateEvent`);
+      Ut.l(datetime.getTime());
+      datetime.setMinutes(0); // gets closest hour
+      //datetime.setHours(0);
+      //datetime = Ut.addMinutes(datetime, 25);
+      Ut.pp(datetime);
       this.wob = new Event(datetime);
     },
-    async onModifyEvent(wob: Event) {
+    async onModifyEvent(wob: any) {
       Ut.l(`TimeTab->onModifyEvent`);
       this.wob = this.eventArr.find(obj => {
         // get the original event instance back.
