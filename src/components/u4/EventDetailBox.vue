@@ -51,6 +51,8 @@ import { Ut } from "@/service/utils";
     /* Event handler for when selected Time Slot changes */
     async onTimeSlotSelect(timeSlot) {
       Ut.ld(`EventDetailBox->onTimeSlotSelect()`);
+      //const start = Ut.addMinutes(this.datetime, slot.from);
+      //const end = Ut.addMinutes(this.datetime, slot.end);
     }
   }
 })

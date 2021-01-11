@@ -1,5 +1,3 @@
-import { Date } from "vue-cal";
-
 class Ut {
   static pp(obj) {
     console.log(JSON.stringify(obj, null, 2));
