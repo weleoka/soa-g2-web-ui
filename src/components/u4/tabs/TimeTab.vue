@@ -8,35 +8,40 @@
       v-if="!selectedSchedule && !Object.keys(selectedSchedule).length"
     >
       <p>Hämta schemat för aktuellt kurstillfälle</p>
-      <button class="btn-a" type="button" @click="refreshScheduleHandler">
+      <button class="btn-a" type="button" @click="onRefreshSchedule">
         Hämta schema
       </button>
     </div>
-
     <br />
     <EventCalendarBox
       v-if="!state.loading"
       :time-slots="timeSlots"
       @create-event-event="onCreateEvent"
-      @modify-event-event="onModifyEvent"
+      @select-event-event="onSelectEvent"
     />
     <p v-if="state.loading">Loading...</p>
     <p v-if="state.error">Error!</p>
     <hr />
-    <EventDetailBox v-if="wob && Object.keys(wob).length" :wob="wob" />
+    <EventDetailBox
+      @edit-event-event="onEditEvent"
+      v-if="!isNew && !isForEdit && vcObj && Object.keys(vcObj).length"
+      :vcObj="vcObj"
+    />
+    <EventForm
+      v-if="(isNew || isForEdit) && vcObj && Object.keys(vcObj).length"
+      :vcObj="vcObj"
+    />
   </div>
 </template>
 
 <script lang="ts">
 import EventDetailBox from "@/components/u4/EventDetailBox.vue";
 import EventCalendarBox from "@/components/u4/EventCalendarBox.vue";
-import eventService from "@/service/u4/eventService";
-import scheduleService from "@/service/u4/scheduleService";
-import { mapMutations, mapState } from "vuex";
+import EventForm from "@/components/u4/EventForm.vue";
+import { mapActions, mapMutations, mapState } from "vuex";
 import { Options, Vue } from "vue-class-component";
-import { Occasion } from "@/entities/occasion";
-import { Schedule } from "@/entities/schedule";
 import { Event } from "@/entities/event";
+import { Occasion } from "@/entities/occasion";
 import { Course } from "@/entities/course";
 import { Ut } from "@/service/utils";
 
@@ -44,7 +49,8 @@ import { Ut } from "@/service/utils";
   name: "TimeTab",
   components: {
     EventCalendarBox,
-    EventDetailBox
+    EventDetailBox, // for displaying existing events
+    EventForm // modifying or creating events
   },
   data() {
     return {
@@ -52,11 +58,12 @@ import { Ut } from "@/service/utils";
         loading: true,
         error: null
       },
-      wob: {} // working object, new or existing Event.
+      vcObj: {}, // working object, new or existing Event.
+      isForEdit: false // vcObj is existing and for edit.
     };
   },
   created() {
-    this.refreshScheduleHandler();
+    this.onRefreshSchedule();
   },
   computed: {
     ...mapState("scheduleStore", [
@@ -65,9 +72,15 @@ import { Ut } from "@/service/utils";
       "timeSlots",
       "eventArr"
     ]),
-    ...mapState(["selectedCourse"])
+    ...mapState(["selectedCourse"]),
+    //isNotNew: vm => !!vm.vcObj.id, // if id isn't set we assume it's new
+    isNew: vm => !vm.vcObj.tmpId // if id isn't set we assume it's new
   },
   methods: {
+    ...mapActions("scheduleStore", [
+      "getScheduleByOccasion",
+      "getEventsBySchedule"
+    ]),
     ...mapMutations("scheduleStore", [
       "setSelectedSchedule",
       "setSelectedOccasion",
@@ -75,22 +88,27 @@ import { Ut } from "@/service/utils";
     ]),
     ...mapMutations(["setSelectedCourse"]),
     async onCreateEvent(datetime: Date) {
-      Ut.l(`TsimeTab->onCreateEvent`);
+      Ut.ld(`TimeTab->onCreateEvent`);
       datetime.setMinutes(0); // sets to closest hour.
       datetime.setHours(0); // sets beginning of day.
-      this.wob = new Event(datetime); // create new event with start midnight.
+      this.vcObj = new Event(datetime); // create new event with start midnight.
     },
-    async onModifyEvent(wob: any) {
-      Ut.l(`TimeTab->onModifyEvent`);
-      // get the original event instance back from arr.
-      this.wob = this.eventArr.find(obj => {
-        return obj.tmpId === wob.tmpId;
+    async onSelectEvent(vcObj) {
+      Ut.ld(`TimeTab->onSelectEvent`);
+      // get the original event instance back from eventArr.
+      this.vcObj = this.eventArr.find(obj => {
+        return obj.tmpId === vcObj.tmpId;
       });
+      Ut.pp(this.vcObj instanceof Event);
+    },
+    async onEditEvent() {
+      Ut.ld(`TimeTab->onEditEvent`);
+      this.isForEdit = true;
     },
 
     /* Fetches a schedule and other required data */
-    async refreshScheduleHandler() {
-      console.debug(`TimeTab->refreshScheduleHandler()`);
+    async onRefreshSchedule() {
+      Ut.ld(`TimeTab->onRefreshSchedule()`);
       this.state.loading = true;
       this.setSelectedCourse(new Course("D0031N")); // todo: FOR TESTING! REMOVE LATER!
       this.setSelectedOccasion(new Occasion("15")); // todo: FOR TESTING! REMOVE LATER!
@@ -105,38 +123,6 @@ import { Ut } from "@/service/utils";
       }
       this.state.loading = false;
       return true;
-    },
-
-    /* get single schedule for a course occasion */
-    async getScheduleByOccasion(occasion: Occasion): Promise<Schedule> {
-      console.debug(`TimeTab->getScheduleByOccasion()`);
-      try {
-        return await scheduleService.getScheduleByOccasionUsingPathVar(
-          occasion
-        );
-      } catch (e) {
-        if (e.name === "ApiError") {
-          console.warn(`ApiError ${e.message}`);
-        } else {
-          console.warn(`Error ${e.message}`);
-        }
-      }
-      return null;
-    },
-
-    /* get events by schedule */
-    async getEventsBySchedule(schedule: Schedule): Promise<Array<Event>> {
-      console.debug(`TimeTab->getEventsBySchedule()`);
-      try {
-        return await eventService.getEventsBySchedule(schedule);
-      } catch (e) {
-        if (e.name === "ApiError") {
-          console.warn(`ApiError ${e.message}`);
-        } else {
-          console.warn(`Error ${e.message}`);
-        }
-      }
-      return [];
     }
   }
 })

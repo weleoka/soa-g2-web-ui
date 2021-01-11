@@ -52,7 +52,7 @@ import { Ut } from "@/service/utils";
   props: {
     timeSlots: Object // used as special-hours property for vue-cal
   },
-  emits: ["create-event-event", "modify-event-event"],
+  emits: ["create-event-event", "select-event-event"],
   data() {
     return {
       selectedDate: {}, // default centering of calendar
@@ -67,7 +67,7 @@ import { Ut } from "@/service/utils";
   methods: {
     onEventClick(clickedEvent, e) {
       Ut.ld("Event clicked");
-      this.$emit("modify-event-event", clickedEvent);
+      this.$emit("select-event-event", clickedEvent);
       e.stopPropagation();
     },
     onCellClick(datetime) {

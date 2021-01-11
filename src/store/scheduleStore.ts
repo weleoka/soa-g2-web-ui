@@ -8,6 +8,10 @@ save state to a db on the client.
 
 import { Occasion } from "@/entities/occasion";
 import { Schedule } from "@/entities/schedule";
+import { Ut } from "@/service/utils";
+import scheduleService from "@/service/u4/scheduleService";
+import { Event } from "@/entities/event";
+import eventService from "@/service/u4/eventService";
 
 export const scheduleStoreModule = {
   namespaced: true,
@@ -37,6 +41,45 @@ export const scheduleStoreModule = {
     setEventArr(state, payload) {
       console.debug(`setEventArr() mutation: ${payload.length}`);
       state.eventArr = payload;
+    }
+  },
+  actions: {
+    /* get single schedule for a course occasion */
+    async getScheduleByOccasion(
+      context,
+      occasion: Occasion
+    ): Promise<Schedule> {
+      Ut.ld(`scheduleStore->getScheduleByOccasion()`);
+      try {
+        return await scheduleService.getScheduleByOccasionUsingPathVar(
+          occasion
+        );
+      } catch (e) {
+        if (e.name === "ApiError") {
+          console.warn(`ApiError ${e.message}`);
+        } else {
+          console.warn(`Error ${e.message}`);
+        }
+      }
+      return null;
+    },
+
+    /* get events by schedule */
+    async getEventsBySchedule(
+      context,
+      schedule: Schedule
+    ): Promise<Array<Event>> {
+      Ut.ld(`scheduleStore->getEventsBySchedule()`);
+      try {
+        return await eventService.getEventsBySchedule(schedule);
+      } catch (e) {
+        if (e.name === "ApiError") {
+          console.warn(`ApiError ${e.message}`);
+        } else {
+          console.warn(`Error ${e.message}`);
+        }
+      }
+      return [];
     }
   }
 };

@@ -25,7 +25,8 @@ import { Ut } from "@/service/utils";
 @Options({
   name: "TimeSlotDropdown",
   props: {
-    preselected: String
+    preselected: String,
+    datetime: Date // used for preselecting timeslot
   },
   emits: ["selection-event"],
   data() {
