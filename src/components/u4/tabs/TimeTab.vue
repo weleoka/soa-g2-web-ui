@@ -1,38 +1,66 @@
 <template>
   <div>
-    <h1>
-      Steg 2: välj tid eller lektion <small>({{ selectedCourse.id }})</small>
-    </h1>
-    <div
-      class="container-v"
-      v-if="!selectedSchedule && !Object.keys(selectedSchedule).length"
-    >
-      <p>Hämta schemat för aktuellt kurstillfälle</p>
-      <button class="btn-a" type="button" @click="onRefreshSchedule">
-        Hämta schema
-      </button>
+    <div>
+      <div class="container abcd">
+        <h1>
+          Steg 2: välj tid eller lektion
+          <small>({{ selectedCourse.id }})</small>
+        </h1>
+        <button
+          id="show-hide-cal-btn"
+          class="btn-a"
+          type="button"
+          @click="state.showCal = !state.showCal"
+        >
+          {{ state.showCal ? "Dölj kalender" : "Visa kalender" }}
+        </button>
+      </div>
+      <div
+        class="container-v"
+        v-if="!selectedSchedule && !Object.keys(selectedSchedule).length"
+      >
+        <p>Hämta schemat för aktuellt kurstillfälle</p>
+        <button class="btn-a" type="button" @click="onRefreshSchedule">
+          Hämta schema
+        </button>
+      </div>
     </div>
-    <br />
-    <EventCalendarBox
-      v-if="!state.loading"
-      :time-slots="timeSlots"
-      @create-event-event="onCreateEvent"
-      @select-event-event="onSelectEvent"
-    />
-    <p v-if="state.loading">Loading...</p>
-    <p v-if="state.error">Error!</p>
-    <hr />
-    <EventDetailBox
-      @start-event-edit-event="onStartEventEdit"
-      v-if="selectedEvent && Object.keys(selectedEvent).length"
-      :vcObj="selectedEvent"
-    />
-    <EventForm
-      v-if="formEvent && Object.keys(formEvent).length"
-      :formEvent="formEvent"
-      @stop-event-edit-event="onStopEventEdit"
-    />
-    <div v-else class="container-v" id="placeholder-box">-</div>
+
+    <div>
+      <transition name="fade">
+        <div class="container-v">
+          <EventCalendarBox
+            v-if="!state.loading && state.showCal"
+            :time-slots="timeSlots"
+            @create-event-event="onCreateEvent"
+            @select-event-event="onSelectEvent"
+          />
+        </div>
+      </transition>
+      <p v-if="state.loading">Loading...</p>
+      <p v-if="state.error">Error!</p>
+    </div>
+
+    <div>
+      <EventDetailBox
+        @start-event-edit-event="onStartEventEdit"
+        v-if="selectedEvent && Object.keys(selectedEvent).length"
+        :vcObj="selectedEvent"
+      />
+      <EventForm
+        v-if="formEvent && Object.keys(formEvent).length"
+        :formEvent="formEvent"
+        @stop-event-edit-event="onStopEventEdit"
+      />
+      <div
+        v-if="
+          !Object.keys(formEvent).length && !Object.keys(selectedEvent).length
+        "
+        id="placeholder-box"
+      >
+        -
+      </div>
+    </div>
   </div>
 </template>
 
@@ -57,6 +85,7 @@ import { Ut } from "@/service/utils";
   data() {
     return {
       state: {
+        showCal: true,
         loading: true,
         error: null
       },
@@ -163,5 +192,13 @@ export default class TimeTab extends Vue {}
 #placeholder-box {
   height: 331px;
   max-height: 331px;
+}
+
+#show-hide-cal-btn {
+  float: left;
+}
+
+.abcd {
+  justify-content: space-between;
 }
 </style>

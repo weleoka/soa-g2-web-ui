@@ -1,7 +1,20 @@
 /* For testing and during development put styles here if they
 don't belong exclusively to a specific component. */
 
-/* Paragraph */
+/* Transitions */
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 0.5s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+    opacity: 0;
+}
+
+
+
+/* Evil paragraph */
 p {
     /*word-break: break-all;*/
     white-space: normal;
@@ -14,7 +27,10 @@ p {
     word-break: break-all;
 }
 
-.g2soa-btn {
+
+/* Buttons */
+/* obsolete use btn-a */
+/*.g2soa-btn {
     max-width: 150px;
     padding: 6px 10px;
     background: #ffffff;
@@ -22,7 +38,19 @@ p {
     margin-bottom: 1rem;
     border: 2px solid #cccccc;
     outline: none;
+}*/
+
+.btn-a {
+    margin: 10px;
+    max-height: 40px;
+    padding: 6px 10px;
+    background: #ffffff;
+    cursor: pointer;
+    margin-bottom: 1rem;
+    border: 2px solid #cccccc;
+    outline: none;
 }
+
 
 /* Vue cal */
 .vuecal__event.sports {
@@ -33,7 +61,7 @@ p {
 
 .vuecal__event.sports.vuecal__event--focus {
     background-color: rgba(255, 102, 102, 1);
-    border: 5px solid rgb(235, 230, 82);
+    border: 3px solid rgb(235, 230, 82);
     color: #fff;
 }
 
@@ -44,7 +72,7 @@ tr {
 
 .container {
     display: flex;
-    flex-basis: 100%
+    flex-basis: 95%
     /*flex: auto;*/
     /*flex-direction: row;*/
     /*padding-top: 2rem;*/
@@ -63,17 +91,6 @@ tr {
     display: flex;
     flex: auto;
     flex-direction: row;
-}
-
-.btn-a {
-    margin: 10px;
-    max-height: 40px;
-    padding: 6px 10px;
-    background: #ffffff;
-    cursor: pointer;
-    margin-bottom: 1rem;
-    border: 2px solid #cccccc;
-    outline: none;
 }
 
 .clicked-row {

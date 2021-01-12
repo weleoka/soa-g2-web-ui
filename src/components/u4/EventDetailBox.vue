@@ -1,7 +1,7 @@
 <template>
   <div class="container-v" id="event-detail-box">
     <div>
-      <p>Ändra lektionen {{ vcObj.start.format("dddd DD MMMM") }}</p>
+      <h4>Detaljer för lektionen {{ vcObj.start.format("dddd DD MMMM") }}</h4>
       <span
         >{{ vcObj.start.formatTime("HH:mm") }} -
         {{ vcObj.end.formatTime("HH:mm") }}</span
@@ -41,6 +41,7 @@ export default class EventDetailBox extends Vue {}
 
 <style scoped>
 #event-detail-box {
+  padding: inherit;
   overflow: auto;
   text-overflow: clip;
   height: 331px;

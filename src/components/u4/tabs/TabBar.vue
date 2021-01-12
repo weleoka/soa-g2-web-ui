@@ -133,6 +133,7 @@ export default class TabBar extends Vue {}
   border-top: none;
   border-bottom: none;
   padding: 0px 10px 10px 10px;
+  height: 951px;
 }
 
 @media (min-width: 1000px) {

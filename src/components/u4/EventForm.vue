@@ -1,7 +1,11 @@
 <template>
   <div class="container-v" id="event-form-box">
-    <p v-if="isNew">Skapa ny lektion på {{ wob.start }}:</p>
-    <p v-else>Ändrar lektionen på {{ wob.start }}:</p>
+    <h4 v-if="isNew && wob.start">
+      Skapa ny lektion på {{ Ut.toDateStr(wob.start) }}
+    </h4>
+    <h4 v-if="!isNew && wob.start">
+      Ändrar lektionen på {{ Ut.toDateStr(wob.start) }}
+    </h4>
     <Form :validation-schema="schema" @submit="onSubmit" v-slot="{ errors }">
       <div class="form-row">
         <div class="form-group col">
@@ -48,12 +52,14 @@
       <Field name="resources" type="checkbox" value="3"></Field> Time machine
       <ErrorMessage name="resources" />
       <br />
-      <button class="g2soa-btn" @click="$emit('submit')">
-        Spara uppgifter
-      </button>
-      <button class="g2soa-btn" @click="$emit('stop-event-edit-event')">
-        Avbryt
-      </button>
+      <div class="container">
+        <button class="btn-a" @click="$emit('submit')">
+          Spara uppgifter
+        </button>
+        <button class="btn-a" @click="$emit('stop-event-edit-event')">
+          Avbryt
+        </button>
+      </div>
     </Form>
   </div>
 </template>
@@ -92,7 +98,8 @@ import { Options, Vue } from "vue-class-component";
           return "Välj utrustning";
         }
       },
-      wob: {} // working object
+      wob: {}, // working object
+      Ut: Ut
     };
   },
   computed: {
@@ -132,5 +139,6 @@ export default class EventForm extends Vue {}
   overflow: auto;
   height: 331px;
   max-height: 331px;
+  padding: inherit;
 }
 </style>
