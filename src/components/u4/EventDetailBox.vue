@@ -6,31 +6,30 @@
         >{{ vcObj.start.formatTime("HH:mm") }} -
         {{ vcObj.end.formatTime("HH:mm") }}</span
       >
-      <br />
-      <p>{{ vcObj.location }}</p>
-      <p>{{ vcObj.contactName }}</p>
-      <p>{{ vcObj.distanceUrl }}</p>
-      <p>{{ vcObj.description }}</p>
     </div>
-    <button @click="$emit('edit-event-event', vcObj)">Init</button>
+    <div>
+      <li>{{ vcObj.location }}</li>
+      <li>{{ vcObj.contactName }}</li>
+      <li>{{ vcObj.distanceUrl }}</li>
+    </div>
+    <div>
+      <button class="g2soa-btn" @click="$emit('start-event-edit-event', vcObj)">
+        Ändra uppgifter
+      </button>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
-import { Event } from "@/entities/event";
 import { mapState } from "vuex";
 
 @Options({
   name: "EventDetailBox",
   components: {},
-  emits: ["edit-event-event"],
+  emits: ["start-event-edit-event"],
   props: {
-    vcObj: {
-      type: Event,
-      default: null,
-      required: true
-    }
+    vcObj: {} // expects a vue-cal event object only.
   },
   computed: {
     ...mapState("scheduleStore", ["timeSlots"])
@@ -42,8 +41,9 @@ export default class EventDetailBox extends Vue {}
 
 <style scoped>
 #event-detail-box {
-  height: 150px;
-  max-width: 450px;
-  padding: 3rem 2rem 2rem;
+  overflow: auto;
+  text-overflow: clip;
+  height: 331px;
+  max-height: 331px;
 }
 </style>

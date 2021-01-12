@@ -23,14 +23,16 @@
     <p v-if="state.error">Error!</p>
     <hr />
     <EventDetailBox
-      @edit-event-event="onEditEvent"
-      v-if="!isNew && !isForEdit && vcObj && Object.keys(vcObj).length"
-      :vcObj="vcObj"
+      @start-event-edit-event="onStartEventEdit"
+      v-if="selectedEvent && Object.keys(selectedEvent).length"
+      :vcObj="selectedEvent"
     />
     <EventForm
-      v-if="(isNew || isForEdit) && vcObj && Object.keys(vcObj).length"
-      :vcObj="vcObj"
+      v-if="formEvent && Object.keys(formEvent).length"
+      :formEvent="formEvent"
+      @stop-event-edit-event="onStopEventEdit"
     />
+    <div v-else class="container-v" id="placeholder-box">-</div>
   </div>
 </template>
 
@@ -58,8 +60,8 @@ import { Ut } from "@/service/utils";
         loading: true,
         error: null
       },
-      vcObj: {}, // working object, new or existing Event.
-      isForEdit: false // vcObj is existing and for edit.
+      selectedEvent: {}, // a selected event from vuecal.
+      formEvent: {} // set if creating or editing an event
     };
   },
   created() {
@@ -72,9 +74,7 @@ import { Ut } from "@/service/utils";
       "timeSlots",
       "eventArr"
     ]),
-    ...mapState(["selectedCourse"]),
-    //isNotNew: vm => !!vm.vcObj.id, // if id isn't set we assume it's new
-    isNew: vm => !vm.vcObj.tmpId // if id isn't set we assume it's new
+    ...mapState(["selectedCourse"])
   },
   methods: {
     ...mapActions("scheduleStore", [
@@ -87,23 +87,53 @@ import { Ut } from "@/service/utils";
       "setEventArr"
     ]),
     ...mapMutations(["setSelectedCourse"]),
-    async onCreateEvent(datetime: Date) {
+    onCreateEvent(datetime: Date) {
       Ut.ld(`TimeTab->onCreateEvent`);
-      datetime.setMinutes(0); // sets to closest hour.
-      datetime.setHours(0); // sets beginning of day.
-      this.vcObj = new Event(datetime); // create new event with start midnight.
+      if (!Ut.isSet(this.formEvent)) {
+        datetime.setMinutes(0); // sets to closest hour.
+        datetime.setHours(0); // sets beginning of day.
+        this.selectedEvent = {};
+        this.formEvent = new Event(datetime); // create new event with start midnight.
+      } else {
+        // todo: make it possible to dynamically change dates... etc etc etc.
+        // the user has to clear the formEvent before interacting with calendar again.
+        console.warn("Calendar disabled!");
+      }
     },
-    async onSelectEvent(vcObj) {
+
+    /* selects original backend instance by looking in eventArr */
+    onSelectEvent(vcEvent) {
       Ut.ld(`TimeTab->onSelectEvent`);
-      // get the original event instance back from eventArr.
-      this.vcObj = this.eventArr.find(obj => {
-        return obj.tmpId === vcObj.tmpId;
-      });
-      Ut.pp(this.vcObj instanceof Event);
+      if (!Ut.isSet(this.formEvent)) {
+        this.formEvent = {};
+        this.selectedEvent = {};
+        this.selectedEvent = this.eventArr.find(obj => {
+          return obj.tmpId === vcEvent.tmpId;
+        });
+        if (!(this.selectedEvent instanceof Event)) {
+          console.warn("Event from calendar not found in eventArr!");
+        }
+      } else {
+        console.warn("Calendar disabled!");
+      }
     },
-    async onEditEvent() {
+
+    /* Sets the formElement from the data from existing event */
+    onStartEventEdit() {
       Ut.ld(`TimeTab->onEditEvent`);
-      this.isForEdit = true;
+      this.formEvent = Object.assign(new Event(), this.selectedEvent);
+      this.selectedEvent = {};
+      if (!(this.formEvent instanceof Event)) {
+        // todo: implement sensible check
+        console.warn("Event form set with incompatible Event instance");
+      }
+    },
+
+    /* Clears the selected and form events */
+    onStopEventEdit() {
+      Ut.ld(`TimeTab->onStopEditEvent`);
+      this.selectedEvent = {};
+      this.formEvent = {};
     },
 
     /* Fetches a schedule and other required data */
@@ -129,4 +159,9 @@ import { Ut } from "@/service/utils";
 export default class TimeTab extends Vue {}
 </script>
 
-<style scoped></style>
+<style scoped>
+#placeholder-box {
+  height: 331px;
+  max-height: 331px;
+}
+</style>

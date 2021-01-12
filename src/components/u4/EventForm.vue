@@ -1,72 +1,81 @@
 <template>
-  <div>
-    <p>Lektion på {{ formEvent.start.format("dddd DD MMMM") }}:</p>
+  <div class="container-v" id="event-form-box">
+    <p v-if="isNew">Skapa ny lektion på {{ wob.start }}:</p>
+    <p v-else>Ändrar lektionen på {{ wob.start }}:</p>
     <Form :validation-schema="schema" @submit="onSubmit" v-slot="{ errors }">
       <div class="form-row">
         <div class="form-group col">
-          <label>Title</label>
-          <Field
-            name="title"
-            as="select"
-            class="form-control"
-            :class="{ 'is-invalid': errors.title }"
-          >
-            <option value=""></option>
-            <option value="Mr">Mr</option>
-            <option value="Mrs">Mrs</option>
-            <option value="Miss">Miss</option>
-            <option value="Ms">Ms</option>
-          </Field>
-          <div class="invalid-feedback">{{ errors.title }}</div>
+          <TimeSlotDropdown @selection-event="onTimeSlotSelect" />
+          <!-- <label>Tidspass</label>
+              <Field
+                      name="timeslot"
+                      as="select"
+                      class="form-control"
+                      :class="{ 'is-invalid': errors.timeslot }"
+                    >
+                    </Field>-->
+          <div class="invalid-feedback">{{ errors.timeslot }}</div>
         </div>
         <div class="form-group col-5">
-          <label>First Name</label>
+          <label>Distans URL</label>
           <Field
             name="firstName"
             type="text"
             class="form-control"
-            :class="{ 'is-invalid': errors.firstName }"
+            :placeholder="wob.distanceUrl"
+            :class="{ 'is-invalid': errors.distanceUrl }"
           />
-          <div class="invalid-feedback">{{ errors.firstName }}</div>
+          <div class="invalid-feedback">{{ errors.distanceUrl }}</div>
         </div>
         <div class="form-group col-5">
-          <label>Last Name</label>
+          <label>Beskrivning</label>
           <Field
-            name="lastName"
+            name="description"
             type="text"
             class="form-control"
-            :class="{ 'is-invalid': errors.lastName }"
+            :placeholder="wob.description"
+            :class="{ 'is-invalid': errors.description }"
           />
-          <div class="invalid-feedback">{{ errors.lastName }}</div>
+          <div class="invalid-feedback">{{ errors.description }}</div>
         </div>
       </div>
 
-      <TimeSlotDropdown @selection-event="onTimeSlotSelect" />
-
-      <Field name="drink" type="checkbox" value="Milk"></Field> Milk
-      <Field name="drink" type="checkbox" value="Tea"></Field> Tea
-      <Field name="drink" type="checkbox" value="Coffee"></Field> Coffee
-      <ErrorMessage name="drink" />
+      <!--      <li v-for="(item, index) in resources" :key="index">
+        <Field name="resources" type="checkbox" value="Projector"></Field> Projector
+      </li>-->
+      <Field name="resources" type="checkbox" value="1"></Field> Projector
+      <Field name="resources" type="checkbox" value="2"></Field> Computers
+      <Field name="resources" type="checkbox" value="3"></Field> Time machine
+      <ErrorMessage name="resources" />
+      <br />
+      <button class="g2soa-btn" @click="$emit('submit')">
+        Spara uppgifter
+      </button>
+      <button class="g2soa-btn" @click="$emit('stop-event-edit-event')">
+        Avbryt
+      </button>
     </Form>
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import TimeSlotDropdown from "@/components/u4/TimeSlotDropdown.vue";
 import { Ut } from "@/service/utils";
 import { Event } from "@/entities/event";
-import { Form, Field, ErrorMessage } from "vee-validate";
+import { ErrorMessage, Field, Form } from "vee-validate";
 import { mapState } from "vuex";
+import { Options, Vue } from "vue-class-component";
 
-export default {
+@Options({
   name: "EventForm",
   props: {
-    vcObj: {
+    formEvent: {
       type: Event,
-      default: null,
+      default: new Event(),
       required: true
     }
   },
+  emits: ["stop-event-edit-event"],
   components: {
     Form,
     Field,
@@ -76,36 +85,52 @@ export default {
   data() {
     return {
       schema: {
-        drink: value => {
+        resources: value => {
           if (Array.isArray(value) && value.length) {
             return true;
           }
-          return "You must choose a drink";
+          return "Välj utrustning";
         }
       },
-      formEvent: {}
+      wob: {} // working object
     };
   },
   computed: {
-    ...mapState("scheduleStore", ["timeSlots"])
+    //...mapState("bookingStore", ["resources"]),
+    ...mapState("scheduleStore", ["timeSlots"]),
+    isNew: state => !state.wob.tmpId // if tmpid isn't set we assume it's new
   },
   methods: {
+    //...mapActions("bookingStore", ["refreshResources"]),
+
+    /* Submits the form for post */
     onSubmit(values) {
       alert(JSON.stringify(values, null, 2));
     },
-
+    /*    onCancel() {
+      this.$emit("cancel")
+    },*/
     /* Event handler for when selected time slot changes */
     async onTimeSlotSelect(timeSlotId) {
-      Ut.ld(`EventDetailBox->onTimeSlotSelect()`);
-      const slot = this.timeSlots[timeSlotId];
-      Ut.pp(slot);
-      this.formEvent.start = Ut.addMinutes(this.formEvent.start, slot.from);
-      this.formEvent.end = Ut.addMinutes(this.formEvent.start, slot.to);
+      Ut.ld(`EventDetailBox->onTimeSlotSelect() ${timeSlotId}`);
+      const slot = this.timeSlots[timeSlotId]; // fetch original slot info
+      this.wob.start = Ut.addMinutes(this.wob.start, slot.from);
+      this.wob.end = Ut.addMinutes(this.wob.start, slot.to);
     }
   },
   mounted() {
-    // Copy object. Assuming primitive properties only.
-    this.formEvent = Object.assign(new Event(), this.vcObj);
+    // We work only with a copy of the original event.
+    this.wob = Object.assign(new Event(), this.formEvent);
+    //this.refreshResources(); // could be called somewhere else perhaps
   }
-};
+})
+export default class EventForm extends Vue {}
 </script>
+
+<style scoped>
+#event-form-box {
+  overflow: auto;
+  height: 331px;
+  max-height: 331px;
+}
+</style>

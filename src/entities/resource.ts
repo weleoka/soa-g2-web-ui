@@ -2,10 +2,12 @@
 
 export interface ResourceI {
   id: string;
+  type: string
   description: string;
 }
 export class Resource implements ResourceI {
   id: string;
+  type: string;
   description: string;
 }
 export const resourceFromDto = {

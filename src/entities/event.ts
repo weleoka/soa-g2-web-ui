@@ -1,6 +1,6 @@
 /* aka. reservation in backend, booking? */
 /*
-events: [ // This is what vuecal uses input-wise
+An event as vuecal wants it input-wise
   {
     start: '2018-11-21',
     end: '2018-11-21',
@@ -70,8 +70,8 @@ import {v4 as uuidv4} from 'uuid';
 import {createSchema} from "morphism";
 
 export class Event implements EventI {
-  constructor(date: Date) {
-    this.start = date;
+  constructor(date?: Date) {
+    this.start = date ? date : undefined;
   }
   tmpId: string;
   id: string;
@@ -135,7 +135,7 @@ export interface EventDtoI {
   session: string
 }
 export const eventFromDto = createSchema<EventI, EventDtoI>({
-  tmpId: () => {return uuidv4()},
+  tmpId: () => uuidv4(),
   id: "event_code",
   title: "title",
   scheduleCode: "schedule_code",

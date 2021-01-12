@@ -12,6 +12,7 @@
         :time-from="9 * 60"
         :time-to="18 * 60"
         :time-step="60"
+        :hideWeekends="true"
         :special-hours="timeSlots"
         :on-event-click="onEventClick"
         @cell-click="onCellClick($event)"
@@ -55,9 +56,7 @@ import { Ut } from "@/service/utils";
   emits: ["create-event-event", "select-event-event"],
   data() {
     return {
-      selectedDate: {}, // default centering of calendar
-      selectedEvent: {},
-      newEvent: {} // set when clicking empty part in calendar
+      selectedDate: {} // default centering of calendar
     };
   },
   computed: {

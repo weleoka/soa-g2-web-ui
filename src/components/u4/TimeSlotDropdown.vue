@@ -48,7 +48,7 @@ import { Ut } from "@/service/utils";
     }
   },
   methods: {
-    nearestTimeSlot: datetime => -1 // Fetch the timeslot nearest to where the user clicked.
+    //nearestTimeSlot: datetime => -1 // todo: select timeslot matching incoming datetime.
   }
 })
 export default class TimeSlotDropdown extends Vue {}

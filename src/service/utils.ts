@@ -20,5 +20,9 @@ class Ut {
   static addMinutes(date, minutes) {
     return new Date(date.getTime() + minutes * 60000);
   }
+
+  static isSet(obj: any) {
+    return !!(obj && Object.keys(obj).length);
+  }
 }
 export { Ut };
