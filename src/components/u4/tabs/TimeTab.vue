@@ -1,20 +1,21 @@
 <template>
   <div>
-    <div>
-      <div class="container abcd">
-        <h1>
-          Steg 2: välj tid eller lektion
-          <small>({{ selectedCourse.id }})</small>
-        </h1>
-        <button
-          id="show-hide-cal-btn"
-          class="btn-a"
-          type="button"
-          @click="state.showCal = !state.showCal"
-        >
-          {{ state.showCal ? "Dölj kalender" : "Visa kalender" }}
-        </button>
-      </div>
+    <div class="container tab-main-header">
+      <h1>
+        Steg 2: välj tid eller lektion
+        <small>({{ selectedCourse.id }})</small>
+      </h1>
+      <button
+        id="show-hide-cal-btn"
+        class="btn-a"
+        type="button"
+        @click="state.showCal = !state.showCal"
+      >
+        {{ state.showCal ? "Dölj kalender" : "Visa kalender" }}
+      </button>
+    </div>
+
+    <div class="calender-wrapper">
       <div
         class="container-v"
         v-if="!selectedSchedule && !Object.keys(selectedSchedule).length"
@@ -24,11 +25,9 @@
           Hämta schema
         </button>
       </div>
-    </div>
 
-    <div>
       <transition name="fade">
-        <div class="container-v">
+        <div>
           <EventCalendarBox
             v-if="!state.loading && state.showCal"
             :time-slots="timeSlots"
@@ -37,11 +36,11 @@
           />
         </div>
       </transition>
-      <p v-if="state.loading">Loading...</p>
-      <p v-if="state.error">Error!</p>
+      <div v-if="state.loading">Loading...</div>
+      <div v-if="state.error">Error!</div>
     </div>
 
-    <div>
+    <div class="event-manipulations-wrapper">
       <EventDetailBox
         @start-event-edit-event="onStartEventEdit"
         v-if="selectedEvent && Object.keys(selectedEvent).length"
@@ -58,7 +57,7 @@
         "
         id="placeholder-box"
       >
-        -
+        Fortsätt genom att välja tid eller befintlig lektion i kalendern.
       </div>
     </div>
   </div>
@@ -198,7 +197,19 @@ export default class TimeTab extends Vue {}
   float: left;
 }
 
-.abcd {
+.tab-main-header {
   justify-content: space-between;
+}
+
+.calender-wrapper {
+  justify-content: space-around;
+  overflow: auto;
+  height: 501px;
+  max-height: 501px;
+  padding: inherit;
+}
+
+.event-manipulations-wrapper {
+  padding: 1em;
 }
 </style>

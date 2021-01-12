@@ -1,44 +1,42 @@
 <template>
-  <div>
-    <div class="container course-finder-box">
-      <div class="container-v" id="course-search-input">
-        <h3>Val av kurs</h3>
-        <p>Sök efter kurs, och välj i tabellen till höger.</p>
-        <!-- todo: implement elastic search! -->
-        <label
-          >Sök kurs:
-          <input
-            type="text"
-            v-model="searchStr"
-            placeholder="kurskod"
-            @keyup.enter="$emit('search-course-code-event', searchStr)"
-          />
-        </label>
-        <div class="container-compact">
-          <button
-            type="button"
-            class="btn-a"
-            @click="$emit('search-course-code-event', searchStr)"
-          >
-            Sök
-          </button>
-          <button
-            type="button"
-            class="btn-a"
-            @click="$emit('refresh-courses-event')"
-          >
-            Hämta alla
-          </button>
-          <button type="button" class="btn-a" @click="clearSearch">
-            Rensa
-          </button>
-        </div>
+  <div class="container course-finder-box">
+    <div class="container-v" id="course-search-input">
+      <h3>Val av kurs</h3>
+      <p>Sök efter kurs, och välj i tabellen till höger.</p>
+      <!-- todo: implement elastic search! -->
+      <label
+        >Sök kurs:
+        <input
+          type="text"
+          v-model="searchStr"
+          placeholder="kurskod"
+          @keyup.enter="$emit('search-course-code-event', searchStr)"
+        />
+      </label>
+      <div class="container-compact">
+        <button
+          type="button"
+          class="btn-a"
+          @click="$emit('search-course-code-event', searchStr)"
+        >
+          Sök
+        </button>
+        <button
+          type="button"
+          class="btn-a"
+          @click="$emit('refresh-courses-event')"
+        >
+          Hämta alla
+        </button>
+        <button type="button" class="btn-a" @click="clearSearch">
+          Rensa
+        </button>
       </div>
-      <CourseTable
-        :course-arr="courseArr"
-        @selected-course-event="selectedCourseHandler"
-      />
     </div>
+    <CourseTable
+      :course-arr="courseArr"
+      @selected-course-event="selectedCourseHandler"
+    />
   </div>
 </template>
 
@@ -90,6 +88,7 @@ export default class CourseFinderBox extends Vue {}
 }
 
 .course-finder-box {
-  height: 300px;
+  height: 350px;
+  max-height: 350px;
 }
 </style>

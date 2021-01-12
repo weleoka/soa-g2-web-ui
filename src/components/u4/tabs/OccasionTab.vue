@@ -1,7 +1,6 @@
 <template>
-  <div>
+  <div class="container-v">
     <h1>Steg 1: välj kurstillfälle</h1>
-    <br />
     <CourseFinderBox
       :course-arr="courseArr"
       @refresh-courses-event="refreshCoursesHandler"

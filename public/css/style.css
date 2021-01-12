@@ -13,13 +13,34 @@ don't belong exclusively to a specific component. */
 }
 
 
+/* FORMS */
+#event-form-box {
+    /*justify-content: space-evenly;*/
+}
+
+.inline-checkbox-group {
+    justify-content: space-between;
+}
+
+.form-group {
+    flex-direction: row;
+    margin: 1em;
+}
+.form-group label {
+    margin-bottom: 1em;
+}
+.form-row {
+    flex-direction: column;
+}
+
+
+
 
 /* Evil paragraph */
 p {
     /*word-break: break-all;*/
     white-space: normal;
     /*width: 90%;*/
-    padding: inherit;
     margin: 0;
     padding:0;
     width: 100%;
@@ -42,8 +63,8 @@ p {
 
 .btn-a {
     margin: 10px;
-    max-height: 40px;
-    padding: 6px 10px;
+    max-height: 50px;
+    padding: 8px 15px;
     background: #ffffff;
     cursor: pointer;
     margin-bottom: 1rem;
@@ -84,6 +105,7 @@ tr {
     /*flex: auto;*/
     flex-direction: column;
     padding-top: 0rem;
+    width: 100%
 }
 
 /* Containers for where the space is not much */

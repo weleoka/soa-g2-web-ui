@@ -19,8 +19,11 @@ export default class OccasionDetailBox extends Vue {}
 </script>
 
 <style scoped>
-#occasion-detail-box {
+.dumpingground {
   max-width: 450px;
+}
+#occasion-detail-box {
   padding: 3rem 2rem 2rem;
+  width: 100%;
 }
 </style>

@@ -1,20 +1,9 @@
 <template>
-  <div>
-    <label>
-      Tidspass:
-      <select
-        @change="$emit('selection-event', this.selected)"
-        v-model="selected"
-        ><option
-          v-for="(option, i) in options"
-          :key="i"
-          v-bind:value="option.id"
-        >
-          {{ option.text }}
-        </option>
-      </select>
-    </label>
-  </div>
+  <select @change="$emit('selection-event', this.selected)" v-model="selected"
+    ><option v-for="(option, i) in options" :key="i" v-bind:value="option.id">
+      {{ option.text }}
+    </option>
+  </select>
 </template>
 
 <script lang="ts">
@@ -42,7 +31,7 @@ import { Ut } from "@/service/utils";
       const startStr: string = Ut.minutesToHoursAndMinutes(slot.from);
       const endStr: string = Ut.minutesToHoursAndMinutes(slot.to);
       this.options.push({
-        text: `${i}: ${startStr} - ${endStr}`,
+        text: `${startStr} - ${endStr}`,
         id: i
       });
     }

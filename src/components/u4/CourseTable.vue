@@ -66,7 +66,7 @@ export default class CourseTable extends Vue {}
   overflow-y: scroll;
   flex-grow: inherit;
   height: content-box;
-  width: 550px;
+  width: 100%;
   padding-right: 1em;
   border-right: none;
 }

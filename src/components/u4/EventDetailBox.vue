@@ -8,12 +8,14 @@
       >
     </div>
     <div>
-      <li>{{ vcObj.location }}</li>
-      <li>{{ vcObj.contactName }}</li>
-      <li>{{ vcObj.distanceUrl }}</li>
+      <ul>
+        <li>{{ vcObj.location }}</li>
+        <li>{{ vcObj.contactName }}</li>
+        <li>{{ vcObj.distanceUrl }}</li>
+      </ul>
     </div>
     <div>
-      <button class="g2soa-btn" @click="$emit('start-event-edit-event', vcObj)">
+      <button class="btn-a" @click="$emit('start-event-edit-event', vcObj)">
         Ändra uppgifter
       </button>
     </div>

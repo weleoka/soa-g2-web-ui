@@ -18,8 +18,14 @@
     </keep-alive>
 
     <div class="d-flex justify-content-around" id="tab-pn-btn-box">
-      <button @click="goPrev" class="tab-btn">Förgående</button>
-      <button @click="goNext" class="tab-btn">Nästa</button>
+      <button v-if="selected > 0" @click="goPrev" class="btn-a">
+        &#x1F818; Förgående
+      </button>
+      <button v-else class="btn-a">-</button>
+      <button v-if="selected < 3" @click="goNext" class="btn-a">
+        Nästa &#x1F81A;
+      </button>
+      <button v-else class="btn-a">-</button>
     </div>
   </div>
 </template>

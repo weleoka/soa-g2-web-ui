@@ -1,64 +1,80 @@
 <template>
   <div class="container-v" id="event-form-box">
-    <h4 v-if="isNew && wob.start">
-      Skapa ny lektion på {{ Ut.toDateStr(wob.start) }}
-    </h4>
-    <h4 v-if="!isNew && wob.start">
-      Ändrar lektionen på {{ Ut.toDateStr(wob.start) }}
-    </h4>
-    <Form :validation-schema="schema" @submit="onSubmit" v-slot="{ errors }">
-      <div class="form-row">
-        <div class="form-group col">
-          <TimeSlotDropdown @selection-event="onTimeSlotSelect" />
-          <!-- <label>Tidspass</label>
-              <Field
-                      name="timeslot"
-                      as="select"
-                      class="form-control"
-                      :class="{ 'is-invalid': errors.timeslot }"
-                    >
-                    </Field>-->
-          <div class="invalid-feedback">{{ errors.timeslot }}</div>
-        </div>
-        <div class="form-group col-5">
-          <label>Distans URL</label>
-          <Field
-            name="firstName"
-            type="text"
-            class="form-control"
-            :placeholder="wob.distanceUrl"
-            :class="{ 'is-invalid': errors.distanceUrl }"
-          />
-          <div class="invalid-feedback">{{ errors.distanceUrl }}</div>
-        </div>
-        <div class="form-group col-5">
-          <label>Beskrivning</label>
-          <Field
-            name="description"
-            type="text"
-            class="form-control"
-            :placeholder="wob.description"
-            :class="{ 'is-invalid': errors.description }"
-          />
-          <div class="invalid-feedback">{{ errors.description }}</div>
-        </div>
-      </div>
+    <div>
+      <h4 v-if="isNew && wob.start">
+        Skapa ny lektion på {{ Ut.toDateStr(wob.start) }}
+      </h4>
+      <h4 v-if="!isNew && wob.start">
+        Ändrar lektionen på {{ Ut.toDateStr(wob.start) }}
+      </h4>
+    </div>
 
-      <!--      <li v-for="(item, index) in resources" :key="index">
-        <Field name="resources" type="checkbox" value="Projector"></Field> Projector
-      </li>-->
-      <Field name="resources" type="checkbox" value="1"></Field> Projector
-      <Field name="resources" type="checkbox" value="2"></Field> Computers
-      <Field name="resources" type="checkbox" value="3"></Field> Time machine
-      <ErrorMessage name="resources" />
-      <br />
-      <div class="container">
-        <button class="btn-a" @click="$emit('submit')">
-          Spara uppgifter
-        </button>
-        <button class="btn-a" @click="$emit('stop-event-edit-event')">
-          Avbryt
-        </button>
+    <Form :validation-schema="schema" @submit="onSubmit" v-slot="{ errors }">
+      <div class="container" id="form-container">
+        <div class="container-v">
+          <div class="form-group">
+            <label>Distans URL</label>
+            <Field
+              name="firstName"
+              type="text"
+              class="form-control"
+              :placeholder="wob.distanceUrl"
+              :class="{ 'is-invalid': errors.distanceUrl }"
+            />
+            <div class="invalid-feedback">{{ errors.distanceUrl }}</div>
+          </div>
+
+          <div class="form-group">
+            <label>Beskrivning</label>
+            <Field
+              name="description"
+              type="text"
+              class="form-control"
+              :placeholder="wob.description"
+              :class="{ 'is-invalid': errors.description }"
+            />
+            <div class="invalid-feedback">{{ errors.description }}</div>
+          </div>
+        </div>
+
+        <div class="container-v">
+          <div class="form-group">
+            <label>Utrustning</label>
+            <!--      <li v-for="(item, index) in resources" :key="index">
+              <Field name="resources" type="checkbox" value="Projector"></Field> Projector
+            </li>-->
+            <div class="container inline-checkbox-group">
+              <Field name="resources" type="checkbox" value="1"></Field>
+              Projector
+              <Field name="resources" type="checkbox" value="2"></Field>
+              Computers
+              <Field name="resources" type="checkbox" value="3"></Field> Time
+              machine
+            </div>
+            <ErrorMessage name="resources" />
+          </div>
+
+          <div class="container-v form-group">
+            <label>Tidspass</label>
+            <TimeSlotDropdown @selection-event="onTimeSlotSelect" />
+            <div class="invalid-feedback">{{ errors.timeslot }}</div>
+          </div>
+
+          <div class="container-v form-group">
+            <label>Klassrum</label>
+            <TimeSlotDropdown @selection-event="onClassRoomSelect" />
+            <div class="invalid-feedback">{{ errors.timeslot }}</div>
+          </div>
+
+          <div class="container">
+            <button class="btn-a" @click="$emit('submit')">
+              Spara uppgifter
+            </button>
+            <button class="btn-a" @click="$emit('stop-event-edit-event')">
+              Avbryt
+            </button>
+          </div>
+        </div>
       </div>
     </Form>
   </div>
@@ -99,7 +115,8 @@ import { Options, Vue } from "vue-class-component";
         }
       },
       wob: {}, // working object
-      Ut: Ut
+      Ut: Ut, // Make utilities available in template
+      selectedTimeSlot: {} // holds the selected time slot
     };
   },
   computed: {
@@ -120,9 +137,13 @@ import { Options, Vue } from "vue-class-component";
     /* Event handler for when selected time slot changes */
     async onTimeSlotSelect(timeSlotId) {
       Ut.ld(`EventDetailBox->onTimeSlotSelect() ${timeSlotId}`);
-      const slot = this.timeSlots[timeSlotId]; // fetch original slot info
-      this.wob.start = Ut.addMinutes(this.wob.start, slot.from);
-      this.wob.end = Ut.addMinutes(this.wob.start, slot.to);
+      this.selectedTimeSlot = this.timeSlots[timeSlotId]; // fetch original slot info
+      // todo: Move to do this in submitting form:
+      this.wob.start = Ut.addMinutes(
+        this.wob.start,
+        this.selectedTimeSlot.from
+      );
+      this.wob.end = Ut.addMinutes(this.wob.start, this.selectedTimeSlot.to);
     }
   },
   mounted() {
@@ -135,10 +156,8 @@ export default class EventForm extends Vue {}
 </script>
 
 <style scoped>
-#event-form-box {
-  overflow: auto;
-  height: 331px;
-  max-height: 331px;
-  padding: inherit;
+#form-container {
+  /* important!! */
+  width: 100%;
 }
 </style>

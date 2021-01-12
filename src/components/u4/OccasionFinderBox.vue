@@ -1,34 +1,30 @@
 <template>
-  <div>
-    <div class="container occasion-finder-box">
-      <div class="container-v">
-        <h3>Val av tillfälle</h3>
-        <p>
-          Välj ett kurstillfälle av {{ occasionArr.length }} alternativ nedan
-        </p>
-        <OccasionTable
-          :occasion-arr="occasionArr"
-          @selected-occasion-event="selectedOccasionHandler"
-        />
-        <div>
-          <button
-            class="btn-a"
-            type="button"
-            @click="$emit('refresh-occasions-event')"
-          >
-            Alla kurstillfällen
-          </button>
-          <button
-            type="button"
-            class="btn-a"
-            @click="$emit('clear-occasions-event')"
-          >
-            Rensa
-          </button>
-        </div>
+  <div class="container occasion-finder-box">
+    <div class="container-v">
+      <h3>Val av tillfälle</h3>
+      <p>Välj ett kurstillfälle av {{ occasionArr.length }} alternativ nedan</p>
+      <OccasionTable
+        :occasion-arr="occasionArr"
+        @selected-occasion-event="selectedOccasionHandler"
+      />
+      <div>
+        <button
+          class="btn-a"
+          type="button"
+          @click="$emit('refresh-occasions-event')"
+        >
+          Alla kurstillfällen
+        </button>
+        <button
+          type="button"
+          class="btn-a"
+          @click="$emit('clear-occasions-event')"
+        >
+          Rensa
+        </button>
       </div>
-      <OccasionDetailBox :occasion="selectedOccasion" />
     </div>
+    <OccasionDetailBox :occasion="selectedOccasion" />
   </div>
 </template>
 
@@ -75,5 +71,6 @@ export default class OccasionFinderBox extends Vue {}
 <style scoped>
 .occasion-finder-box {
   height: 350px;
+  max-height: 350px;
 }
 </style>
