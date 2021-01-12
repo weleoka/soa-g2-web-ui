@@ -20,7 +20,7 @@ import { authStoreModule } from "@/store/authStore";
 import { gradeStoreModule } from "@/store/gradeStore";
 import { scheduleStoreModule } from "@/store/scheduleStore";
 import { Course } from "@/entities/course";
-import { bookingStoreModule } from "@/store/booking";
+import { bookingStoreModule } from "@/store/bookingStore";
 
 console.log(httpAxios.defaults);
 

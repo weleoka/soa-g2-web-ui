@@ -40,16 +40,19 @@
         <div class="container-v">
           <div class="form-group">
             <label>Utrustning</label>
-            <!--      <li v-for="(item, index) in resources" :key="index">
-              <Field name="resources" type="checkbox" value="Projector"></Field> Projector
-            </li>-->
+
             <div class="container inline-checkbox-group">
+              <li v-for="(item, index) in resourceArr" :key="index">
+                <Field name="resources" type="checkbox" value="item.id"></Field>
+                {{ item.text }}
+              </li>
+              <!--
               <Field name="resources" type="checkbox" value="1"></Field>
               Projector
               <Field name="resources" type="checkbox" value="2"></Field>
               Computers
               <Field name="resources" type="checkbox" value="3"></Field> Time
-              machine
+              machine-->
             </div>
             <ErrorMessage name="resources" />
           </div>
@@ -62,8 +65,8 @@
 
           <div class="container-v form-group">
             <label>Klassrum</label>
-            <TimeSlotDropdown @selection-event="onClassRoomSelect" />
-            <div class="invalid-feedback">{{ errors.timeslot }}</div>
+            <RoomDropdown @selection-event="onRoomSelect" />
+            <div class="invalid-feedback">{{ errors.room }}</div>
           </div>
 
           <div class="container">
@@ -87,6 +90,7 @@ import { Event } from "@/entities/event";
 import { ErrorMessage, Field, Form } from "vee-validate";
 import { mapActions, mapState } from "vuex";
 import { Options, Vue } from "vue-class-component";
+import RoomDropdown from "@/components/u4/RoomDropdown.vue";
 
 @Options({
   name: "EventForm",
@@ -102,7 +106,8 @@ import { Options, Vue } from "vue-class-component";
     Form,
     Field,
     ErrorMessage,
-    TimeSlotDropdown
+    TimeSlotDropdown,
+    RoomDropdown
   },
   data() {
     return {
@@ -116,16 +121,16 @@ import { Options, Vue } from "vue-class-component";
       },
       wob: {}, // working object
       Ut: Ut, // Make utilities available in template
-      selectedTimeSlot: {} // holds the selected time slot
+      selectedTimeSlot: {} // holds the selected time slot (obsolete if form hold details)
     };
   },
   computed: {
-    //...mapState("bookingStore", ["resources"]),
+    ...mapState("bookingStore", ["resourceArr", "roomArr"]),
     ...mapState("scheduleStore", ["timeSlots"]),
     isNew: state => !state.wob.tmpId // if tmpid isn't set we assume it's new
   },
   methods: {
-    ...mapActions("bookingStore", ["refreshResources"]),
+    ...mapActions("bookingStore", ["refreshResources", "refreshRooms"]),
 
     /* Submits the form for post */
     onSubmit(values) {
@@ -144,12 +149,16 @@ import { Options, Vue } from "vue-class-component";
         this.selectedTimeSlot.from
       );
       this.wob.end = Ut.addMinutes(this.wob.start, this.selectedTimeSlot.to);
+    },
+    onRoomSelect(roomId) {
+      Ut.pp(roomId);
     }
   },
   mounted() {
     // We work only with a copy of the original event.
     this.wob = Object.assign(new Event(), this.formEvent);
     this.refreshResources(); // could be called somewhere else perhaps
+    this.refreshRooms(); // could be called somewhere else perhaps
   }
 })
 export default class EventForm extends Vue {}

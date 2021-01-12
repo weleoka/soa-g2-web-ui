@@ -4,9 +4,9 @@ EA & SOA Group 2 HT2020
 import { morphism } from "morphism";
 import requests from "@/service/requests";
 import { MappingError } from "@/service/errors";
-import { Room, roomFromDto, roomToDto } from "@/entities/room";
+import { Room, roomFromDto } from "@/entities/room";
 
-const apiCall = `bookings`;
+const apiCall = `rooms`;
 
 export default {
   /* get a list */
@@ -19,7 +19,7 @@ export default {
   /* mapping from array of dto to domain objects */
   mapper(dtoArr: []) {
     try {
-      return dtoArr.map(dto => morphism(roomToDto, dto, Room));
+      return dtoArr.map(dto => morphism(roomFromDto, dto, Room));
     } catch (e) {
       throw new MappingError(`Bad JSON array: ${dtoArr}`);
     }

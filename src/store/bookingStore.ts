@@ -8,6 +8,7 @@ save state to a db on the client.
 
 import roomService from "@/service/u4/roomService";
 import resourceService from "@/service/u4/resourceService";
+import { Ut } from "@/service/utils";
 
 export const bookingStoreModule = {
   namespaced: true,
@@ -17,14 +18,20 @@ export const bookingStoreModule = {
   },
   mutations: {
     setRoomArr: (state, arr) => (state.roomArr = arr),
-    setResourcesArr: (state, arr) => (state.resourceArr = arr)
+    setResourceArr: (state, arr) => (state.resourceArr = arr)
   },
   actions: {
     async refreshRooms(context) {
-      await context.commit(roomService.getRoomList());
+      Ut.ld(`bookingStore->refreshRooms()`);
+      const rooms = await roomService.getRoomList();
+      Ut.pp(rooms);
+      context.commit("setRoomArr", rooms);
     },
     async refreshResources(context) {
-      await context.commit(resourceService.getResourceList());
+      Ut.ld(`bookingStore->refreshResources()`);
+      const resources = await resourceService.getResourceList();
+      Ut.pp(resources);
+      context.commit("setResourceArr", resources);
     }
   }
 };

@@ -21,11 +21,21 @@ module.exports = {
           logLevel: "debug"
         },
         "/api/events": {
-          target: "http://localhost:8282", // app-middleware
+          target: "http://localhost:8282", // nodemocks
           pathRewrite: { "^/api/events": "/app/V1/schedules" },  //eslint-disable-line
           logLevel: "debug"
         },
 
+        "/api/resources": {
+          target: "http://localhost:8086", // app-middleware
+          pathRewrite: { "^/api/resources": "/app/V1/bookings/resources" },  //eslint-disable-line
+          logLevel: "debug"
+        },
+        "/api/rooms": {
+          target: "http://localhost:8086", // app-middleware
+          pathRewrite: { "^/api/rooms": "/app/V1/bookings/rooms" },  //eslint-disable-line
+          logLevel: "debug"
+        },
         // /app/V1/schedules/{courseOccasionId}
         /*        "/api/schedules": {
           target: "http://localhost:8086", // app-middleware

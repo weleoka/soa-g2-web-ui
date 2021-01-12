@@ -132,6 +132,8 @@ export interface EventDtoI {
   description: string,
   start_time: Date,
   end_time: Date,
+  rooms: [],
+  resources: [],
   session: string
 }
 export const eventFromDto = createSchema<EventI, EventDtoI>({
@@ -182,5 +184,7 @@ export const eventToDto = createSchema<EventDtoI, EventI>({
   description: "description",
   start_time: "startTime",
   end_time: "endTime",
-  session: "timeslot"
+  rooms: "rooms",
+  resources: "resources",
+  session: "timeslot",
 });

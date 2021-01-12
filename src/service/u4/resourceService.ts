@@ -6,12 +6,12 @@ import requests from "@/service/requests";
 import { MappingError } from "@/service/errors";
 import { Resource, resourceFromDto } from "@/entities/resource";
 
-const apiCall = `bookings`;
+const apiCall = `resources`;
 
 export default {
   /* get a list */
   async getResourceList() {
-    console.debug(`roomService->getRoomList()`);
+    console.debug(`resourceService->getResourceList()`);
     const res = await requests.getMany(apiCall);
     return this.mapper(res);
   },
