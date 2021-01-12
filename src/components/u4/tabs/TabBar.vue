@@ -65,22 +65,22 @@ const RoomTab = defineAsyncComponent(() =>
         {
           id: 0,
           name: "OccasionTab",
-          text: "Välj kurs"
+          text: "Kurser"
         },
         {
           id: 1,
           name: "TimeTab",
-          text: "Välj tid"
+          text: "Kalendern"
         },
         {
           id: 2,
           name: "RequirementsTab",
-          text: "Välj behov"
+          text: "Alternativ"
         },
         {
           id: 3,
           name: "RoomTab",
-          text: "Välj rum"
+          text: "Parallellkurser"
         }
       ],
       selected: 1 // keeps id of tab only.

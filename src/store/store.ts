@@ -20,6 +20,7 @@ import { authStoreModule } from "@/store/authStore";
 import { gradeStoreModule } from "@/store/gradeStore";
 import { scheduleStoreModule } from "@/store/scheduleStore";
 import { Course } from "@/entities/course";
+import { bookingStoreModule } from "@/store/booking";
 
 console.log(httpAxios.defaults);
 
@@ -45,6 +46,7 @@ export default createStore({
     //authStoreModule, // this seems to unpack all the functions into the root store
     authStore: authStoreModule, // but this maintains a namespace
     gradeStore: gradeStoreModule,
-    scheduleStore: scheduleStoreModule
+    scheduleStore: scheduleStoreModule,
+    bookingStore: bookingStoreModule // rooms and equipment
   }
 });

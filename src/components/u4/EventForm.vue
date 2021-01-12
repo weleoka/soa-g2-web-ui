@@ -85,7 +85,7 @@ import TimeSlotDropdown from "@/components/u4/TimeSlotDropdown.vue";
 import { Ut } from "@/service/utils";
 import { Event } from "@/entities/event";
 import { ErrorMessage, Field, Form } from "vee-validate";
-import { mapState } from "vuex";
+import { mapActions, mapState } from "vuex";
 import { Options, Vue } from "vue-class-component";
 
 @Options({
@@ -125,7 +125,7 @@ import { Options, Vue } from "vue-class-component";
     isNew: state => !state.wob.tmpId // if tmpid isn't set we assume it's new
   },
   methods: {
-    //...mapActions("bookingStore", ["refreshResources"]),
+    ...mapActions("bookingStore", ["refreshResources"]),
 
     /* Submits the form for post */
     onSubmit(values) {
@@ -149,7 +149,7 @@ import { Options, Vue } from "vue-class-component";
   mounted() {
     // We work only with a copy of the original event.
     this.wob = Object.assign(new Event(), this.formEvent);
-    //this.refreshResources(); // could be called somewhere else perhaps
+    this.refreshResources(); // could be called somewhere else perhaps
   }
 })
 export default class EventForm extends Vue {}
