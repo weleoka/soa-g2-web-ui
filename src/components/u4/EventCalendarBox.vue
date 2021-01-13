@@ -12,7 +12,7 @@
       :time-to="18 * 60"
       :time-step="60"
       :hideWeekends="true"
-      :special-hours="timeSlots"
+      :special-hours="timeslots"
       :on-event-click="onEventClick"
       @cell-click="onCellClick($event)"
       :events="eventArr"
@@ -41,7 +41,6 @@ import "vue-cal/dist/vuecal.css";
 import "vue-cal/dist/i18n/sv";
 import { Options, Vue } from "vue-class-component";
 import { mapState } from "vuex";
-import { Ut } from "@/service/utils";
 
 @Options({
   name: "EventCalendarBox",
@@ -49,7 +48,7 @@ import { Ut } from "@/service/utils";
     VueCal
   },
   props: {
-    timeSlots: Object // used as special-hours property for vue-cal
+    timeslots: Object // used as special-hours property for vue-cal
   },
   emits: ["create-event-event", "select-event-event"],
   data() {
@@ -63,12 +62,12 @@ import { Ut } from "@/service/utils";
   },
   methods: {
     onEventClick(clickedEvent, e) {
-      Ut.ld("Event clicked");
+      console.log("Event clicked");
       this.$emit("select-event-event", clickedEvent);
       e.stopPropagation();
     },
     onCellClick(datetime) {
-      Ut.ld("Cell clicked");
+      console.log("Cell clicked");
       this.$emit("create-event-event", datetime);
     }
   },

@@ -21,7 +21,7 @@ module.exports = {
           logLevel: "debug"
         },
         "/api/events": {
-          target: "http://localhost:8282", // nodemocks
+          target: "http://localhost:8086", // app-middleware
           pathRewrite: { "^/api/events": "/app/V1/schedules" },  //eslint-disable-line
           logLevel: "debug"
         },

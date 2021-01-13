@@ -30,7 +30,7 @@
         <div>
           <EventCalendarBox
             v-if="!state.loading && state.showCal"
-            :time-slots="timeSlots"
+            :time-slots="timeslots"
             @create-event-event="onCreateEvent"
             @select-event-event="onSelectEvent"
           />
@@ -50,6 +50,7 @@
         v-if="formEvent && Object.keys(formEvent).length"
         :formEvent="formEvent"
         @stop-event-edit-event="onStopEventEdit"
+        @form-submit-event="onFormSubmitEvent"
       />
       <div
         v-if="
@@ -73,6 +74,7 @@ import { Event } from "@/entities/event";
 import { Occasion } from "@/entities/occasion";
 import { Course } from "@/entities/course";
 import { Ut } from "@/service/utils";
+import eventService from "@/service/u4/eventService";
 
 @Options({
   name: "TimeTab",
@@ -99,12 +101,13 @@ import { Ut } from "@/service/utils";
     ...mapState("scheduleStore", [
       "selectedSchedule",
       "selectedOccasion",
-      "timeSlots",
+      "timeslots",
       "eventArr"
     ]),
     ...mapState(["selectedCourse"])
   },
   methods: {
+    ...mapActions("bookingStore", ["refreshResources", "refreshRooms"]),
     ...mapActions("scheduleStore", [
       "getScheduleByOccasion",
       "getEventsBySchedule"
@@ -116,22 +119,24 @@ import { Ut } from "@/service/utils";
     ]),
     ...mapMutations(["setSelectedCourse"]),
     onCreateEvent(datetime: Date) {
-      Ut.ld(`TimeTab->onCreateEvent`);
+      console.log(`TimeTab->onCreateEvent`);
       if (!Ut.isSet(this.formEvent)) {
         datetime.setMinutes(0); // sets to closest hour.
         datetime.setHours(0); // sets beginning of day.
         this.selectedEvent = {};
         this.formEvent = new Event(datetime); // create new event with start midnight.
+        this.formEvent.title = "Lektion";
       } else {
         // todo: make it possible to dynamically change dates... etc etc etc.
         // the user has to clear the formEvent before interacting with calendar again.
         console.warn("Calendar disabled!");
+        alert("Avsluta redigeringen för att använda kalendern.");
       }
     },
 
     /* selects original backend instance by looking in eventArr */
     onSelectEvent(vcEvent) {
-      Ut.ld(`TimeTab->onSelectEvent`);
+      console.log(`TimeTab->onSelectEvent`);
       if (!Ut.isSet(this.formEvent)) {
         this.formEvent = {};
         this.selectedEvent = {};
@@ -143,12 +148,13 @@ import { Ut } from "@/service/utils";
         }
       } else {
         console.warn("Calendar disabled!");
+        alert("Avsluta redigeringen för att aktivera kalender.");
       }
     },
 
     /* Sets the formElement from the data from existing event */
     onStartEventEdit() {
-      Ut.ld(`TimeTab->onEditEvent`);
+      console.log(`TimeTab->onEditEvent`);
       this.formEvent = Object.assign(new Event(), this.selectedEvent);
       this.selectedEvent = {};
       if (!(this.formEvent instanceof Event)) {
@@ -157,20 +163,30 @@ import { Ut } from "@/service/utils";
       }
     },
 
+    /* Handles a submitted form */
+    onFormSubmitEvent(formData) {
+      console.log(`TimeTab->onFormSubmitEvent`);
+      //const newEvent = new Event();
+      const newEvent = { ...new Event(), ...formData };
+      eventService.createEvent(newEvent, this.selectedOccasion);
+    },
+
     /* Clears the selected and form events */
     onStopEventEdit() {
-      Ut.ld(`TimeTab->onStopEditEvent`);
+      console.log(`TimeTab->onStopEditEvent`);
       this.selectedEvent = {};
       this.formEvent = {};
     },
 
     /* Fetches a schedule and other required data */
     async onRefreshSchedule() {
-      Ut.ld(`TimeTab->onRefreshSchedule()`);
+      console.log(`TimeTab->onRefreshSchedule()`);
       this.state.loading = true;
       this.setSelectedCourse(new Course("D0031N")); // todo: FOR TESTING! REMOVE LATER!
       this.setSelectedOccasion(new Occasion("15")); // todo: FOR TESTING! REMOVE LATER!
       const schedule = await this.getScheduleByOccasion(this.selectedOccasion);
+      this.refreshResources(); // could be called somewhere else perhaps
+      this.refreshRooms(); // could be called somewhere else perhaps
       if (schedule && Object.keys(schedule).length) {
         this.setSelectedSchedule(schedule);
         this.setEventArr(schedule.events);

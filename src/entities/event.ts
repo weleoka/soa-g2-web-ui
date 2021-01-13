@@ -67,8 +67,31 @@ An Event as it comes from the backend after mapping
 
 /* eslint-disable */
 import {v4 as uuidv4} from 'uuid';
-import {createSchema} from "morphism";
+import {createSchema, StrictSchema} from "morphism";
 
+export interface EventI {
+  tmpId: string; // Due to objects having to "pass-through" vuecal, this is to find them again.
+  id: string;
+  title: string;
+  scheduleCode: string; // schedule uuid
+  date: Date; // javascript Date object (were only interested in DAY of the year really)
+  timeslot: number; // 1 through 5 (this is lektionspass)
+  rooms: [];
+  equipment: [];
+  teachers: [];
+  /* imposed by backend */
+  location: string;
+  userId: number,
+  contactName: string,
+  distanceUrl: string,
+  eventUrl: string,
+  description: string,
+  start: Date,
+  end: Date,
+  /* Vue-cal specifics */
+  content: string; // beautiful HTML representation (not passed in DTO)
+  class: string
+}
 export class Event implements EventI {
   constructor(date?: Date) {
     this.start = date ? date : undefined;
@@ -99,29 +122,6 @@ export class Event implements EventI {
         '<p>${this.location}</p>';
   };*/
 }
-export interface EventI {
-  tmpId: string; // Due to objects having to "pass-through" vuecal, this is to find them again.
-  id: string;
-  title: string;
-  scheduleCode: string; // schedule uuid
-  date: Date; // javascript Date object (were only interested in DAY of the year really)
-  timeslot: number; // 1 through 5 (this is lektionspass)
-  rooms: [];
-  equipment: [];
-  teachers: [];
-  /* imposed by backend */
-  location: string;
-  userId: number,
-  contactName: string,
-  distanceUrl: string,
-  eventUrl: string,
-  description: string,
-  start: Date,
-  end: Date,
-  /* Vue-cal specifics */
-  content: string; // beautiful HTML representation (not passed in DTO)
-  class: string
-}
 export interface EventDtoI {
   title: string,
   location: string,
@@ -135,6 +135,20 @@ export interface EventDtoI {
   rooms: [],
   resources: [],
   session: string
+}
+export class EventDto implements EventDtoI {
+  contact_name: string;
+  description: string;
+  distance_url: string;
+  end_time: Date;
+  event_url: string;
+  location: string;
+  resources: [];
+  rooms: [];
+  session: string;
+  start_time: Date;
+  title: string;
+  user_id: number;
 }
 export const eventFromDto = createSchema<EventI, EventDtoI>({
   tmpId: () => uuidv4(),
@@ -167,14 +181,14 @@ export const eventFromDto = createSchema<EventI, EventDtoI>({
   },
   /* Vue-cal properties */
   content: {
-    path: "start_time",
+    path: "content",
     fn: (str, source) => {
       return '<i class="icon material-icons">block</i>';
     }
   },
   class: () => "sports",
 });
-export const eventToDto = createSchema<EventDtoI, EventI>({
+export const eventToDto: StrictSchema<EventDtoI, EventI> = {
   title: "title",
   location: "location",
   user_id: "userId",
@@ -182,9 +196,9 @@ export const eventToDto = createSchema<EventDtoI, EventI>({
   distance_url: "distanceUrl",
   event_url: "eventUrl",
   description: "description",
-  start_time: "startTime",
-  end_time: "endTime",
+  start_time: "start",
+  end_time: "end",
   rooms: "rooms",
   resources: "resources",
   session: "timeslot",
-});
+};

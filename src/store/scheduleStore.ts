@@ -8,9 +8,7 @@ save state to a db on the client.
 
 import { Occasion } from "@/entities/occasion";
 import { Schedule } from "@/entities/schedule";
-import { Ut } from "@/service/utils";
 import scheduleService from "@/service/u4/scheduleService";
-import { Event } from "@/entities/event";
 import eventService from "@/service/u4/eventService";
 
 export const scheduleStoreModule = {
@@ -19,13 +17,21 @@ export const scheduleStoreModule = {
     selectedOccasion: new Occasion(),
     selectedSchedule: new Schedule(),
     eventArr: [], // loaded separately
-    timeSlots: {
-      1: { from: 9 * 60 + 15, to: 9 * 60 + 45, session: "PASS1" },
-      2: { from: 10 * 60 + 15, to: 11 * 60 + 45, session: "PASS2" },
-      3: { from: 13 * 60, to: 14 * 60 + 30, session: "PASS3" },
-      4: { from: 14 * 60 + 45, to: 16 * 60 + 15, session: "PASS4" },
-      5: { from: 16 * 60 + 30, to: 18 * 60, session: "PASS5" }
+    timeslots: {
+      1: { from: 8 * 60 + 15, to: 9 * 60 + 45, code: "PASS1" },
+      2: { from: 10 * 60 + 15, to: 11 * 60 + 45, code: "PASS2" },
+      3: { from: 13 * 60, to: 14 * 60 + 30, code: "PASS3" },
+      4: { from: 14 * 60 + 45, to: 16 * 60 + 15, code: "PASS4" },
+      5: { from: 16 * 60 + 30, to: 18 * 60, code: "PASS5" }
     }
+  },
+  getters: {
+    // Dynamic getter accepting parameter. Notice it returns a function.
+    getTimeslotById: state => id => state.timeslots[id]
+
+    /*getTimeslot(state, id) {
+      return state.timeslots[id]
+    }*/
   },
   mutations: {
     // todo: try removing and replacing with mapMutations in callers.
@@ -49,7 +55,7 @@ export const scheduleStoreModule = {
       context,
       occasion: Occasion
     ): Promise<Schedule> {
-      Ut.ld(`scheduleStore->getScheduleByOccasion()`);
+      console.log(`scheduleStore->getScheduleByOccasion()`);
       try {
         return await scheduleService.getScheduleByOccasionUsingPathVar(
           occasion
@@ -65,11 +71,8 @@ export const scheduleStoreModule = {
     },
 
     /* get events by schedule */
-    async getEventsBySchedule(
-      context,
-      schedule: Schedule
-    ): Promise<Array<Event>> {
-      Ut.ld(`scheduleStore->getEventsBySchedule()`);
+    async getEventsBySchedule(context, schedule: Schedule) {
+      console.log(`scheduleStore->getEventsBySchedule()`);
       try {
         return await eventService.getEventsBySchedule(schedule);
       } catch (e) {

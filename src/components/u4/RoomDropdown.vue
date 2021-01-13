@@ -13,7 +13,7 @@ import { Options, Vue } from "vue-class-component";
 @Options({
   name: "RoomDropdown",
   props: {
-    preselected: String
+    preselected: Number
   },
   emits: ["selection-event"],
   data() {
@@ -24,16 +24,22 @@ import { Options, Vue } from "vue-class-component";
   },
   computed: mapState("bookingStore", ["roomArr"]),
   beforeMount() {
-    for (let i = 1; i < Object.keys(this.roomArr).length + 1; i++) {
-      const room = this.roomArr[`${i}`];
-      this.options.push({
-        text: `${room.roomCode} - ${room.description}`,
-        id: room.id
-      });
+    for (let i = 0; i < this.roomArr.length; i++) {
+      const room = this.roomArr[i];
+      try {
+        this.options.push({
+          text: `${room.roomCode} - ${room.description}`,
+          id: room.id
+        });
+      } catch (e) {
+        if (e.name === "TypeError") {
+          console.warn(`Bad ur missing Room info: ${e.message}`);
+        }
+      }
     }
   },
   methods: {
-    //nearestTimeSlot: datetime => -1 // todo: select timeslot matching incoming datetime.
+    //selectSelectedRoom: (roomId) => this.selected = roomId, // todo
   }
 })
 export default class RoomDropdown extends Vue {}

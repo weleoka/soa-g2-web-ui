@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>This is Room Tab component</h1>
+    <h1>Steg 4: Parallelkurser</h1>
   </div>
 </template>
 

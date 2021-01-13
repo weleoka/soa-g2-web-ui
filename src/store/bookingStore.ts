@@ -8,7 +8,6 @@ save state to a db on the client.
 
 import roomService from "@/service/u4/roomService";
 import resourceService from "@/service/u4/resourceService";
-import { Ut } from "@/service/utils";
 
 export const bookingStoreModule = {
   namespaced: true,
@@ -22,15 +21,13 @@ export const bookingStoreModule = {
   },
   actions: {
     async refreshRooms(context) {
-      Ut.ld(`bookingStore->refreshRooms()`);
+      console.log(`bookingStore->refreshRooms()`);
       const rooms = await roomService.getRoomList();
-      Ut.pp(rooms);
       context.commit("setRoomArr", rooms);
     },
     async refreshResources(context) {
-      Ut.ld(`bookingStore->refreshResources()`);
+      console.log(`bookingStore->refreshResources()`);
       const resources = await resourceService.getResourceList();
-      Ut.pp(resources);
       context.commit("setResourceArr", resources);
     }
   }

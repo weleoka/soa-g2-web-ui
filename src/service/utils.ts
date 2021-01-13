@@ -1,6 +1,13 @@
+import { morphism } from "morphism";
+import { MappingError } from "@/service/errors";
+
 class Ut {
   static pp(obj) {
-    console.log(JSON.stringify(obj, null, 2));
+    return console.log(JSON.stringify(obj, null, 2));
+  }
+
+  static pf(obj) {
+    return JSON.stringify(obj, null, 2);
   }
 
   static l(any) {
@@ -10,7 +17,6 @@ class Ut {
   static ld(str) {
     console.debug(str);
   }
-
   static minutesToHoursAndMinutes(input) {
     const hours = Math.floor(input / 60);
     const mins = input % 60;
@@ -25,6 +31,10 @@ class Ut {
     return !!(obj && Object.keys(obj).length);
   }
 
+  static isSetArr(obj: any) {
+    return !!(Array.isArray(obj) && obj.length);
+  }
+
   static toDateStr(date: Date) {
     const day = date.getDate();
     const month = date.getMonth() + 1;
@@ -32,4 +42,25 @@ class Ut {
     return `${year}-${month}-${day}`;
   }
 }
-export { Ut };
+
+class ApiTools {
+  /* mapping from array of dto to domain objects */
+  static mapper(schema, sourceArr: [], type?) {
+    try {
+      return sourceArr.map(source => morphism(schema, source, type));
+    } catch (e) {
+      throw new MappingError(`Bad JSON array: ${sourceArr}`);
+    }
+  }
+
+  /* mapping from single dto to domain object */
+  static singleMapper(schema, source, type) {
+    try {
+      return morphism(schema, source, type);
+    } catch (e) {
+      throw new MappingError(`Bad source: ${source}`);
+    }
+  }
+}
+
+export { Ut, ApiTools };

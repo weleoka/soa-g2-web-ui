@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>This is Requirements Tab component</h1>
+    <h1>Steg 3: Flera alternativ</h1>
   </div>
 </template>
 

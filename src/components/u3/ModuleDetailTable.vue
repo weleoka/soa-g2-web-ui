@@ -3,7 +3,7 @@
     <div class="table-responsive py-4">
       <div>
         <table
-          v-if="submissionArr && submissionArr.length"
+          v-if="Array.isArray(submissionArr) && submissionArr.length"
           class="table table-striped table-hover"
           id="module-detail-table"
         >
@@ -19,7 +19,7 @@
               <th scope="col">Verifierat betyg</th>
             </tr>
           </thead>
-          <tbody v-if="submissionArr && submissionArr.length">
+          <tbody v-if="Array.isArray(submissionArr) && submissionArr.length">
             <tr v-for="(submission, i) in submissionArr" :key="i">
               <td>{{ submission.id }}</td>
               <td>{{ submission.studentId }}</td>

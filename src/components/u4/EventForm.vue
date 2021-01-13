@@ -9,73 +9,103 @@
       </h4>
     </div>
 
-    <Form :validation-schema="schema" @submit="onSubmit" v-slot="{ errors }">
+    <Form @submit="onSubmit">
       <div class="container" id="form-container">
         <div class="container-v">
           <div class="form-group">
-            <label>Distans URL</label>
-            <Field
-              name="firstName"
-              type="text"
-              class="form-control"
-              :placeholder="wob.distanceUrl"
-              :class="{ 'is-invalid': errors.distanceUrl }"
-            />
-            <div class="invalid-feedback">{{ errors.distanceUrl }}</div>
+            <label
+              >Distans URL
+              <Field
+                name="distanceUrl"
+                type="text"
+                as="input"
+                class="form-control"
+                v-model="wob.distanceUrl"
+              />
+            </label>
           </div>
 
           <div class="form-group">
-            <label>Beskrivning</label>
-            <Field
-              name="description"
-              type="text"
-              class="form-control"
-              :placeholder="wob.description"
-              :class="{ 'is-invalid': errors.description }"
-            />
-            <div class="invalid-feedback">{{ errors.description }}</div>
+            <label
+              >Beskrivning
+              <Field
+                name="description"
+                type="text"
+                class="form-control"
+                v-model="wob.description"
+              />
+            </label>
+          </div>
+
+          <div class="form-group">
+            <label
+              >Kontaktperson
+              <Field
+                name="contactName"
+                type="text"
+                class="form-control"
+                v-model="wob.contactName"
+              />
+            </label>
+          </div>
+          <!--  @click="$emit('submit')" -->
+          <div class="container">
+            <button type="submit" class="btn-a">
+              Spara uppgifter
+            </button>
+            <button class="btn-a" @click="onCancel">
+              Avbryt
+            </button>
           </div>
         </div>
 
         <div class="container-v">
+          <div class="container-v form-group">
+            <label
+              >Tidspass
+              <TimeSlotDropdown
+                class="form-select"
+                :preselected="timeslotId"
+                @selection-event="onTimeSlotSelect"
+              />
+            </label>
+          </div>
+
+          <div class="container-v form-group">
+            <label
+              >Klassrum
+              <RoomDropdown
+                class="form-select"
+                :preselected="roomId"
+                @selection-event="onRoomSelect"
+              />
+            </label>
+          </div>
+
           <div class="form-group">
-            <label>Utrustning</label>
-
-            <div class="container inline-checkbox-group">
-              <li v-for="(item, index) in resourceArr" :key="index">
-                <Field name="resources" type="checkbox" value="item.id"></Field>
-                {{ item.text }}
-              </li>
-              <!--
-              <Field name="resources" type="checkbox" value="1"></Field>
-              Projector
-              <Field name="resources" type="checkbox" value="2"></Field>
-              Computers
-              <Field name="resources" type="checkbox" value="3"></Field> Time
-              machine-->
-            </div>
-            <ErrorMessage name="resources" />
-          </div>
-
-          <div class="container-v form-group">
-            <label>Tidspass</label>
-            <TimeSlotDropdown @selection-event="onTimeSlotSelect" />
-            <div class="invalid-feedback">{{ errors.timeslot }}</div>
-          </div>
-
-          <div class="container-v form-group">
-            <label>Klassrum</label>
-            <RoomDropdown @selection-event="onRoomSelect" />
-            <div class="invalid-feedback">{{ errors.room }}</div>
-          </div>
-
-          <div class="container">
-            <button class="btn-a" @click="$emit('submit')">
-              Spara uppgifter
-            </button>
-            <button class="btn-a" @click="$emit('stop-event-edit-event')">
-              Avbryt
-            </button>
+            <label
+              >Utrustning
+              <div class="container">
+                <div class="col" v-for="column in cbColumns" :key="column">
+                  <div
+                    class="item-container"
+                    v-for="item in column"
+                    :key="item"
+                  >
+                    <label class="checkbox-label" :for="item.id">
+                      <Field
+                        class="checkbox"
+                        :id="item.id"
+                        :name="`resources.${item.id}`"
+                        type="checkbox"
+                        :value="item.id"
+                      />
+                      {{ item.type.toLowerCase() }}
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </label>
           </div>
         </div>
       </div>
@@ -88,7 +118,7 @@ import TimeSlotDropdown from "@/components/u4/TimeSlotDropdown.vue";
 import { Ut } from "@/service/utils";
 import { Event } from "@/entities/event";
 import { ErrorMessage, Field, Form } from "vee-validate";
-import { mapActions, mapState } from "vuex";
+import { mapGetters, mapState } from "vuex";
 import { Options, Vue } from "vue-class-component";
 import RoomDropdown from "@/components/u4/RoomDropdown.vue";
 
@@ -101,7 +131,7 @@ import RoomDropdown from "@/components/u4/RoomDropdown.vue";
       required: true
     }
   },
-  emits: ["stop-event-edit-event"],
+  emits: ["stop-event-edit-event", "form-submit-event"],
   components: {
     Form,
     Field,
@@ -111,54 +141,81 @@ import RoomDropdown from "@/components/u4/RoomDropdown.vue";
   },
   data() {
     return {
-      schema: {
-        resources: value => {
-          if (Array.isArray(value) && value.length) {
-            return true;
-          }
-          return "Välj utrustning";
-        }
-      },
       wob: {}, // working object
       Ut: Ut, // Make utilities available in template
-      selectedTimeSlot: {} // holds the selected time slot (obsolete if form hold details)
+      timeslotId: null, // hold value here as dropdown is separate component)
+      roomId: null, // hold value here as dropdown is separate component)
+      checkboxCols: 2
     };
   },
   computed: {
     ...mapState("bookingStore", ["resourceArr", "roomArr"]),
-    ...mapState("scheduleStore", ["timeSlots"]),
-    isNew: state => !state.wob.tmpId // if tmpid isn't set we assume it's new
+    ...mapGetters("scheduleStore", ["getTimeslotById"]),
+    isNew: state => !state.wob.tmpId, // if tmpid isn't set we assume it's new
+    cbColumns() {
+      const columns = [];
+      const mid = Math.ceil(this.resourceArr.length / this.checkboxCols);
+      for (let col = 0; col < this.checkboxCols; col++) {
+        columns.push(this.resourceArr.slice(col * mid, col * mid + mid));
+      }
+      return columns;
+    }
   },
   methods: {
-    ...mapActions("bookingStore", ["refreshResources", "refreshRooms"]),
-
     /* Submits the form for post */
-    onSubmit(values) {
-      alert(JSON.stringify(values, null, 2));
+    onSubmit(formData, actions) {
+      formData.rooms = [this.roomId]; // yes, backend accepts multiple
+      const timeslot = this.getTimeslotById(this.timeslotId);
+      if (Ut.isSet(timeslot)) {
+        formData.start = Ut.addMinutes(this.wob.start, timeslot.from);
+        formData.end = Ut.addMinutes(this.wob.start, timeslot.to);
+        formData.timeslot = timeslot.code;
+      }
+      alert(Ut.pf(formData));
+      // Don't mutate wob instead create new object of the others merged.
+      const eventData = { ...this.wob, ...formData };
+      //const eventData = Object.assign({}, this.wob, formData);
+      console.log(Ut.pf(eventData));
+      this.wob = {};
+      this.timeslotId = null;
+      this.roomId = null;
+      this.$emit("form-submit-event", eventData);
     },
-    /*    onCancel() {
-      this.$emit("cancel")
-    },*/
-    /* Event handler for when selected time slot changes */
-    async onTimeSlotSelect(timeSlotId) {
-      Ut.ld(`EventDetailBox->onTimeSlotSelect() ${timeSlotId}`);
-      this.selectedTimeSlot = this.timeSlots[timeSlotId]; // fetch original slot info
-      // todo: Move to do this in submitting form:
-      this.wob.start = Ut.addMinutes(
-        this.wob.start,
-        this.selectedTimeSlot.from
-      );
-      this.wob.end = Ut.addMinutes(this.wob.start, this.selectedTimeSlot.to);
+
+    onCancel() {
+      this.wob = {};
+      this.timeslotId = null;
+      this.roomId = null;
+      console.log(`EventForm->onCancel()`);
+      this.$emit("stop-event-edit-event");
     },
+
+    async onTimeSlotSelect(timeslotId) {
+      console.log(`EventDetailBox->onTimeSlotSelect() ${timeslotId}`);
+      this.timeslotId = timeslotId;
+    },
+
     onRoomSelect(roomId) {
-      Ut.pp(roomId);
+      console.log(`EventDetailBox->onRoomSelect() ${roomId}`);
+      this.roomId = roomId; // todo: allow multiple rooms
     }
   },
   mounted() {
     // We work only with a copy of the original event.
-    this.wob = Object.assign(new Event(), this.formEvent);
-    this.refreshResources(); // could be called somewhere else perhaps
-    this.refreshRooms(); // could be called somewhere else perhaps
+    //this.wob = Object.assign(new Event(), this.formEvent);
+    const event = new Event();
+    this.wob = { ...event, ...this.formEvent };
+
+    if (Ut.isSet(this.wob.rooms)) {
+      this.roomId = 1; //this.wob.rooms[0]; // todo: support multiple rooms
+    } else {
+      this.roomId = 1;
+    }
+    if (Ut.isSet(this.wob.start)) {
+      this.timeslotId = 1; //this.wob.start; // todo: identify closest timeslot to start.
+    } else {
+      this.timeslotId = 1;
+    }
   }
 })
 export default class EventForm extends Vue {}
@@ -169,4 +226,57 @@ export default class EventForm extends Vue {}
   /* important!! */
   width: 100%;
 }
+
+.item-container {
+  padding-top: 0.5em;
+}
+.checkbox-label {
+  display: block;
+  padding-left: 15px;
+  text-indent: -15px;
+}
+
+.checkbox {
+  width: 15px;
+  height: 15px;
+  padding: 0;
+  margin: 0;
+  vertical-align: bottom;
+  position: relative;
+  top: -1px;
+}
+
+label {
+  width: 100%;
+}
 </style>
+
+<!--
+{{ item.description }}
+              <div v-for="(item, index) in resourceArr" :key="index">
+              </div>
+-->
+
+<!--            <Field name="timeslotId" :value="timeslotId" type="hidden" />-->
+<!--            <Field name="rooms" :value="selectedRoom" type="hidden" />-->
+
+<!--
+@submit.prevent="onSubmit"
+:validation-schema="schema"
+  v-slot="{ errors }"
+  :initial-errors="initialErrors"
+
+              <Field
+          name="distance-url"
+          as="input"
+          class="form-control"
+          :placeholder="wob.distanceUrl"
+          :class="{ 'is-invalid': errors.distanceUrl }"
+        />
+        <ErrorMessage name="distance-url" />
+-->
+
+/*const schema = yup.object().shape({ email: yup .string() .required() .email(),
+name: yup.string().required(), password: yup .string() .required() .min(8)
+resources: value => { if (Array.isArray(value) && value.length) { return true; }
+return "Välj utrustning för 17!"; } });*/

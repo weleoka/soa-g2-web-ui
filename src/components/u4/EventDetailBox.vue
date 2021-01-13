@@ -29,12 +29,12 @@ import { mapState } from "vuex";
 @Options({
   name: "EventDetailBox",
   components: {},
-  emits: ["start-event-edit-event"],
+  emits: ["submit", "start-event-edit-event"],
   props: {
     vcObj: {} // expects a vue-cal event object only.
   },
   computed: {
-    ...mapState("scheduleStore", ["timeSlots"])
+    ...mapState("scheduleStore", ["timeslots"])
   },
   methods: {}
 })
