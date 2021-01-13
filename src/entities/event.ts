@@ -37,7 +37,7 @@ An Event as it comes out from vue-cal on click.
   "class": "sports",
   "tmpId": "772acf3f-e9d8-412a-9816-df74fbcd5d2b",
   "timeslot": null,
-  "location": "Zoom, A211",
+  "location": ""Zoom, A211"",
   "userId": 0,
   "contactName": "Svante Edzen",
   "distanceUrl": "https://ltu-se.zoom.us/j/983246455",

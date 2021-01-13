@@ -171,10 +171,15 @@ import RoomDropdown from "@/components/u4/RoomDropdown.vue";
         formData.end = Ut.addMinutes(this.wob.start, timeslot.to);
         formData.timeslot = timeslot.code;
       }
+      // Remove null values from resources checkboxes
+      formData.resources = formData.resources.filter(id =>
+        id !== undefined ? id : undefined
+      );
       alert(Ut.pf(formData));
-      // Don't mutate wob instead create new object of the others merged.
+      // Set location from the room code (todo: support multiple rooms)
+      formData.location = `Zoom, ${this.roomArr[formData.rooms[0]].roomCode}`;
+      // Don't mutate wob instead merge the two old ones into a new one.
       const eventData = { ...this.wob, ...formData };
-      //const eventData = Object.assign({}, this.wob, formData);
       console.log(Ut.pf(eventData));
       this.wob = {};
       this.timeslotId = null;

@@ -2,7 +2,7 @@
 import requests from "@/service/requests";
 import { Event, EventDto, eventFromDto, eventToDto } from "@/entities/event";
 import { Schedule } from "@/entities/schedule";
-import { ApiTools, Ut } from "@/service/utils";
+import { ApiTools } from "@/service/utils";
 
 const apiCall = `events`;
 
@@ -20,8 +20,6 @@ export default {
   async createEvent(event: Event, schedule: Schedule) {
     console.debug(`eventService->createEvent() ${event} ${schedule.id}`);
     const data = ApiTools.singleMapper(eventToDto, event, EventDto);
-    Ut.pp(event);
-    Ut.pp(data);
     return await requests.postRequest(`${apiCall}/${schedule.id}`, data);
   }
 };

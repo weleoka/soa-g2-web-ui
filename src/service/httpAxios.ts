@@ -11,12 +11,16 @@ import { AxiosError } from "@/service/errors";
 
 const baseUrl = process.env.VUE_APP_BASE_URL + process.env.VUE_APP_API_PATH; // from .env file or shell
 console.debug("Axios baseURL: " + baseUrl);
+console.debug("Canvas Token: " + process.env.VUE_APP_CANVAS_TOKEN);
+console.debug("Canvas USER: " + process.env.VUE_APP_CANVAS_USER);
 const instance = axios.create({
   baseURL: baseUrl,
   withCredentials: false,
   headers: {
     Accept: "application/json",
-    "Content-Type": "application/json"
+    "Content-Type": "application/json",
+    CanvasToken: process.env.VUE_APP_CANVAS_TOKEN,
+    CanvasUser: process.env.VUE_APP_CANVAS_USER
   }
 });
 

@@ -1,6 +1,11 @@
 # SOA Grupp2 Services User Interface
 A Vue.js frontend app to give GUI to the new SOA architecture for EA & SOA course at LTU four Group 2 HT2020.
 
+If you need access to writing data to your Canvas user then set the env vars where the app is running. 
+```cookie
+export VUE_APP_CANVAS_TOKEN="Babadfdbadffvdsf234234acsfvsdf"
+export VUE_APP_CANVAS_USER="651234"
+```
 
 # Typescript and ESLint
 The webpack build process uses Babel among others. What is frequently an issue is that because we are working with Vue.js 3 and it's nor got full support in many dependencies (i.. we are using beta versions of a lot of stuff) we can frequently get ESLint errors. This is of course bad... but one solution is simply to edit `.tsconfig.json` and set strict-mode to `false`. This let's you compile and play around much more freely.

@@ -15,11 +15,11 @@ module.exports = {
       proxy: {
         // Rules order has significance: from more precise to less
         // /schedule-service/V1/schedule/occasion/{courseOccasionId}
-        "/api/schedules": {
+        /*        "/api/schedules": {
           target: "http://localhost:8282", // nodemocks
           //pathRewrite: { "^/api/schedules": "/api/schedules" },  //eslint-disable-line
           logLevel: "debug"
-        },
+        },*/
         "/api/events": {
           target: "http://localhost:8086", // app-middleware
           pathRewrite: { "^/api/events": "/app/V1/schedules" },  //eslint-disable-line
@@ -37,11 +37,11 @@ module.exports = {
           logLevel: "debug"
         },
         // /app/V1/schedules/{courseOccasionId}
-        /*        "/api/schedules": {
+        "/api/schedules": {
           target: "http://localhost:8086", // app-middleware
           pathRewrite: { "^/api/schedules": "/app/V1/schedules" },  //eslint-disable-line
           logLevel: "debug"
-        },*/
+        },
         // /schedule-service/V1/schedule/occasion/{courseOccasionId}
         /*        "/api/schedule/occasion": {
           target: "http://localhost:8085", // schedule-service
