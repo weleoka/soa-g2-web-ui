@@ -24,7 +24,10 @@
         </button>
       </div>
     </div>
-    <OccasionDetailBox :occasion="selectedOccasion" />
+    <OccasionDetailBox
+      v-if="Ut.isSet(selectedOccasion)"
+      :occasion="selectedOccasion"
+    />
   </div>
 </template>
 
@@ -34,6 +37,7 @@ import OccasionDetailBox from "@/components/u4/OccasionDetailBox.vue";
 import { mapState } from "vuex";
 import { Options, PropOptions, Vue } from "vue-class-component";
 import { Occasion } from "@/entities/occasion";
+import { Ut } from "@/service/utils";
 
 @Options({
   name: "OccasionFinderBox",
@@ -54,6 +58,9 @@ import { Occasion } from "@/entities/occasion";
     "refresh-occasions-event",
     "clear-occasions-event"
   ],
+  data() {
+    return { Ut };
+  },
   computed: {
     ...mapState("scheduleStore", ["selectedOccasion"])
   },

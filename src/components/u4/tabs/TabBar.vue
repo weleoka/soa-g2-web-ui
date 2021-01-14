@@ -83,7 +83,7 @@ const RoomTab = defineAsyncComponent(() =>
           text: "Parallellkurser"
         }
       ],
-      selected: 1 // keeps id of tab only.
+      selected: 0 // keeps id of tab only.
     };
   },
   computed: {

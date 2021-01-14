@@ -175,12 +175,10 @@ import RoomDropdown from "@/components/u4/RoomDropdown.vue";
       formData.resources = formData.resources.filter(id =>
         id !== undefined ? id : undefined
       );
-      alert(Ut.pf(formData));
       // Set location from the room code (todo: support multiple rooms)
       formData.location = `Zoom, ${this.roomArr[formData.rooms[0]].roomCode}`;
       // Don't mutate wob instead merge the two old ones into a new one.
       const eventData = { ...this.wob, ...formData };
-      console.log(Ut.pf(eventData));
       this.wob = {};
       this.timeslotId = null;
       this.roomId = null;

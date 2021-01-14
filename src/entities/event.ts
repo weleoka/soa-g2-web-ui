@@ -123,6 +123,7 @@ export class Event implements EventI {
   };*/
 }
 export interface EventDtoI {
+  id: string
   title: string,
   location: string,
   user_id: number,
@@ -137,6 +138,7 @@ export interface EventDtoI {
   session: string
 }
 export class EventDto implements EventDtoI {
+  id: string;
   contact_name: string;
   description: string;
   distance_url: string;
@@ -152,7 +154,7 @@ export class EventDto implements EventDtoI {
 }
 export const eventFromDto = createSchema<EventI, EventDtoI>({
   tmpId: () => uuidv4(),
-  id: "event_code",
+  id: "id",
   title: "title",
   scheduleCode: "schedule_code",
   date: "date",
@@ -189,6 +191,7 @@ export const eventFromDto = createSchema<EventI, EventDtoI>({
   class: () => "sports",
 });
 export const eventToDto: StrictSchema<EventDtoI, EventI> = {
+  id: "id",
   title: "title",
   location: "location",
   user_id: "userId",

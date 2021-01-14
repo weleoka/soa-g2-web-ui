@@ -6,13 +6,13 @@
         <small>({{ selectedCourse.id }})</small>
       </h1>
       <button
-        v-if="Ut.isSet(selectedCourse)"
+        v-if="Ut.isSet(selectedCourse) && Ut.isSet(selectedSchedule)"
         id="show-hide-cal-btn"
         class="btn-a"
         type="button"
-        @click="state.showCal = !state.showCal"
+        @click="onRefreshSchedule"
       >
-        {{ state.showCal ? "Dölj kalender" : "Visa kalender" }}
+        {{ state.showCal ? "Ladda om schema" : "vänta..." }}
       </button>
     </div>
 
@@ -67,11 +67,11 @@
         @form-submit-event="onFormSubmitEvent"
       />
       <div
-        v-if="Ut.isSet(formEvent) && Ut.isNotSet(selectedEvent)"
+        v-if="Ut.isNotSet(formEvent) && Ut.isNotSet(selectedEvent)"
         id="placeholder-box"
       >
         Fortsätt genom att välja tid eller befintlig lektion i kalendern.
-        {{ msg.success }}
+        {{ fb.success }}
       </div>
     </div>
   </div>
@@ -132,12 +132,13 @@ import eventService from "@/service/u4/eventService";
       "setEventArr"
     ]),
     ...mapMutations(["setSelectedCourse"]),
+    /* creating a new event */
     onCreateEvent(datetime: Date) {
       console.log(`TimeTab->onCreateEvent`);
+      this.selectedEvent = {}; // Need to clear this incase in case it had been viewed
       if (!Ut.isSet(this.formEvent)) {
         datetime.setMinutes(0); // sets to closest hour.
-        datetime.setHours(0); // sets beginning of day.
-        this.selectedEvent = {};
+        datetime.setHours(1); // sets beginning of day. //todo: WARNING PROBLEMS LIE HERE
         this.formEvent = new Event(datetime); // create new event with start midnight.
         this.formEvent.title = "Lektion";
       } else {
@@ -181,19 +182,20 @@ import eventService from "@/service/u4/eventService";
     async onFormSubmitEvent(formData) {
       console.log(`TimeTab->onFormSubmitEvent`);
       const newEvent = { ...new Event(), ...formData };
+      console.log(Ut.pf(newEvent));
       const res = await eventService.createEvent(
         newEvent,
         this.selectedOccasion
       );
       // Check it is a response object
       if (Ut.isSet(res)) {
-        console.log(Ut.pf(res));
-        // Checks to ensure it's a genuine success
+        console.log(`Response object with ${res.id} received`);
+        // todo: Checks to ensure it's a genuine success
       }
       if (res.id) {
         this.selectedEvent = {};
         this.formEvent = {};
-        this.fb.success(`Glada tider - vi har en ny lektion!`);
+        this.fb.success = `Glada tider - vi har en ny lektion!`;
         setInterval(() => (this.fb.success = ""), 2000);
       }
     },
@@ -208,6 +210,7 @@ import eventService from "@/service/u4/eventService";
     /* Fetches a schedule and other required data */
     async onRefreshSchedule() {
       console.log(`TimeTab->onRefreshSchedule()`);
+      this.state.showCal = false; // possibly ott
       this.state.loading = true;
       //this.setSelectedCourse(new Course("D0031N")); // todo: FOR TESTING! REMOVE LATER!
       //this.setSelectedOccasion(new Occasion("15")); // todo: FOR TESTING! REMOVE LATER!
