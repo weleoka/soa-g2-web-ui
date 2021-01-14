@@ -14,7 +14,7 @@
     </div>
 
     <keep-alive>
-      <component class="tab" :is="selectedTab" />
+      <component class="tab" :is="selectedTab" @go-direct-event="goDirect" />
     </keep-alive>
 
     <div class="d-flex justify-content-around" id="tab-pn-btn-box">
@@ -31,7 +31,7 @@
 </template>
 
 <script lang="ts">
-// static import of components
+//static import of components
 //import OccasionTab from "@/components/u4/tabs/OccasionTab.vue";
 //import TimeTab from "@/components/u4/tabs/TimeTab.vue";
 
@@ -104,6 +104,12 @@ const RoomTab = defineAsyncComponent(() =>
     goPrev() {
       this.selected >= 1 && this.selected <= 3
         ? this.selected--
+        : this.selected;
+    },
+    goDirect(i) {
+      // gets all valid ids and checks that i is indeed in the valid range of tabs.
+      this.selected = this.tabs.map(tab => tab.id).includes(i)
+        ? i
         : this.selected;
     }
   }

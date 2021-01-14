@@ -27,6 +27,7 @@ import courseService from "@/service/u4/courseService";
 import { Options, Vue } from "vue-class-component";
 import { Occasion } from "@/entities/occasion";
 import { Course } from "@/entities/course";
+import { Ut } from "@/service/utils";
 
 //import {} from "@/entities/types"
 //const types = require("@/entities/types")
@@ -77,7 +78,7 @@ import { Course } from "@/entities/course";
     async refreshCoursesHandler() {
       console.debug("OccasionTab->refreshCoursesHandler()");
       try {
-        this.courseArr = await courseService.getAllCourses(); //.catch(err => new Error(err));
+        this.courseArr = await courseService.getAllCourses();
       } catch (e) {
         if (e.name === "ApiError") {
           console.warn(`ApiError ${e.message}`);
@@ -96,15 +97,22 @@ import { Course } from "@/entities/course";
       if (searchStr) {
         // todo: make a serverside search API endpoint
         const regex = RegExp(searchStr, "i"); // i for case insensitive
-        const res = await courseService.getAllCourses(); //.catch(err => new Error(err));
-        const arr = [];
-        for (let i = 0; i < res.length; i++) {
-          if (res[i].id.match(regex)) {
-            console.debug("Found match: " + res[i].id);
-            arr.push(res[i]);
+        // This has been causing some grief where TS cant seem to understand
+        // what morphism returns. So we forcefully cast to desired type.
+        // @ts-ignore
+        const res: Array<Course> = await courseService.getAllCourses();
+        if (Ut.isSetArr(res)) {
+          const arr = [];
+          for (let i = 0; i < res.length; i++) {
+            if (res[i].id.match(regex)) {
+              console.debug("Found match: " + res[i].id);
+              arr.push(res[i]);
+            }
           }
+          this.courseArr = arr;
+        } else {
+          this.courseArr = [];
         }
-        this.courseArr = arr;
       } else {
         this.courseArr = [];
       }
@@ -119,6 +127,10 @@ import { Course } from "@/entities/course";
     /* Sets selectedOccasion in store */
     async selectedOccasionHandler(occasion) {
       console.debug("OccasionTab->selectedOccasionHandler()");
+      const course = await courseService.getCourseByCourseId(
+        occasion.courseCode
+      );
+      this.setSelectedCourse(course);
       this.setSelectedOccasion(occasion); // mutate store
     },
 

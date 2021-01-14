@@ -19,15 +19,15 @@ export default {
     if (res.status === 200) {
       if (res.data.length) {
         return res.data;
-      } else {
-        return [];
+      } else if (res.data && Object.keys(res.data).length) {
+        throw new ApiResponseError(res, `Expected array, got object`);
       }
     } else {
       throw new ApiResponseError(res, "Not OK");
     }
   },
 
-  /* Fetches single object expecting no array response */
+  /* run a get expecting single object response */
   async getSingle(apiCall, params?) {
     let res = null;
     try {
@@ -47,7 +47,7 @@ export default {
     }
   },
 
-  /* run a post */
+  /* run a post expecting single object response */
   async postRequest(apiCall, data) {
     let res = null;
     try {
@@ -58,9 +58,9 @@ export default {
     }
     if (res.status === 200) {
       if (res.data.length) {
-        return res.data;
+        throw new ApiResponseError(res, "Expected object, got array");
       } else {
-        return [];
+        return res.data;
       }
     } else {
       throw new ApiResponseError(res, "Not OK");

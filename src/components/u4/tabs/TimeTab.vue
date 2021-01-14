@@ -6,6 +6,7 @@
         <small>({{ selectedCourse.id }})</small>
       </h1>
       <button
+        v-if="Ut.isSet(selectedCourse)"
         id="show-hide-cal-btn"
         class="btn-a"
         type="button"
@@ -18,11 +19,24 @@
     <div class="calender-wrapper">
       <div
         class="container-v"
-        v-if="!selectedSchedule && !Object.keys(selectedSchedule).length"
+        v-if="Ut.isNotSet(selectedSchedule) && Ut.isSet(selectedOccasion)"
       >
         <p>Hämta schemat för aktuellt kurstillfälle</p>
         <button class="btn-a" type="button" @click="onRefreshSchedule">
           Hämta schema
+        </button>
+      </div>
+      <div
+        class="container-v"
+        v-if="Ut.isNotSet(selectedSchedule) && Ut.isNotSet(selectedOccasion)"
+      >
+        <p>Inget kurstillfälle har valts ännu.</p>
+        <button
+          class="btn-a"
+          type="button"
+          @click="$emit('go-direct-event', 0)"
+        >
+          Välj kurstillfälle
         </button>
       </div>
 
@@ -37,13 +51,13 @@
         </div>
       </transition>
       <div v-if="state.loading">Loading...</div>
-      <div v-if="state.error">Error!</div>
+      <div v-if="fb.error">Error!</div>
     </div>
 
     <div class="event-manipulations-wrapper">
       <EventDetailBox
         @start-event-edit-event="onStartEventEdit"
-        v-if="selectedEvent && Object.keys(selectedEvent).length"
+        v-if="Ut.isSet(selectedEvent)"
         :vcObj="selectedEvent"
       />
       <EventForm
@@ -53,12 +67,11 @@
         @form-submit-event="onFormSubmitEvent"
       />
       <div
-        v-if="
-          !Object.keys(formEvent).length && !Object.keys(selectedEvent).length
-        "
+        v-if="Ut.isSet(formEvent) && Ut.isNotSet(selectedEvent)"
         id="placeholder-box"
       >
         Fortsätt genom att välja tid eller befintlig lektion i kalendern.
+        {{ msg.success }}
       </div>
     </div>
   </div>
@@ -71,8 +84,6 @@ import EventForm from "@/components/u4/EventForm.vue";
 import { mapActions, mapMutations, mapState } from "vuex";
 import { Options, Vue } from "vue-class-component";
 import { Event } from "@/entities/event";
-import { Occasion } from "@/entities/occasion";
-import { Course } from "@/entities/course";
 import { Ut } from "@/service/utils";
 import eventService from "@/service/u4/eventService";
 
@@ -83,19 +94,22 @@ import eventService from "@/service/u4/eventService";
     EventDetailBox, // for displaying existing events
     EventForm // modifying or creating events
   },
+  emits: ["go-direct-event"], // this is to switch tabs directly.
   data() {
     return {
+      Ut,
       state: {
-        showCal: true,
-        loading: true,
-        error: null
+        showCal: false,
+        loading: false
+      },
+      fb: {
+        // Feedback to user
+        error: "",
+        success: ""
       },
       selectedEvent: {}, // a selected event from vuecal.
       formEvent: {} // set if creating or editing an event
     };
-  },
-  created() {
-    this.onRefreshSchedule();
   },
   computed: {
     ...mapState("scheduleStore", [
@@ -164,11 +178,24 @@ import eventService from "@/service/u4/eventService";
     },
 
     /* Handles a submitted form */
-    onFormSubmitEvent(formData) {
+    async onFormSubmitEvent(formData) {
       console.log(`TimeTab->onFormSubmitEvent`);
-      //const newEvent = new Event();
       const newEvent = { ...new Event(), ...formData };
-      eventService.createEvent(newEvent, this.selectedOccasion);
+      const res = await eventService.createEvent(
+        newEvent,
+        this.selectedOccasion
+      );
+      // Check it is a response object
+      if (Ut.isSet(res)) {
+        console.log(Ut.pf(res));
+        // Checks to ensure it's a genuine success
+      }
+      if (res.id) {
+        this.selectedEvent = {};
+        this.formEvent = {};
+        this.fb.success(`Glada tider - vi har en ny lektion!`);
+        setInterval(() => (this.fb.success = ""), 2000);
+      }
     },
 
     /* Clears the selected and form events */
@@ -182,12 +209,12 @@ import eventService from "@/service/u4/eventService";
     async onRefreshSchedule() {
       console.log(`TimeTab->onRefreshSchedule()`);
       this.state.loading = true;
-      this.setSelectedCourse(new Course("D0031N")); // todo: FOR TESTING! REMOVE LATER!
-      this.setSelectedOccasion(new Occasion("15")); // todo: FOR TESTING! REMOVE LATER!
+      //this.setSelectedCourse(new Course("D0031N")); // todo: FOR TESTING! REMOVE LATER!
+      //this.setSelectedOccasion(new Occasion("15")); // todo: FOR TESTING! REMOVE LATER!
       const schedule = await this.getScheduleByOccasion(this.selectedOccasion);
       this.refreshResources(); // could be called somewhere else perhaps
       this.refreshRooms(); // could be called somewhere else perhaps
-      if (schedule && Object.keys(schedule).length) {
+      if (Ut.isSet(schedule)) {
         this.setSelectedSchedule(schedule);
         this.setEventArr(schedule.events);
       } else {
@@ -196,8 +223,13 @@ import eventService from "@/service/u4/eventService";
         );
       }
       this.state.loading = false;
+      this.state.showCal = true;
       return true;
     }
+  },
+  created() {
+    console.log(`TimeTab->created()`);
+    //this.onRefreshSchedule();
   }
 })
 export default class TimeTab extends Vue {}

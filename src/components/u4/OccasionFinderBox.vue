@@ -1,7 +1,7 @@
 <template>
   <div class="container occasion-finder-box">
     <div class="container-v">
-      <h3>Val av tillfälle</h3>
+      <h3>Val av kurstillfällen</h3>
       <p>Välj ett kurstillfälle av {{ occasionArr.length }} alternativ nedan</p>
       <OccasionTable
         :occasion-arr="occasionArr"

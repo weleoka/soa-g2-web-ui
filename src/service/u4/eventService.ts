@@ -20,6 +20,8 @@ export default {
   async createEvent(event: Event, schedule: Schedule) {
     console.debug(`eventService->createEvent() ${event} ${schedule.id}`);
     const data = ApiTools.singleMapper(eventToDto, event, EventDto);
+    // make POST and also return the wild and wonderful POST response object
     return await requests.postRequest(`${apiCall}/${schedule.id}`, data);
+    // no mapping implemented
   }
 };

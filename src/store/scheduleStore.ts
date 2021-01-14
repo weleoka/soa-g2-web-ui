@@ -14,8 +14,8 @@ import eventService from "@/service/u4/eventService";
 export const scheduleStoreModule = {
   namespaced: true,
   state: {
-    selectedOccasion: new Occasion(),
-    selectedSchedule: new Schedule(),
+    selectedOccasion: {},
+    selectedSchedule: {},
     eventArr: [], // loaded separately
     timeslots: {
       1: { from: 8 * 60 + 15, to: 9 * 60 + 45, code: "PASS1" },
@@ -55,7 +55,7 @@ export const scheduleStoreModule = {
       context,
       occasion: Occasion
     ): Promise<Schedule> {
-      console.log(`scheduleStore->getScheduleByOccasion()`);
+      console.log(`scheduleStore->getScheduleByOccasion() ${occasion.id}`);
       try {
         return await scheduleService.getScheduleByOccasionUsingPathVar(
           occasion

@@ -35,6 +35,14 @@ class Ut {
     return !!(Array.isArray(obj) && obj.length);
   }
 
+  static isNotSet(obj: any) {
+    return !(obj && Object.keys(obj).length);
+  }
+
+  static isNotSetArr(obj: any) {
+    return !(Array.isArray(obj) && obj.length);
+  }
+
   static toDateStr(date: Date) {
     const day = date.getDate();
     const month = date.getMonth() + 1;
@@ -46,19 +54,27 @@ class Ut {
 class ApiTools {
   /* mapping from array of dto to domain objects */
   static mapper(schema, sourceArr: [], type?) {
-    try {
-      return sourceArr.map(source => morphism(schema, source, type));
-    } catch (e) {
-      throw new MappingError(`Bad JSON array: ${sourceArr}`);
+    if (!Array.isArray(sourceArr)) {
+      throw new MappingError(`Expected array, got object!`);
+    } else {
+      try {
+        return sourceArr.map(source => morphism(schema, source, type));
+      } catch (e) {
+        throw new MappingError(`Bad JSON array: ${sourceArr}`);
+      }
     }
   }
 
   /* mapping from single dto to domain object */
   static singleMapper(schema, source, type) {
-    try {
-      return morphism(schema, source, type);
-    } catch (e) {
-      throw new MappingError(`Bad source: ${source}`);
+    if (Array.isArray(source)) {
+      throw new MappingError(`Expected object, got array`);
+    } else {
+      try {
+        return morphism(schema, source, type);
+      } catch (e) {
+        throw new MappingError(`Bad source: ${source}`);
+      }
     }
   }
 }
